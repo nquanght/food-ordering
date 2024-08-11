@@ -8,13 +8,14 @@
         <ul class="nav">
           <li
             class="nav-item"
-            v-for="menu in listMenu"
+            v-for="(menu, key) in listMenu"
+            :key="key"
           >
             <router-link
               :to="menu.path"
               class="nav-link"
             >
-              {{ menu.name }}
+              {{ t(menu.name ) }}
             </router-link>
           </li>
         </ul>
@@ -22,14 +23,14 @@
       <div class="col-md-4 d-flex align-items-center justify-content-end">
         <div class="pe-3">
           <button class="btn btn-warning btn-sm shadow-sm" style="border-radius: 5px">
-            <font-awesome-icon icon="fa-solid fa-user" /> <span class="ps-1">Đăng nhập/Đăng ký</span>
+            <font-awesome-icon icon="fa-solid fa-user" /> <span class="ps-1">{{ t('auth.login') }}</span>
           </button>
         </div>
         <language-switch class="pe-md-0 pe-3"/>
         <div class="col-md-4 d-flex d-md-none hidden-navbar">
           <button-drawer
             :id-target="idHiddenTarget"
-            header-drawer="Navigator"
+            :header-drawer="t('navigation.sidebar_header')"
             placement="end"
           >
             <template #button>
@@ -38,15 +39,13 @@
               />
             </template>
             <template #drawerBody>
-              <div>
-
-              </div>
               <ul class="nav d-block">
                 <li
                     class="nav-item"
-                    v-for="menu in listMenu"
+                    v-for="(menu, key) in listMenu"
+                    :key="key"
                 >
-                  <a :href="menu.path" :class="`nav-link ${isActiveMenu(menu.path) ? 'router-link-active' : ''}`">{{ menu.name }}</a>
+                  <a :href="menu.path" :class="`nav-link ${isActiveMenu(menu.path) ? 'router-link-active' : ''}`">{{ t(menu.name) }}</a>
                 </li>
               </ul>
             </template>
@@ -62,14 +61,16 @@ import { useRoute } from 'vue-router';
 import routes from "@/router/routes.js";
 import LanguageSwitch from "./LanguageSwitch.vue"
 import ButtonDrawer from "@/components/common/ButtonDrawer.vue";
+import {useI18n} from "@/composables/useI18n.js";
 
 const listMenu = routes[0].children
 const idHiddenTarget = Math.random().toString(36).substring(2) + '-offCanvas'
 
 const route = useRoute()
+const {t} = useI18n()
 
 function isActiveMenu (menuPath) {
-  return route.path === menuPath
+  return route.path.replace('/', '') === menuPath
 }
 </script>
 

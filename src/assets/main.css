@@ -16,3 +16,9 @@ header, card {
   background-color: white;
 }
 
+body {
+  .cursor-pointer {
+    cursor: pointer;
+  }
+}
+

@@ -7,23 +7,23 @@ const routes = [
         component: () => import('../layouts/DefaultLayout.vue'),
         children: [
             {
-                path: '/order',
-                name: 'Order',
+                path: 'order',
+                name: 'navigation.order',
                 component: () => import('../pages/order/Order.vue')
             },
             {
-                path: '/bill',
-                name: 'Bill',
+                path: 'bill',
+                name: 'navigation.bill',
                 component: () => import('../pages/bill/Bill.vue')
             },
             {
-                path: '/contact',
-                name: 'Contact',
+                path: 'contact',
+                name: 'navigation.contact',
                 component: () => import('../pages/contact/Contact.vue')
             },
             {
-                path: '/feedback',
-                name: 'Feedback',
+                path: 'feedback',
+                name: 'navigation.feedback',
                 component: () => import('../pages/feedback/Feedback.vue')
             },
         ]

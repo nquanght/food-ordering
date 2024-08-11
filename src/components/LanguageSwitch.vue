@@ -11,8 +11,14 @@
       />
         <template #content="{ close }">
           <div class="list-language-images">
-            <div v-for="language in languages">
-              <span class="item-language" @click="changeLanguage(language, close)">{{ language === 'vn' ? 'Tiếng Việt' : 'Tiếng Anh' }}</span>
+            <div :key="idx" v-for="(language, idx) in languages">
+              <span
+                class="item-language"
+                :class="{active: language === currentLanguage}"
+                @click="changeLanguage(language, close)"
+              >
+                {{ t(`lang.${language}`) }}
+              </span>
             </div>
           </div>
         </template>
@@ -23,8 +29,10 @@
 <script setup>
 import {useLanguageStore} from "@/stores/language.js"
 import {computed} from "vue";
+import {useI18n} from "@/composables/useI18n.js";
 
 const languageStore = useLanguageStore()
+const {t} = useI18n()
 
 const languages = computed(() => {return languageStore.getListLanguage})
 const currentLanguage = computed(() => {return languageStore.getCurrentLanguage})
@@ -64,6 +72,9 @@ const changeLanguage = (language, callbackClose) => {
     line-height: 2;
       >* {
         font-size: 13px;
+      }
+      span.active {
+        color: forestgreen;
       }
       span.item-language:hover {
         cursor: pointer;
