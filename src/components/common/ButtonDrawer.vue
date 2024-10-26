@@ -1,5 +1,6 @@
 <template>
-  <div
+  <div>
+    <div
     data-bs-toggle="offcanvas"
     :data-bs-target="`#${idTarget}`"
     :aria-controls="idTarget"
@@ -22,6 +23,7 @@
     <div class="offcanvas-body">
       <slot name="drawerBody"/>
     </div>
+  </div>
   </div>
 </template>
 

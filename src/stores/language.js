@@ -23,22 +23,28 @@ export const useLanguageStore = defineStore('language', {
         async fetchTranslations() {
             const axios = useAxios()
             i18n.global.locale.value = this.getCurrentLanguage
-            const {getLanguages} = urlAPIs
 
-            await axios.get(getLanguages)
-                .then(res => {
-                    if (res.data && res.data.length > 0) {
-                        if (Object.keys(res.data[0]).length > 0) {
-                            Object.keys(res.data[0]).forEach((lang) => {
-                                i18n.global.setLocaleMessage(lang, res.data[0][lang])
-                            })
+            let languageLocalStorage = localStorage.getItem('language_system')
+
+            // Fetch new data language system if not already loaded
+            if (languageLocalStorage == null) {
+                const {getLanguages} = urlAPIs
+
+                await axios.get(getLanguages)
+                    .then(res => {
+                        if (res.data && res.data.data) {
+                            if (Object.keys(res.data.data).length > 0) {
+                                Object.keys(res.data.data).forEach((lang) => {
+                                    i18n.global.setLocaleMessage(lang, res.data.data[lang])
+                                })
+                            }
+                            this.translations = res.data.data || []
                         }
-                        this.translations = res.data[0] || []
-                    }
-                })
-                .catch((err) => {
-                    console.warn(err)
-                })
+                    })
+                    .catch((err) => {
+                        console.warn(err)
+                    })
+            } 
         }
     },
     getters: {

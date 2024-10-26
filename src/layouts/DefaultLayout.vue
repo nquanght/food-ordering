@@ -1,7 +1,9 @@
 <template>
   <div id="default-layout">
     <Navigation/>
-    <router-view/>
+    <div class="main-content">
+      <router-view/>
+    </div>
     <Footer/>
   </div>
 </template>
@@ -11,7 +13,9 @@ import Navigation from '../components/Navigation.vue'
 import Footer from "@/components/Footer.vue";
 </script>
 
-<style scoped>
-
+<style>
+.main-content  {
+  min-height: 100vh
+}
 
 </style>

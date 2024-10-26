@@ -12,7 +12,7 @@
             :key="key"
           >
             <router-link
-              :to="menu.path"
+              :to="menu.url"
               class="nav-link"
             >
               {{ t(menu.name ) }}
@@ -45,7 +45,7 @@
                     v-for="(menu, key) in listMenu"
                     :key="key"
                 >
-                  <a :href="menu.path" :class="`nav-link ${isActiveMenu(menu.path) ? 'router-link-active' : ''}`">{{ t(menu.name) }}</a>
+                  <a :href="menu.url" :class="`nav-link ${isActiveMenu(menu.url) ? 'router-link-active' : ''}`">{{ t(menu.name) }}</a>
                 </li>
               </ul>
             </template>
@@ -58,12 +58,12 @@
 
 <script setup>
 import { useRoute } from 'vue-router';
-import routes from "@/router/routes.js";
+import {userMenu} from "@/utils/menu";
 import LanguageSwitch from "./LanguageSwitch.vue"
 import ButtonDrawer from "@/components/common/ButtonDrawer.vue";
 import {useI18n} from "@/composables/useI18n.js";
 
-const listMenu = routes[0].children
+const listMenu = userMenu
 const idHiddenTarget = Math.random().toString(36).substring(2) + '-offCanvas'
 
 const route = useRoute()

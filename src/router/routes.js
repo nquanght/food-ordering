@@ -1,3 +1,5 @@
+// ======= User routes =======
+
 const routes = [
     {
         path: '/',

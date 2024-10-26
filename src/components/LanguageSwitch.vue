@@ -17,7 +17,7 @@
                 :class="{active: language === currentLanguage}"
                 @click="changeLanguage(language, close)"
               >
-                {{ t(`lang.${language}`) }}
+                {{ t(`regional.${language}`) }}
               </span>
             </div>
           </div>
