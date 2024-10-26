@@ -1,9 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
-const languageController = require("../controllers/language");
-const categoryController = require("../controllers/category");
-const foodController = require("../controllers/food");
+const languageController = require("../controllers/languageController");
+const categoryController = require("../controllers/categoryController");
+const foodController = require("../controllers/foodController");
 
 // Language system
 router.get('/get-languages', languageController.getLanguagesSystem)

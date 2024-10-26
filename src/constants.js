@@ -20,6 +20,10 @@ if (!global.MODEL_PATH) {
     global.MODEL_PATH = path.join(SOURCE_PATH, 'models')
 }
 
+if (!global.SERVICE_PATH) {
+    global.SERVICE_PATH = path.join(SOURCE_PATH, 'services')
+}
+
 if (!global.ROUTE_PATH) {
     global.ROUTE_PATH = path.join(SOURCE_PATH, 'routes')
 }
