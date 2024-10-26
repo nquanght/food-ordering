@@ -1,0 +1,58 @@
+@mixin text-ellipsis-($lines) {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+}
+
+@for $i from 1 through 10 {
+  .text-ellipsis-#{$i} {
+    @include text-ellipsis-($i);
+  }
+}
+
+.break-line-dashed {
+  border-width: 1px;
+  border-style: dashed;
+}
+
+.text-gray {
+  color: gray;
+}
+
+.btn-general {
+  border: none;
+  box-shadow: 0px 1px 3px rgba(0,0,0,.5);
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  padding: 5px 10px;
+  transition: background-color 300ms ease-out 10ms, color 200ms ease-out 10ms;
+
+  &:hover {
+    background-color: #7b7b7b;
+    color: white;
+    animation: ease;
+  }
+}
+
+.placeholder {
+  background-color: rgba(0, 0, 0, .25) !important;
+  overflow: hidden;
+  mask-image: radial-gradient(#fff,#000);
+  border-radius: .25rem;
+}
+
+.img-hover-zoom {
+  overflow: hidden;
+}
+
+.img-hover-zoom img {
+  transition: transform .8s ease;
+}
+
+.img-hover-zoom:hover img {
+  transform: scale(1.5);
+}
