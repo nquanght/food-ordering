@@ -1,4 +1,3 @@
-const { log } = require('console');
 const fs = require('fs')
 const path = require('path');
 const regionals = ['vi', 'en']
@@ -49,11 +48,9 @@ const getLangKey = (lang, regional, result) => {
         return
     }
 
-    let nestedObject = {};
     if (arrLangKey.length > 1) {
         let value = langByRegional[regional]
         createNestedObject(arrLangKey, value, result)
-        Object.assign(result, nestedObject)
     }
 }
 
@@ -62,10 +59,8 @@ const createNestedObject = (arrays, value, result) => {
 
     arrays.forEach((key, index) => {
             if (index === arrays.length - 1) {
-                // Đến phần tử cuối cùng, gán giá trị 'result'
                 currentLevel[key] = value;
             } else {
-                // Nếu chưa có key, tạo một object mới
                 if (!currentLevel[key]) {
                     currentLevel[key] = {};
                 }

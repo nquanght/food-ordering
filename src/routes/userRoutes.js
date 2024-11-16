@@ -9,12 +9,9 @@ const foodController = require("../controllers/foodController");
 router.get('/get-languages', languageController.getLanguagesSystem)
 
 // Category
-router.get('/get-categories', categoryController.getCategories)
+// router.get('/get-categories', categoryController.getCategories)
 
 // Foods
 router.get('/get-foods', foodController.getFoods)
-
-// Restaurants
-router.get('/test', foodController.test)
 
 module.exports = router

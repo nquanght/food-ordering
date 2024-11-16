@@ -1,18 +1,13 @@
-const foods = require('../models/mockup/foods')
 const axios = require('axios')
 const {responseSuccess} = require("../helpers/response");
 const merchantConfig = require('../config/merchants')
 
 const getFoods = async (req, res) => {
-    return responseSuccess(res, foods)
-}
-
-const test = async (req, res) => {
     const merchant = 'shopee_food'
 
     const merchantConfigElement = merchantConfig[merchant]
 
-    const url = merchantConfigElement.origin + "/dish/get_delivery_dishes?id_type=2&request_id=222483"
+    const url = merchantConfigElement.origin + "/dish/get_delivery_dishes?id_type=2&request_id=110218"
     const headers = merchantConfigElement.header
 
     let result = []
@@ -60,6 +55,5 @@ const repairData = (list) => {
 }
 
 module.exports = {
-    getFoods,
-    test
+    getFoods
 }
