@@ -23,42 +23,46 @@ const userMenu = [
 
 const adminMenu = [
     {
-        url: 'admin/homepage',
+        url: 'homepage',
         name: 'admin.navigation.homepage',
         code: 'admin_homepage',
-        icon: ''
+        icon: 'fa-solid fa-gauge'
     },
     {
-        group: 'admin.navigation.order',
-        children: [
+        name: 'admin.navigation.order',
+        icon: 'fa-solid fa-utensils',
+        group: [
             {
-                url: 'admin/order',
-                name: 'admin.navigation.order',
-                code: 'admin_order',
-                icon: ''
+                url: 'order',
+                name: 'admin.navigation.pick',
+                code: 'admin_order'
             },
             {
-                url: 'admin/merchant',
+                url: 'merchant',
                 name: 'admin.navigation.merchant',
-                code: 'admin_merchant',
-                icon: ''
+                code: 'admin_merchant'
             },
         ]
     },
     {
-        group: 'admin.navigation.setting',
-        children: [
+        url: 'user-management',
+        name: 'admin.navigation.user_management',
+        code: 'admin_user_management',
+        icon: 'fa-solid fa-user-group'
+    },
+    {
+        name: 'admin.navigation.setting',
+        icon: 'fa-solid fa-gear',
+        group: [
             {
-                url: 'admin/setting',
+                url: 'setting',
                 name: 'admin.navigation.setting',
-                code: 'admin_setting',
-                icon: ''
+                code: 'admin_setting'
             },
             {
-                url: 'admin/setting_2',
+                url: 'setting_2',
                 name: 'admin.navigation.setting_2',
-                code: 'admin_setting_2',
-                icon: ''
+                code: 'admin_setting_2'
             },
         ]
     }

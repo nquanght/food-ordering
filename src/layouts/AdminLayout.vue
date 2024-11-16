@@ -1,27 +1,37 @@
 <template>
-  <div id="admin-layout">
-    <div class="wrapper">
-      <AdminSideBar/>
+  <div class="container-fluid admin-layout">
+    <div class="row">
+        <admin-sidebar/>
 
-      <div class="main">
-        <AdminNavigation/>
+        <div class="col p-0">
+          <admin-navigation/>
 
-        <div class="content">
-          <router-view/>
+          <div class="content-wrapper">
+            <router-view class="p-3 main-content"/>
+          </div>
+          
+          <admin-footer/>
         </div>
-
-        <AdminFooter/>
-      </div>
-	  </div>
-  </div>
+    </div>
+</div>
 </template>
 
 <script setup>
-import AdminSideBar from "@/components/admin/AdminSideBar.vue";
-import AdminNavigation from "@/components/admin/AdminNavigation.vue";
-import AdminFooter from "@/components/admin/AdminFooter.vue";
+import AdminSidebar from "@/components/admin/AdminSideBar.vue";
+import AdminNavigation from "@/components/admin/AdminNavigation.vue"
+import AdminFooter from "@/components/admin/AdminFooter.vue"
 </script>
 
-<style lang="scss">
-@import '@/assets/admin/css/app.css';
+<style lang="scss" scoped>
+.admin-layout {
+  padding-left: unset;
+}
+
+.content-wrapper {
+  background: #f5f7fb;
+
+  .main-content {
+    height: 100vh;
+  }
+}
 </style>

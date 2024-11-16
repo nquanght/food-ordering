@@ -1,7 +1,7 @@
 <template>
   <div class="container-fluid p-0">
 
-    <div class="mb-3">Home page</div>
+    <div class="mb-3">Setting 2 Page</div>
 
   </div>
 </template>

@@ -10,22 +10,22 @@ const routes = [
         children: [
             {
                 path: 'order',
-                name: 'navigation.order',
+                name: 'Order',
                 component: () => import('../pages/order/Order.vue')
             },
             {
                 path: 'bill',
-                name: 'navigation.bill',
+                name: 'Bill',
                 component: () => import('../pages/bill/Bill.vue')
             },
             {
                 path: 'contact',
-                name: 'navigation.contact',
+                name: 'Contact',
                 component: () => import('../pages/contact/Contact.vue')
             },
             {
                 path: 'feedback',
-                name: 'navigation.feedback',
+                name: 'Feedback',
                 component: () => import('../pages/feedback/Feedback.vue')
             },
         ]

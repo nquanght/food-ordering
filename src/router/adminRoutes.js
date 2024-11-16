@@ -10,8 +10,33 @@ const adminRoutes = [
         children: [
             {
                 path: 'homepage',
-                name: 'navigation.homepage',
+                name: 'AdminHomePage',
                 component: () => import('../pages/admin/homepage/AdminHomePage.vue')
+            },
+            {
+                path: 'order',
+                name: 'AdminOrder',
+                component: () => import('../pages/admin/order/AdminOrder.vue')
+            },
+            {
+                path: 'merchant',
+                name: 'AdminMerchant',
+                component: () => import('../pages/admin/order/AdminMerchant.vue')
+            },
+            {
+                path: 'user-management',
+                name: 'AdminUserManagement',
+                component: () => import('../pages/admin/user-management/AdminUserManagement.vue')
+            },
+            {
+                path: 'setting',
+                name: 'AdminSetting',
+                component: () => import('../pages/admin/setting/AdminSetting.vue')
+            },
+            {
+                path: 'setting_2',
+                name: 'AdminSetting2',
+                component: () => import('../pages/admin/setting/AdminSetting2.vue')
             },
         ]
     },
