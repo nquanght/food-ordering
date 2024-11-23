@@ -1,5 +1,4 @@
 const {responseSuccess} = require("../helpers/response");
-const fs = require('fs')
 const path = require('path');
 const languageService = require(path.join(SERVICE_PATH, 'languageService.js'))
 
