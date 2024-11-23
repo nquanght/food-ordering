@@ -41,7 +41,9 @@ const handleCollapseSideBar = () => {
 </script>
 
 <style lang="scss" scoped>
-.navbar-bg-shadow {
+nav {
+  z-index: 2;
+  &.navbar-bg-shadow {
   box-shadow: 0 1px 3px rgba(0, 0, 0, .1);
 }
 
@@ -58,5 +60,6 @@ const handleCollapseSideBar = () => {
   :not(:last-child) {
     margin-right: 5px;
   }
+}
 }
 </style>

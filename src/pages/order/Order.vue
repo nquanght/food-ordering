@@ -24,11 +24,11 @@
                   <font-awesome-icon icon="fa-solid fa-clock" class="pe-2" width="20" height="20"/>
                   <span class="text-success pe-4">{{ t('merchant.status.open') }}</span>
                   <span
-                      class="text-primary cursor-pointer"
-                      @click="openFormMerchantInfo"
+                    class="text-primary cursor-pointer"
+                    @click="openFormMerchantInfo"
                   >
-                  {{ t('merchant.information.info') }}
-                </span>
+                    {{ t('merchant.information.info') }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -42,8 +42,8 @@
 
           <div class="category-list d-flex flex-row text-nowrap overflow-y-auto align-items-center mx-3 w-100" ref="scrollMenu">
             <div
-                v-if="loadingData.category"
-                class="placeholder-glow d-flex w-100 h-100 loading-skeleton-wrapper wrapper-horizontal"
+              v-if="loadingData.category"
+              class="placeholder-glow d-flex w-100 h-100 loading-skeleton-wrapper wrapper-horizontal"
             >
               <div 
                 v-for="(number, idx) in 8"
@@ -78,7 +78,7 @@
               :class="`placeholder col-${getRandomFlexColumn(9)}`"
             ></div>
           </div>
-          <div v-else v-for="(category, catIdx) in dataFetch" :key="catIdx" class="mb-5" :id="`category-${catIdx}`">
+          <div v-else-if="dataFetch && dataFetch.length > 0" v-for="(category, catIdx) in dataFetch" :key="catIdx" class="mb-5" :id="`category-${catIdx}`">
             <h4 class="fw-bold mb-3">{{ category.category_name }}</h4>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
               <div v-if="category.foods.length === 0">
@@ -128,6 +128,9 @@
                 </div>
               </div>
             </div>
+          </div>
+          <div v-else>
+            <span>{{ t('common.empty_data') }}</span>
           </div>
         </div>
       </div>

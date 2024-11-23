@@ -2,6 +2,7 @@ import {defineStore} from 'pinia'
 import useAxios from "@/composables/useAxios.js";
 import {i18n} from "@/plugins/vue-i18n.js";
 import {urlAPIs} from "@/utils/constants.js"
+import { isEmpty } from 'lodash';
 
 export const useLanguageStore = defineStore('language', {
     state: () => ({
@@ -22,12 +23,15 @@ export const useLanguageStore = defineStore('language', {
         },
         async fetchTranslations() {
             const axios = useAxios()
+
+            // Get/Set default language system
             i18n.global.locale.value = this.getCurrentLanguage
 
-            let languageLocalStorage = localStorage.getItem('language_system')
+            let languageListStorage = localStorage.getItem('languages')
+            languageListStorage = JSON.parse(languageListStorage) || []
 
             // Fetch new data language system if not already loaded
-            if (languageLocalStorage == null) {
+            if (isEmpty(languageListStorage)) {
                 const {getLanguages} = urlAPIs
 
                 await axios.get(getLanguages)
@@ -39,12 +43,19 @@ export const useLanguageStore = defineStore('language', {
                                 })
                             }
                             this.translations = res.data.data || []
+                            localStorage.setItem('languages', JSON.stringify(res.data.data))
                         }
                     })
                     .catch((err) => {
                         console.warn(err)
                     })
-            } 
+            } else {
+                if (Object.keys(languageListStorage).length > 0) {
+                    Object.keys(languageListStorage).forEach((lang) => {
+                        i18n.global.setLocaleMessage(lang, languageListStorage[lang])
+                    })
+                }
+            }
         }
     },
     getters: {
@@ -53,12 +64,13 @@ export const useLanguageStore = defineStore('language', {
         },
         getCurrentLanguage (state) {
             let currentLanguage = ''
-            let languageLocalStorage = localStorage.getItem('language_system')
+            let languageSystemStorage = localStorage.getItem('language_system')
 
-            if (languageLocalStorage != null) {
-                currentLanguage = languageLocalStorage
+            if (languageSystemStorage != null) {
+                currentLanguage = languageSystemStorage
             } else {
                 currentLanguage = 'vi'
+                localStorage.setItem('language_system', currentLanguage)
             }
             state.currentLanguage = currentLanguage
 

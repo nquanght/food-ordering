@@ -71,6 +71,9 @@
             </div>
           </div>
         </div>
+
+        <!-- Temp button -->
+        <a class="item-menu text-decoration-none text-white btn" href="/">View user site</a>
       </div>
     </div>
   </div>
@@ -187,9 +190,7 @@ onUnmounted(() => {
         opacity: 0.7;
       }
     }
-    .icon-caret-down, .icon-caret-right {
-      //TODO
-    }
+
     .item-sidebar[aria-expanded="true"] {
       .icon-caret-down {
         position: absolute;

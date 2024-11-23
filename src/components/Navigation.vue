@@ -21,6 +21,7 @@
         </ul>
       </div>
       <div class="col-md-4 d-flex align-items-center justify-content-end">
+        <a class="btn" href="/admin">View admin site</a>
         <div class="pe-3">
           <button class="btn btn-warning btn-sm shadow-sm" style="border-radius: 5px">
             <font-awesome-icon icon="fa-solid fa-user" /> <span class="ps-1">{{ t('auth.login') }}</span>

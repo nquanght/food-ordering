@@ -11,7 +11,7 @@ const adminRoutes = [
             {
                 path: 'homepage',
                 name: 'AdminHomePage',
-                component: () => import('../pages/admin/homepage/AdminHomePage.vue')
+                component: () => import('../pages/admin/homepage/AdminHomePage.vue'),
             },
             {
                 path: 'order',
