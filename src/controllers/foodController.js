@@ -1,13 +1,14 @@
 const {responseSuccess} = require("../helpers/response");
-const { getFood } = require("../repositories/foodRepository");
-const { repairDataFood } = require("../services/foodService");
+
+const foodRepository = require("../repositories/foodRepository");
+const foodService = require("../services/foodService");
 
 const getFoods = async (req, res) => {
-    let requestId = 110218
+    let requestId = 260673
     
-    const foods = await getFood(requestId)
+    const foods = await foodRepository.getFood(requestId)
     
-    const result = repairDataFood(foods)
+    const result = foodService.repairDataFood(foods)
 
     return responseSuccess(res, result)
 }

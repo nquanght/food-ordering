@@ -31,3 +31,6 @@ if (!global.ROUTE_PATH) {
 if (!global.LANGUAGE_PATH) {
     global.LANGUAGE_PATH = path.join(MODEL_PATH, 'languages')
 }
+
+global.ACTIVE_STATUS = 1
+global.INACTIVE_STATUS = 0

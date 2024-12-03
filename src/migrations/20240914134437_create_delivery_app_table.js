@@ -12,6 +12,7 @@ exports.up = (knex) => {
         table.text('logo').nullable()
         table.integer('status').notNullable().defaultTo(1)
         table.timestamps(true, true)
+        table.datetime('deleted_at').nullable()
     })
 }
 

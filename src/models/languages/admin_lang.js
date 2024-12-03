@@ -33,7 +33,7 @@ module.exports = {
             key: 'navigation.user_management',
             lang: {
                 en: 'User Management',
-                vi: 'Quản lý thành viên'
+                vi: 'Thành viên'
             }
         },
         {
@@ -48,6 +48,20 @@ module.exports = {
             lang: {
                 en: 'Setting 2',
                 vi: 'Cài đặt 2'
+            }
+        },
+        {
+            key: 'navigation.management',
+            lang: {
+                en: 'Management',
+                vi: 'Quản lý'
+            }
+        },
+        {
+            key: 'navigation.delivery_app_management',
+            lang: {
+                en: 'Delivery App',
+                vi: 'Ứng dụng đặt món'
             }
         }
     ]

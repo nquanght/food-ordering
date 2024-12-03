@@ -1,3 +1,4 @@
+// apply global variables
 require('./src/constants')
 const env = process.env.NODE_ENV || 'development'
 const dotenv = require('dotenv');
@@ -11,7 +12,6 @@ const userRoutes = require('./src/routes/userRoutes.js')
 const app = express()
 
 const port = process.env.DEV_PORT
-// apply global variables
 
 // enable cors - accept all origins
 app.use(cors())
