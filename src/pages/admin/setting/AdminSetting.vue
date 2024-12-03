@@ -1,9 +1,5 @@
 <template>
-  <div class="container-fluid p-0">
-
-    <div class="mb-3">Setting Page</div>
-
-  </div>
+  <div class="mb-3">Setting Page</div>
 </template>
 
 <script>

@@ -1,9 +1,5 @@
 <template>
-  <div class="container-fluid p-0">
-
-    <div class="mb-3">Merchant Page</div>
-
-  </div>
+  <div class="mb-3">Merchant Page</div>
 </template>
 
 <script>

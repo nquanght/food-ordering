@@ -28,13 +28,12 @@ export const useLanguageStore = defineStore('language', {
             i18n.global.locale.value = this.getCurrentLanguage
 
             let languageListStorage = localStorage.getItem('languages')
-            languageListStorage = JSON.parse(languageListStorage) || []
-
+            
             // Fetch new data language system if not already loaded
             if (isEmpty(languageListStorage)) {
-                const {getLanguages} = urlAPIs
+                const {urlGetLanguages} = urlAPIs
 
-                await axios.get(getLanguages)
+                await axios.get(urlGetLanguages)
                     .then(res => {
                         if (res.data && res.data.data) {
                             if (Object.keys(res.data.data).length > 0) {
@@ -50,6 +49,7 @@ export const useLanguageStore = defineStore('language', {
                         console.warn(err)
                     })
             } else {
+                languageListStorage = JSON.parse(languageListStorage)
                 if (Object.keys(languageListStorage).length > 0) {
                     Object.keys(languageListStorage).forEach((lang) => {
                         i18n.global.setLocaleMessage(lang, languageListStorage[lang])

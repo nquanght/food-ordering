@@ -24,11 +24,6 @@ const adminRoutes = [
                 component: () => import('../pages/admin/order/AdminMerchant.vue')
             },
             {
-                path: 'user-management',
-                name: 'AdminUserManagement',
-                component: () => import('../pages/admin/user-management/AdminUserManagement.vue')
-            },
-            {
                 path: 'setting',
                 name: 'AdminSetting',
                 component: () => import('../pages/admin/setting/AdminSetting.vue')
@@ -37,6 +32,16 @@ const adminRoutes = [
                 path: 'setting_2',
                 name: 'AdminSetting2',
                 component: () => import('../pages/admin/setting/AdminSetting2.vue')
+            },
+            {
+                path: 'delivery-app-management',
+                name: 'AdminDeliveryAppManagement',
+                component: () => import('../pages/admin/management/AdminDeliveryAppManagement.vue')
+            },
+            {
+                path: 'user-management',
+                name: 'AdminUserManagement',
+                component: () => import('../pages/admin/management/AdminUserManagement.vue')
             },
         ]
     },

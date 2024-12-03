@@ -5,6 +5,7 @@
           :is="modal.component"
           v-for="(modal, idx) in listModal"
           :key="idx"
+          :params="modal.params || {}"
         />
       </TransitionGroup>
     </Teleport>

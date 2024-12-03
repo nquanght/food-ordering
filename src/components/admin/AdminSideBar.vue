@@ -3,7 +3,7 @@
     <div class="position-sticky top-0">
       <div class="logo-area text-white">
         <div class="logo-icon"><font-awesome-icon :icon="iconHeaderSideBar"/></div>
-        <div class="logo-text fw-bold">FOOD ORDERING</div>
+        <div class="logo-text fw-bold user-select-none">FOOD ORDERING</div>
       </div>
       <div class="text-white">
         <div class="item-menu" v-for="(menu, menuIdx) in menuList" :key="menuIdx">
@@ -41,6 +41,7 @@
                   v-for="(childMenu, idxChild) in menu.group"
                   :key="idxChild"
                   @click="selectMenu(childMenu)"
+                  style="z-index: 99;"
                 >
                   <span>{{ t(childMenu.name) }}</span>
                 </li>
@@ -290,5 +291,8 @@ onUnmounted(() => {
     }
   }
 
+}
+#admin-sidebar {
+  z-index: 3;
 }
 </style>

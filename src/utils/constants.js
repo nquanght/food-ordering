@@ -4,9 +4,12 @@ const timeOutRequest = import.meta.env.VITE_TIME_OUT_REQUEST
 const noneKeepAliveComponent = 'none'
 
 const urlAPIs = {
-    getLanguages: 'get-languages',
-    getCategories: 'get-categories',
-    getFoods: 'get-foods',
+    urlGetLanguages: 'get-languages',
+    urlGetCategories: 'get-categories',
+    urlGetFoods: 'get-foods',
+    urlGetMerchantDetail: 'get-merchant-detail',
+    urlGetDeliveryApp: 'get-delivery-apps',
+
     searchMerchant: 'search_merchant'
 }
 

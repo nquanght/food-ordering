@@ -7,10 +7,13 @@
           <admin-navigation/>
 
           <div class="content-wrapper">
-            <router-view v-slot="{ Component, route }" class="p-3 main-content">
-              <keep-alive :include="route.meta.keepAlive ? route.name : noneKeepAliveComponent">
-                <component :is="Component" />
-              </keep-alive>
+            <admin-bread-crumb class="p-3"/>
+            <router-view v-slot="{ Component, route }">
+              <div :id="getElementIdFromPageName(route.name)" class="p-3 main-content">
+                <keep-alive :include="route.meta.keepAlive ? route.name : noneKeepAliveComponent">
+                  <component :is="Component" />
+                </keep-alive>
+              </div>
             </router-view>
           </div>
           
@@ -24,7 +27,22 @@
 import AdminSidebar from "@/components/admin/AdminSideBar.vue";
 import AdminNavigation from "@/components/admin/AdminNavigation.vue"
 import AdminFooter from "@/components/admin/AdminFooter.vue"
+import AdminBreadCrumb from "@/components/admin/AdminBreadCrumb.vue";
+import { useConvertString } from "@/composables/common/useConvertString";
 import { noneKeepAliveComponent } from "@/utils/constants";
+
+const convertString = useConvertString()
+
+const getElementIdFromPageName = (pageName) => {
+  pageName.trim()
+
+  if (pageName === '') {
+    let randNumber = Math.floor(Math.random() * 101)
+    return `unknown-page-${randNumber}`
+  }
+
+  return convertString.convertToDashedString(pageName)
+}
 
 </script>
 

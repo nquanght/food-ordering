@@ -45,10 +45,20 @@ const adminMenu = [
         ]
     },
     {
-        url: 'user-management',
-        name: 'admin.navigation.user_management',
-        code: 'admin_user_management',
-        icon: 'fa-solid fa-user-group'
+        name: 'admin.navigation.management',
+        icon: 'fa-solid fa-list-check',
+        group: [
+            {
+                url: 'delivery-app-management',
+                name: 'admin.navigation.delivery_app_management',
+                code: 'delivery_app_management'
+            },
+            {
+                url: 'user-management',
+                name: 'admin.navigation.user_management',
+                code: 'admin_user_management'
+            },
+        ]
     },
     {
         name: 'admin.navigation.setting',
