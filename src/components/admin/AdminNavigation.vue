@@ -13,6 +13,7 @@
           class="rounded-circle"
           width="25"
           height="25"
+          loading="lazy"
         >
         <span class="d-none d-sm-inline mx-1 text-dark">Hello, Quang</span>
       </a>
@@ -32,11 +33,12 @@
 <script setup>
 import LanguageSwitch from "../LanguageSwitch.vue";
 import {useEmitter} from "@/composables/useEmitter.js";
+import { eventName } from "@/utils/constants";
 
 const emitter = useEmitter()
 
 const handleCollapseSideBar = () => {
-  emitter.$emit('handleCollapseSideBar', () => {})
+  emitter.$emit(eventName.handleCollapseSideBar, () => {})
 }
 </script>
 

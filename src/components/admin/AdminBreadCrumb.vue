@@ -5,10 +5,10 @@
             :key="idx"
         >
             <router-link v-if="data.url !== ''" :to="data.url" class="nav-link">
-                <span v-if="breadcrumbs.length != 1" class="px-2 fs-5">/</span>
-                <span class="fw-bold fs-5">{{ t(data.name) }}</span>
+                <span v-if="breadcrumbs.length != 1" class="px-2 fs-6">/</span>
+                <span class="fw-bold fs-6">{{ t(data.name) }}</span>
             </router-link>
-            <a v-else class="nav-link text-secondary fw-bold fs-5 user-select-none">{{ t(data.name) }}</a>
+            <a v-else class="nav-link text-secondary fw-bold fs-6 user-select-none">{{ t(data.name) }}</a>
         </div>
     </div>
 </template>

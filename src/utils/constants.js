@@ -13,9 +13,16 @@ const urlAPIs = {
     searchMerchant: 'search_merchant'
 }
 
+const eventName = {
+    changeTitle: 'changeTitle',
+    close: 'close',
+    handleCollapseSideBar: 'handleCollapseSideBar'
+}
+
 export {
     urlAPIs,
     domain,
     timeOutRequest,
-    noneKeepAliveComponent
+    noneKeepAliveComponent,
+    eventName
 }

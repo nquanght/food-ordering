@@ -5,7 +5,7 @@
         <div v-if="loadingData.merchant" class="placeholder loading-merchant"></div>
         <div v-else class="card card-cover">
           <div class="w-100">
-            <img :src="dataMerchant.image" class="card-img-top thumbnail_merchant" alt="Image">
+            <img :src="dataMerchant.image" class="card-img-top thumbnail_merchant" alt="Image" loading="lazy">
           </div>
           <div class="card-body px-4">
             <div class="header-photo fw-bold">
@@ -109,9 +109,10 @@
                     :src="food.thumbnail_url"
                     :alt="food.food_name"
                     class="card-img-top"
+                    loading="lazy"
                   >
                   </div>
-                  <div class="card-body user-select-none d-flex flex-column justify-content-between">
+                  <div class="card-body d-flex flex-column justify-content-between">
                     <div class="mb-2">
                       <h5 class="card-title fw-bold" style="font-size: 16px">{{ food.food_name }}</h5>
                       <p class="card-text text-ellipsis-2 text-gray" style="font-size: 13px">{{ food.description }}</p>
@@ -159,7 +160,7 @@
             v-if="dataStore.length === 0"
             class="card-body d-flex flex-column align-items-center justify-content-center user-select-none"
           >
-            <img src="/images/empty-cart.jpg" class="img-fluid" alt="empty-cart">
+            <img src="/images/empty-cart.jpg" class="img-fluid" alt="empty-cart" loading="lazy">
             <div class="text-center mb-3" style="color: #757575">{{ t('cart.status.empty') }}</div>
           </div>
           <div v-else class="px-4 pb-4 pt-3">
@@ -170,7 +171,7 @@
               class="food-cart-selected"
             >
               <div class="row mb-2">
-                <img class="img-fluid col-sm-2" :src="data.thumbnail_url" :alt="data.food_name">
+                <img class="img-fluid col-sm-2" loading="lazy" :src="data.thumbnail_url" :alt="data.food_name">
                 <div class="col-sm-8">
                   <span class="fw-bold">{{ data.food_name }}</span>
                 </div>
@@ -262,22 +263,24 @@ const loadingData = ref({
 
 onMounted(() => {
   fetchData()
-  addEventScrollToActiveMenu()
+  addScrollingEvents()
 })
 
 onUnmounted(() => {
-  removeEventScrollToActiveMenu()
+  removeScrollingEvents()
 })
 
-const addEventScrollToActiveMenu = () => {
-  window.addEventListener('scroll', () => activeMenuWhenScroll())
+const addScrollingEvents = () => {
+  window.addEventListener('scroll', () => eventActiveMenuWhenScroll())
 }
 
-const removeEventScrollToActiveMenu = () => {
-  window.removeEventListener('scroll', () => activeMenuWhenScroll())
+const removeScrollingEvents = () => {
+  window.removeEventListener('scroll', () => {
+    eventActiveMenuWhenScroll()
+  })
 }
 
-const activeMenuWhenScroll = () => {
+const eventActiveMenuWhenScroll = () => {
   let positionDetect = 0
   let heightMenu = 0
   let windowPageY = window.pageYOffset
@@ -447,7 +450,7 @@ const getTotalAmount = computed(
 
 const merchantIsOpening = computed(
   () => {
-    return dataMerchant.operating && (dataMerchant.operating.is_open == 1)
+    return dataMerchant.value.operating && (dataMerchant.value.operating.is_open == 1)
   }
 )
 
@@ -609,7 +612,7 @@ const getOpeningTimeMerchant = (dataWeekTime) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -650,6 +653,5 @@ a.url-merchant {
   width: 100%;
   height: 300px;
 }
-
 </style>
 

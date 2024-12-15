@@ -11,10 +11,11 @@
               :src="data.logo"
               :alt="`delivery-app-img-${data.name}`"
               class="rounded-top delivery-app-img"
+              loading="lazy"
             >
           </div>
           <div class="p-3 text-center">
-            <span class="user-select-none">{{ data.name }}</span>
+            <p class="text-ellipsis-1 mb-0">{{ data.name }}</p>
           </div>
         </div>
       </div>

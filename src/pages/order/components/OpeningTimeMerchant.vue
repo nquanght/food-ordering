@@ -20,10 +20,6 @@
             <font-awesome-icon :icon="icon" color="orange" size="1x"/>
           </span>
         </div>
-        <span
-            class="ps-1 cursor-pointer text-primary"
-            @click="openFormRateMerchant"
-        >( {{dataMerchant.rating.total_review + ' ' + t('merchant.information.reviews') }} )</span>
       </div>
 
       <hr class="break-line-dashed text-gray"/>
@@ -60,7 +56,7 @@
 
 <script setup>
 import Modal from "@/components/common/Modal.vue";
-import CommentMerchant from "@/pages/order/components/CommentMerchant.vue";
+// import CommentMerchant from "@/pages/order/components/CommentMerchant.vue";
 import {useModal} from "@/composables/useModal.js";
 import {useI18n} from "@/composables/useI18n.js";
 import { ref, computed } from "vue";
@@ -74,11 +70,11 @@ const {t} = useI18n()
 const dataMerchant = ref(props.params)
 const weekDay = ref(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']) 
 
-const openFormRateMerchant = () => {
-  setTimeout(() => {
-    showModal(CommentMerchant, 'params')
-  }, 100)
-}
+// const openFormRateMerchant = () => {
+//   setTimeout(() => {
+//     showModal(CommentMerchant, 'params')
+//   }, 100)
+// }
 
 const getDataStarRating = (ratePoints) => {  
   let rateStaring = []
@@ -134,7 +130,7 @@ const getClassOpeningTime = (dayOfWeek) => {
   
   if (getCurrentDay(dayOfWeek)) {
     if (merchantIsOpening) {
-      return {color: '#D3D3D3', fontWeight: 600}
+      return {color: dataMerchant.value.operating.color, fontWeight: 600}
     }
 
     return {color: 'rgb(151, 151, 151)', fontWeight: 600}

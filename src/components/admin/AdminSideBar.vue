@@ -81,15 +81,18 @@
 </template>
 
 <script setup>
-import {onMounted, onUpdated, onUnmounted} from "vue";
+import {onMounted, watch, onUnmounted} from "vue";
 import {useEmitter} from "@/composables/useEmitter.js";
 import {ref} from "vue";
 import {adminMenu} from "@/utils/menu"
 import {useI18n} from "@/composables/useI18n"
 import {useRoute, useRouter} from 'vue-router'
+import {useI18n as vuei18n} from 'vue-i18n'
+import { eventName } from "@/utils/constants";
 
 const emitter = useEmitter()
 const {t} = useI18n()
+const { t: i18n } = vuei18n() 
 const router = useRouter()
 const route = useRoute()
 
@@ -130,6 +133,10 @@ const selectMenu = (menu) => {
   return
 }
 
+const changeTitle = (routeMatched) => {
+  document.title = routeMatched.meta.title ? 'Admin - ' + i18n(routeMatched.meta.title) : routeMatched.name
+}
+
 onMounted(() => {
   emitter.$on('handleCollapseSideBar', () => {
     let widthScreen = window.innerWidth
@@ -142,12 +149,24 @@ onMounted(() => {
   })
 
   currentRoute.value = route.path.replace('/admin/', '')
+  emitter.$on(eventName.changeTitle, () => {
+    changeTitle(route)
+  })
   handleResizeScreen()
   window.addEventListener('resize', handleResizeScreen)
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResizeScreen)
+})
+
+watch(currentRoute, (newVal) => {
+  let routes = router.getRoutes()
+  let routeMatched = routes.find(route => route.path === '/admin/' + newVal)
+  
+  if (routeMatched) {
+    changeTitle(routeMatched)
+  }
 })
 </script>
 

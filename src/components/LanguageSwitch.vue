@@ -10,6 +10,7 @@
         :alt="`icon-language-${currentLanguage}`"
         :width="props.width"
         :height="props.height"
+        loading="lazy"
       />
         <template #content="{ close }">
           <div class="list-language-images">
@@ -32,7 +33,10 @@
 import {useLanguageStore} from "@/stores/language.js"
 import {computed} from "vue";
 import {useI18n} from "@/composables/useI18n.js";
+import {useEmitter} from "@/composables/useEmitter.js";
+import { eventName } from "@/utils/constants";
 
+const emitter = useEmitter()
 const props = defineProps({
   width: {
     type: Number,
@@ -52,6 +56,7 @@ const currentLanguage = computed(() => {return languageStore.getCurrentLanguage}
 
 const changeLanguage = (language, callbackClose) => {
   languageStore.changeLanguageSystem(language)
+  emitter.$emit(eventName.changeTitle, () => {})
   callbackClose()
 }
 </script>

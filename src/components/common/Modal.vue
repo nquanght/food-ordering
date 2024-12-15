@@ -32,6 +32,7 @@
 import {useEmitter} from "@/composables/useEmitter.js";
 import {computed, ref, onMounted, onUnmounted} from 'vue'
 import {useI18n} from "@/composables/useI18n.js";
+import { eventName } from "@/utils/constants";
 
 const {t} = useI18n()
 
@@ -57,7 +58,7 @@ const props = defineProps({
 const emitter = useEmitter()
 
 const close = () => {
-  emitter.$emit('close')
+  emitter.$emit(eventName.close)
 }
 
 const screenWidth = ref(window.innerWidth)
