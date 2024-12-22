@@ -20,10 +20,20 @@ if (!global.MODEL_PATH) {
     global.MODEL_PATH = path.join(SOURCE_PATH, 'models')
 }
 
+if (!global.SERVICE_PATH) {
+    global.SERVICE_PATH = path.join(SOURCE_PATH, 'services')
+}
+
 if (!global.ROUTE_PATH) {
     global.ROUTE_PATH = path.join(SOURCE_PATH, 'routes')
 }
 
 if (!global.LANGUAGE_PATH) {
     global.LANGUAGE_PATH = path.join(MODEL_PATH, 'languages')
+}
+
+global.ACTIVE_STATUS = 1
+global.INACTIVE_STATUS = 0
+global.statusCode = {
+    unAuthorized: 403
 }
