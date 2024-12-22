@@ -2,6 +2,7 @@ const axios = require('axios')
 const merchantConfig = require('../config/merchants')
 const {isEmpty} = require('lodash')
 const {callAPIService} = require('../helpers/api')
+const merchantService = require('../services/merchantService')
 
 const getMerchantByKeySearch = async (keySearch) => {
     let result = []
@@ -24,39 +25,20 @@ const getMerchantByKeySearch = async (keySearch) => {
         sort_type: 8
     }
 
-    // Find restaurants by key search
-    await axios.post(url, payload, {headers})
-        .then(async response => {
-            let data = response.data.reply.search_result || null   
-            
-            if (data) {
-                restaurantIds = getRestaurantIds(payload.foody_services, data)
-            }
-        })
-        .catch(error => {
-            console.error(error.message);
-        });
+    const response = await callAPIService(url, headers, 'post', payload)
 
+    // Find restaurants by key search
+    let data = response.data.reply.search_result || null
+
+    if (data) {
+        restaurantIds = getRestaurantIds(payload.foody_services, data)
+    }
+    
     // Get info dish by restaurant id
     if (restaurantIds && restaurantIds.length > 0) {
-        await getInfoDish(restaurantIds)
-            .then(responseInfo => {
-                let dataInfo = responseInfo.data
-                let listMerchant = dataInfo.reply.delivery_infos
-
-                if (listMerchant && listMerchant.length > 0) {
-                    listMerchant.forEach(item => {
-                        let imageUrl = item.photos[item.photos.length - 1].value
-                        result.push({
-                            id: item.delivery_id,
-                            name: item.name,
-                            address: item.address,
-                            is_open: item.is_open,
-                            image: imageUrl
-                        })
-                    });
-                }
-            })
+        let dataInfo = await getInfoDish(restaurantIds)
+        let listMerchant = dataInfo.reply.delivery_infos
+        result = merchantService.repairDataSearchingMerchant(listMerchant)
     }
 
     return result;
@@ -75,7 +57,9 @@ const getInfoDish = async (restaurantId) => {
         restaurant_ids: restaurantId
     }
 
-    return await axios.post(urlMerchantInfo, payloadMerchantInfo, {headers})
+    const response = await callAPIService(urlMerchantInfo, headers, 'post', payloadMerchantInfo)
+
+    return response.data
 }
 
 const getRestaurantIds = (foodyServices, data) => {

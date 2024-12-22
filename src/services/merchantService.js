@@ -78,6 +78,28 @@ const getDayOfWeek = (weekDays) => {
     return result
 }
 
+const repairDataSearchingMerchant = (listData) => {
+    let result = []
+
+    if (!listData) {
+        return result
+    }
+
+    listData.forEach(item => {
+        let imageUrl = item.photos[item.photos.length - 1].value
+        result.push({
+            id: item.delivery_id,
+            name: item.name,
+            address: item.address,
+            is_open: item.is_open,
+            image: imageUrl
+        })
+    });
+
+    return result
+}
+
 module.exports = {
-    repairDataMerchantDetail
+    repairDataMerchantDetail,
+    repairDataSearchingMerchant
 }
