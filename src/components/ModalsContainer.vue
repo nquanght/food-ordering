@@ -5,6 +5,7 @@
           :is="modal.component"
           v-for="(modal, idx) in listModal"
           :key="idx"
+          :params="modal.params || {}"
         />
       </TransitionGroup>
     </Teleport>
@@ -14,6 +15,7 @@
 import {computed, onMounted} from 'vue'
 import {useModalStore} from "@/stores/modal.js";
 import {useEmitter} from "@/composables/useEmitter.js";
+import { eventName } from '@/utils/constants';
 
 const modalStore = useModalStore()
 const listModal = computed(() => {
@@ -23,7 +25,7 @@ const listModal = computed(() => {
 const emitter = useEmitter()
 
 onMounted(() => {
-  emitter.$on('close', () => {
+  emitter.$on(eventName.close, () => {
     modalStore.closeModal()
   })
 })

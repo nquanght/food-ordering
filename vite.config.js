@@ -17,5 +17,12 @@ export default defineConfig({
     host: true,
     strictPort: true,
     port: 8000
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: 'modern-compiler' // or "modern"
+      }
+    }
   }
 })

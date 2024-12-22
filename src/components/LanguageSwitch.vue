@@ -8,6 +8,9 @@
         class="image-icon-language"
         :src="`/icons/${currentLanguage}-flag.png`"
         :alt="`icon-language-${currentLanguage}`"
+        :width="props.width"
+        :height="props.height"
+        loading="lazy"
       />
         <template #content="{ close }">
           <div class="list-language-images">
@@ -30,6 +33,20 @@
 import {useLanguageStore} from "@/stores/language.js"
 import {computed} from "vue";
 import {useI18n} from "@/composables/useI18n.js";
+import {useEmitter} from "@/composables/useEmitter.js";
+import { eventName } from "@/utils/constants";
+
+const emitter = useEmitter()
+const props = defineProps({
+  width: {
+    type: Number,
+    default: 25
+  },
+  height: {
+    type: Number,
+    default: 25
+  }
+})
 
 const languageStore = useLanguageStore()
 const {t} = useI18n()
@@ -39,6 +56,7 @@ const currentLanguage = computed(() => {return languageStore.getCurrentLanguage}
 
 const changeLanguage = (language, callbackClose) => {
   languageStore.changeLanguageSystem(language)
+  emitter.$emit(eventName.changeTitle, () => {})
   callbackClose()
 }
 </script>
@@ -46,13 +64,6 @@ const changeLanguage = (language, callbackClose) => {
 <style lang="scss" scoped>
   .language-switch {
     cursor: pointer;
-
-    .image-icon-language {
-      width: 23px;
-      max-width: 23px;
-      min-width: 23px;
-      height: 23px;
-    }
   }
 
   .light-theme {

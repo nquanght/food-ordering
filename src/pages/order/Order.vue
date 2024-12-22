@@ -2,33 +2,51 @@
   <div class="container">
     <div class="row d-flex justify-content-between">
       <div class="col-lg-8 col-sm-12">
-        <div class="card card-cover">
+        <div v-if="loadingData.merchant" class="placeholder loading-merchant"></div>
+        <div v-else class="card card-cover">
           <div class="w-100">
-            <img src="https://down-vn.img.susercontent.com/vn-11134259-7r98o-lw9uqoqqs3bv77@resize_ss640x400" class="card-img-top" style="height: 200px; object-fit: cover" alt="Image">
+            <img :src="dataMerchant.image" class="card-img-top thumbnail_merchant" alt="Image" loading="lazy">
           </div>
           <div class="card-body px-4">
             <div class="header-photo fw-bold">
-              <h4 class="fw-bold">Food Paradise - Parkson Lê Thánh Tôn</h4>
+              <h4 class="fw-bold">{{ dataMerchant.merchant_name }}</h4>
             </div>
             <div class="content-merchant">
               <div class="content-address">
                 <font-awesome-icon icon="fa-solid fa-location-dot" width="20" height="20" class="pe-2"/>
-                <span>Tầng 3, Tầng 3 Parkson Lê Thánh Tôn, 35Bis - 45 Lê Thánh Tôn Quận 1 Hồ Chí Minh</span>
+                <span>{{ dataMerchant.address }}</span>
               </div>
               <div class="content-website">
                 <font-awesome-icon icon="fa-solid fa-globe" class="pe-2" width="20" height="20"/>
-                <span>https://be.food.vn/familyfoodparadiseparksonlethanhton1</span>
+                <a :href="dataMerchant.url" target="_blank" class="url-merchant text-decoration-none">{{ dataMerchant.url }}</a>
               </div>
-              <div class="content-opening-time d-flex justify-content-between">
-                <div>
-                  <font-awesome-icon icon="fa-solid fa-clock" class="pe-2" width="20" height="20"/>
-                  <span class="text-success pe-4">{{ t('merchant.status.open') }}</span>
-                  <span
-                      class="text-primary cursor-pointer"
-                      @click="openFormMerchantInfo"
-                  >
-                  {{ t('merchant.information.info') }}
+              <div class="content-opening-time">
+                <font-awesome-icon
+                  icon="fa-solid fa-circle" size="xs" class="pe-2" width="20" height="20"
+                  :style="{color: merchantIsOpening ? dataMerchant.operating.color : 'rgb(151, 151, 151)'}"
+                />
+                <span
+                  :class="`fw-bold pe-4`"
+                  :style="{color: merchantIsOpening ? dataMerchant.operating.color : 'rgb(151, 151, 151)'}"
+                >
+                  {{ merchantIsOpening ? t('merchant.status.open') : t('merchant.status.closed') }}
                 </span>
+                <span>{{ getOpeningTimeMerchant(dataMerchant) }}</span>
+              </div>
+              <div class="content-price-range  d-flex justify-content-between align-items-center">
+                <div>
+                  <font-awesome-icon icon="fa-solid fa-dollar-sign" width="20" height="20" class="pe-2" />
+                  <span>{{ `${formatCurrency(dataMerchant.price_range && dataMerchant.price_range.min_price ? dataMerchant.price_range.min_price : '' )}` }}</span>
+                  <span class="px-2">-</span>
+                  <span>{{ `${formatCurrency(dataMerchant.price_range && dataMerchant.price_range.max_price ? dataMerchant.price_range.max_price : '' )}` }}</span>
+                </div>
+                <div>
+                  <span
+                    class="text-primary cursor-pointer"
+                    @click="openFormMerchantInfo"
+                  >
+                    {{ t('merchant.information.info') }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -42,8 +60,8 @@
 
           <div class="category-list d-flex flex-row text-nowrap overflow-y-auto align-items-center mx-3 w-100" ref="scrollMenu">
             <div
-                v-if="loadingData.category"
-                class="placeholder-glow d-flex w-100 h-100 loading-skeleton-wrapper wrapper-horizontal"
+              v-if="loadingData.category"
+              class="placeholder-glow d-flex w-100 h-100 loading-skeleton-wrapper wrapper-horizontal"
             >
               <div 
                 v-for="(number, idx) in 8"
@@ -53,7 +71,7 @@
             </div>
             <div v-else>
               <button
-                  v-for="(category, idx) in dataFetch"
+                  v-for="(category, idx) in dataFood"
                   :key="idx"
                   type="button"
                   :class="`spacing-element btn btn-${activeMenu === category.category_id ? 'menu-active' : 'category'}`"
@@ -78,7 +96,7 @@
               :class="`placeholder col-${getRandomFlexColumn(9)}`"
             ></div>
           </div>
-          <div v-else v-for="(category, catIdx) in dataFetch" :key="catIdx" class="mb-5" :id="`category-${catIdx}`">
+          <div v-else-if="dataFood && dataFood.length > 0" v-for="(category, catIdx) in dataFood" :key="catIdx" class="mb-5" :id="`category-${catIdx}`">
             <h4 class="fw-bold mb-3">{{ category.category_name }}</h4>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
               <div v-if="category.foods.length === 0">
@@ -91,6 +109,7 @@
                     :src="food.thumbnail_url"
                     :alt="food.food_name"
                     class="card-img-top"
+                    loading="lazy"
                   >
                   </div>
                   <div class="card-body d-flex flex-column justify-content-between">
@@ -112,7 +131,7 @@
                           v-if="getDataSelected(food.food_id) !== -1"
                           class="total-select mx-3 fw-bold">{{ getDataSelected(food.food_id) }}</div>
                         <div
-                          v-if="!food.is_out_of_stock"
+                          v-if="!food.is_out_of_stock && merchantIsOpening"
                           class="btn-format button-add"
                           @click="addQuantityFood(category.category_id, food.food_id)"
                         >
@@ -129,6 +148,9 @@
               </div>
             </div>
           </div>
+          <div v-else>
+            <span>{{ t('common.empty_data') }}</span>
+          </div>
         </div>
       </div>
 
@@ -136,9 +158,9 @@
         <div class="food-cart-list card card-cover">
           <div
             v-if="dataStore.length === 0"
-            class="card-body d-flex flex-column align-items-center justify-content-center"
+            class="card-body d-flex flex-column align-items-center justify-content-center user-select-none"
           >
-            <img src="/images/empty-cart.jpg" class="img-fluid" alt="empty-cart">
+            <img src="/images/empty-cart.jpg" class="img-fluid" alt="empty-cart" loading="lazy">
             <div class="text-center mb-3" style="color: #757575">{{ t('cart.status.empty') }}</div>
           </div>
           <div v-else class="px-4 pb-4 pt-3">
@@ -149,7 +171,7 @@
               class="food-cart-selected"
             >
               <div class="row mb-2">
-                <img class="img-fluid col-sm-2" :src="data.thumbnail_url" :alt="data.food_name">
+                <img class="img-fluid col-sm-2" loading="lazy" :src="data.thumbnail_url" :alt="data.food_name">
                 <div class="col-sm-8">
                   <span class="fw-bold">{{ data.food_name }}</span>
                 </div>
@@ -216,44 +238,54 @@ import {useI18n} from "@/composables/useI18n.js";
 import Info from "@/pages/order/components/OpeningTimeMerchant.vue";
 import useAxios from "@/composables/useAxios.js";
 import {urlAPIs} from "@/utils/constants.js"
+import { useDateTime } from "@/composables/common/useDateTime";
+import moment from "moment";
 
 const {showModal} = useModal()
 const {t} = useI18n()
 const axios = useAxios()
-const {getFoods} = urlAPIs
+const dateTimeCommon = useDateTime()
+const {urlGetFoods, urlGetMerchantDetail} = urlAPIs
 
 const scrollMenu = ref(null)
 const activeMenu = ref(null)
-const dataFetch = ref([])
+
+const dataFood = ref([])
+const dataMerchant = ref([])
+
 const dataStore = ref([])
+
 const loadingData = ref({
   category: false,
-  food: false
+  food: false,
+  merchant: false
 })
 
 onMounted(() => {
   fetchData()
-  addEventScrollToActiveMenu()
+  addScrollingEvents()
 })
 
 onUnmounted(() => {
-  removeEventScrollToActiveMenu()
+  removeScrollingEvents()
 })
 
-const addEventScrollToActiveMenu = () => {
-  window.addEventListener('scroll', () => activeMenuWhenScroll())
+const addScrollingEvents = () => {
+  window.addEventListener('scroll', () => eventActiveMenuWhenScroll())
 }
 
-const removeEventScrollToActiveMenu = () => {
-  window.removeEventListener('scroll', () => activeMenuWhenScroll())
+const removeScrollingEvents = () => {
+  window.removeEventListener('scroll', () => {
+    eventActiveMenuWhenScroll()
+  })
 }
 
-const activeMenuWhenScroll = () => {
+const eventActiveMenuWhenScroll = () => {
   let positionDetect = 0
   let heightMenu = 0
   let windowPageY = window.pageYOffset
 
-  dataFetch.value.forEach((item, idx) => {
+  dataFood.value.forEach((item, idx) => {
     let topElementCategory = document.getElementById(`category-${idx}`)
 
     const categoryBar = document.getElementsByClassName('category-list-wrapper')
@@ -274,7 +306,7 @@ const activeMenuWhenScroll = () => {
     }
   })
 
-  activeMenu.value = dataFetch.value[positionDetect].category_id
+  activeMenu.value = dataFood.value[positionDetect].category_id
 }
 
 const handleActiveMenu = (evt, menuSelected, idxElement) => {
@@ -308,16 +340,28 @@ const scrollRightMenu = () => {
 
 const openFormMerchantInfo = () => {
   setTimeout(() => {
-    showModal(Info, 'params')
+    showModal(Info, dataMerchant)
   }, 100)
 }
 
 const fetchData = () => {
   loadingData.value.category = true
   loadingData.value.food = true
-  axios.get(getFoods)
+  loadingData.value.merchant = true
+
+  axios.get(urlGetMerchantDetail)
       .then((res) => {
-        dataFetch.value = res.data.data
+        dataMerchant.value = res.data.data
+        loadingData.value.merchant = false
+      })
+      .catch((err) => {
+        console.log(err.message)
+        loadingData.value.merchant = false
+      })
+
+  axios.get(urlGetFoods)
+      .then((res) => {
+        dataFood.value = res.data.data
         loadingData.value.category = false
         loadingData.value.food = false
       })
@@ -329,16 +373,16 @@ const fetchData = () => {
 }
 
 const addQuantityFood = (catId, foodId) => {
-  let foundCategoryId = dataFetch.value.findIndex(itemCategory => itemCategory.category_id === catId)
+  let foundCategoryId = dataFood.value.findIndex(itemCategory => itemCategory.category_id === catId)
   let food = {}
 
   if (foundCategoryId !== -1) {
-    let foodsInCategory = dataFetch.value[foundCategoryId].foods
+    let foodsInCategory = dataFood.value[foundCategoryId].foods
 
     let foundFoodId = foodsInCategory.findIndex(itemFood => ((itemFood.food_id === foodId) && (!itemFood.is_out_of_stock)))
 
     if (foundFoodId !== -1) {
-      food = dataFetch.value[foundCategoryId].foods[foundFoodId]
+      food = dataFood.value[foundCategoryId].foods[foundFoodId]
     }
   }
 
@@ -402,8 +446,36 @@ const getTotalAmount = computed(
     })
 
     return formatCurrency(total)
-  })
+})
 
+const merchantIsOpening = computed(
+  () => {
+    return dataMerchant.value.operating && (dataMerchant.value.operating.is_open == 1)
+  }
+)
+
+const formatTime = (time) => {
+  return dateTimeCommon.formatTime(time)
+}
+
+const getOpeningTimeMerchant = (dataWeekTime) => {
+  let currentTime = moment()
+  let dayOfWeek = currentTime.day()
+  let result = ''
+  
+  if (dataWeekTime.hasOwnProperty('week_day') && dataWeekTime.week_day.hasOwnProperty(dayOfWeek)) {
+    let openingTimeList = dataWeekTime.week_day[dayOfWeek]
+
+    result = []
+    openingTimeList.forEach(item => {
+      result.push(`${item.start_time} - ${item.end_time}`)
+    })
+
+    result = result.join(' | ')
+  }
+
+  return result
+}
 </script>
 
 <style lang="scss" scoped>
@@ -540,7 +612,7 @@ const getTotalAmount = computed(
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.15);
+  background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
 }
 
@@ -562,6 +634,24 @@ const getTotalAmount = computed(
         -1px 1px 0px white,
         1px 1px 0px white;
   }
+}
+
+a.url-merchant {
+  color: black;
+
+  &:hover {
+    color: #0d6efd;
+  }
+}
+
+.thumbnail_merchant {
+  height: 350px;
+  object-fit: cover;
+}
+
+.loading-merchant {
+  width: 100%;
+  height: 300px;
 }
 </style>
 

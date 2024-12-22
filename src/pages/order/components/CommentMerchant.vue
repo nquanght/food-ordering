@@ -2,7 +2,7 @@
   <Modal page-title="Đánh giá về nhà hàng" width="40%">
     <template #content>
       <div class="fs-6 comment-merchant">
-        <div v-for="n in 20">rate</div>
+        <div v-for="n in 100">rate</div>
       </div>
     </template>
   </Modal>

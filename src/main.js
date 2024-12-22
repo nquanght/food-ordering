@@ -24,7 +24,11 @@ app.use(router)
 loadPlugins(app)
 
 /* Fetch translations system */
-const languageStore = useLanguageStore()
-await languageStore.fetchTranslations()
+const fetchLanguageSystem = async () => {
+    const languageStore = useLanguageStore()
+    await languageStore.fetchTranslations()
+}
+
+fetchLanguageSystem()
 
 app.mount('#app')

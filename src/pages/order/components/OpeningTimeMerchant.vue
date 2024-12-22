@@ -4,27 +4,22 @@
     width="50%"
   >
     <template #content>
-      <div class="fs-5 fw-bold">Food Paradise - Parkson Lê Thánh Tôn</div>
+      <div class="fs-5 fw-bold">{{ dataMerchant.merchant_name }}</div>
 
       <hr class="break-line-dashed text-gray"/>
 
       <div class="fs-6 address-merchant">
         <span class="fw-bold pe-2">{{ t('merchant.information.address') }}:</span>
-        <span>2-6 Bis Điện Biên Phủ, P.Đa Kao, Quận 1, Tp Hồ Chí Minh</span>
+        <span>{{ dataMerchant.address }}</span>
       </div>
       <div class="fs-6 rate-merchant d-flex align-items-center">
         <span class="fw-bold pe-2">{{ t('merchant.information.rate') }}:</span>
         <div>
-          <span><font-awesome-icon icon="fa-solid fa-star" color="orange" size="1x"/></span>
-          <span><font-awesome-icon icon="fa-solid fa-star" color="orange" size="1x"/></span>
-          <span><font-awesome-icon icon="fa-solid fa-star" color="orange" size="1x"/></span>
-          <span><font-awesome-icon icon="fa-solid fa-star-half-stroke" color="orange" size="1x"/></span>
-          <span><font-awesome-icon icon="fa-regular fa-star" color="orange" size="1x"/></span>
+          <span class="pe-2" style="font-size: 13px;">{{ dataMerchant.rating.avg }}</span>
+          <span v-for="(icon, idx) in getDataStarRating(dataMerchant.rating.avg)" :key="idx">
+            <font-awesome-icon :icon="icon" color="orange" size="1x"/>
+          </span>
         </div>
-        <span
-            class="ps-1 cursor-pointer text-primary"
-            @click="openFormRateMerchant"
-        >(16 {{ t('merchant.information.reviews') }})</span>
       </div>
 
       <hr class="break-line-dashed text-gray"/>
@@ -32,33 +27,9 @@
       <div class="list-time-opening">
         <div class="fw-bold">{{ t('merchant.information.opening_time') }}:</div>
         <ul class="list-group">
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Chủ nhật: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 2: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 3: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 4: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 5: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 6: 10:00 - 23:59</span>
-          </li>
-          <li class="list-group-item">
-            <span class="pe-2"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
-            <span>Thứ 7: 10:00 - 23:59</span>
+          <li class="list-group-item" v-for="(dayOfWeek, idx) in weekDay" :key="idx">
+            <span class="pe-2" :style="getClassOpeningTime(dayOfWeek)"><font-awesome-icon icon="fa-regular fa-calendar" /></span>
+            <span :style="getClassOpeningTime(dayOfWeek)">{{ t(`common.${dayOfWeek}`) }}: {{ getOpeningTimeMerchant(dataMerchant, idx + 1) }}</span>
           </li>
         </ul>
       </div>
@@ -69,7 +40,7 @@
         <div class="fw-bold mb-2">{{ t('merchant.information.map') }}:</div>
         <div>
           <iframe
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d62705.334742534265!2d106.62050803506621!3d10.804922672231248!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529c032abd229%3A0x3f28cabceeca1a32!2sMcDonald&#39;s%20Dakao!5e0!3m2!1sen!2s!4v1720268853670!5m2!1sen!2s"
+            :src="`https://maps.google.com/maps?q=${dataMerchant.position.latitude},${dataMerchant.position.longitude}&hl=vi&z=14&amp;output=embed`"
             width="100%"
             height="450"
             style="border:0;"
@@ -85,17 +56,87 @@
 
 <script setup>
 import Modal from "@/components/common/Modal.vue";
-import CommentMerchant from "@/pages/order/components/CommentMerchant.vue";
+// import CommentMerchant from "@/pages/order/components/CommentMerchant.vue";
 import {useModal} from "@/composables/useModal.js";
 import {useI18n} from "@/composables/useI18n.js";
+import { ref, computed } from "vue";
+import moment from "moment";
+
+const props = defineProps(['params'])
 
 const {showModal} = useModal()
 const {t} = useI18n()
 
-const openFormRateMerchant = () => {
-  setTimeout(() => {
-    showModal(CommentMerchant, 'params')
-  }, 100)
+const dataMerchant = ref(props.params)
+const weekDay = ref(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']) 
+
+// const openFormRateMerchant = () => {
+//   setTimeout(() => {
+//     showModal(CommentMerchant, 'params')
+//   }, 100)
+// }
+
+const getDataStarRating = (ratePoints) => {  
+  let rateStaring = []
+  let maxStarRating = 5
+
+  let fullStar = 'fa-solid fa-star'
+  let halfStar = 'fa-solid fa-star-half-stroke'
+  let emptyStar = 'fa-regular fa-star'
+
+
+  let integerPart = Math.floor(ratePoints);
+  let isPositive = Number.isInteger(ratePoints);
+
+  for (let point = 1; point <= maxStarRating; point ++) {
+    if (point <= integerPart) {
+      rateStaring.push(fullStar)
+    } else {
+      if (((point - 1) == integerPart) && !isPositive) {
+        rateStaring.push(halfStar)
+      } else {
+        rateStaring.push(emptyStar)
+      }
+    }
+
+  }
+
+  return rateStaring
+}
+
+const getOpeningTimeMerchant = (dataWeekTime, dayOfWeek) => {
+  let result = ''
+  
+  if (dataWeekTime.hasOwnProperty('week_day') && dataWeekTime.week_day.hasOwnProperty(dayOfWeek)) {
+    let openingTimeList = dataWeekTime.week_day[dayOfWeek]
+
+    result = []
+    openingTimeList.forEach(item => {
+      result.push(`${item.start_time} - ${item.end_time}`)
+    })
+
+    result = result.join(' | ')
+  }
+
+  return result
+}
+
+const getCurrentDay = (dayOfWeek) => {
+  return moment().format('dddd').toLowerCase() === dayOfWeek
+}
+
+const getClassOpeningTime = (dayOfWeek) => {
+  let merchantIsOpening = dataMerchant.value.operating.is_open
+  
+  if (getCurrentDay(dayOfWeek)) {
+    if (merchantIsOpening) {
+      return {color: dataMerchant.value.operating.color, fontWeight: 600}
+    }
+
+    return {color: 'rgb(151, 151, 151)', fontWeight: 600}
+  }
+
+  return ''
 }
 
 </script>

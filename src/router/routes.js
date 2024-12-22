@@ -10,23 +10,36 @@ const routes = [
         children: [
             {
                 path: 'order',
-                name: 'navigation.order',
-                component: () => import('../pages/order/Order.vue')
+                name: 'Order',
+                component: () => import('../pages/order/Order.vue'),
+                meta: {
+                    keepAlive: true,
+                    title: 'navigation.order'
+                }
             },
             {
                 path: 'bill',
-                name: 'navigation.bill',
-                component: () => import('../pages/bill/Bill.vue')
+                name: 'Bill',
+                component: () => import('../pages/bill/Bill.vue'),
+                meta: {
+                    title: 'navigation.bill'
+                }
             },
             {
                 path: 'contact',
-                name: 'navigation.contact',
-                component: () => import('../pages/contact/Contact.vue')
+                name: 'Contact',
+                component: () => import('../pages/contact/Contact.vue'),
+                meta: {
+                    title: 'navigation.contact'
+                }
             },
             {
                 path: 'feedback',
-                name: 'navigation.feedback',
-                component: () => import('../pages/feedback/Feedback.vue')
+                name: 'Feedback',
+                component: () => import('../pages/feedback/Feedback.vue'),
+                meta: {
+                    title: 'navigation.feedback'
+                }
             },
         ]
     },

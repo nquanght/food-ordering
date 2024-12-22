@@ -1,14 +1,28 @@
 const domain = import.meta.env.VITE_DOMAIN_BACKEND
 const timeOutRequest = import.meta.env.VITE_TIME_OUT_REQUEST
 
+const noneKeepAliveComponent = 'none'
+
 const urlAPIs = {
-    getLanguages: 'get-languages',
-    getCategories: 'get-categories',
-    getFoods: 'test'
+    urlGetLanguages: 'get-languages',
+    urlGetCategories: 'get-categories',
+    urlGetFoods: 'get-foods',
+    urlGetMerchantDetail: 'get-merchant-detail',
+    urlGetDeliveryApp: 'get-delivery-apps',
+
+    searchMerchant: 'search_merchant'
+}
+
+const eventName = {
+    changeTitle: 'changeTitle',
+    close: 'close',
+    handleCollapseSideBar: 'handleCollapseSideBar'
 }
 
 export {
     urlAPIs,
     domain,
-    timeOutRequest
+    timeOutRequest,
+    noneKeepAliveComponent,
+    eventName
 }

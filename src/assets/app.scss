@@ -53,6 +53,18 @@
   transition: transform .8s ease;
 }
 
-.img-hover-zoom:hover img {
-  transform: scale(1.5);
+.img-hover-zoom:hover {
+  border-radius: inherit;
+  img {
+    transform: scale(1.3);
+  }
+  
+}
+
+.bg-admin {
+  background-color: cadetblue !important;
+}
+
+.text-admin {
+  color: cadetblue !important;
 }
