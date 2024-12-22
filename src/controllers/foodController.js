@@ -4,7 +4,7 @@ const foodRepository = require("../repositories/foodRepository");
 const foodService = require("../services/foodService");
 
 const getFoods = async (req, res) => {
-    let requestId = 260673
+    let requestId = 11385
     
     const foods = await foodRepository.getFood(requestId)
     

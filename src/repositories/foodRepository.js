@@ -1,5 +1,5 @@
-const axios = require('axios')
 const merchantConfig = require('../config/merchants')
+const {callAPIService} = require('../helpers/api')
 
 const getFood = async (requestId) => {
     const merchant = 'shopee_food'
@@ -9,17 +9,9 @@ const getFood = async (requestId) => {
     const url = merchantConfigElement.origin + `/dish/get_delivery_dishes?id_type=2&request_id=${requestId}`
     const headers = merchantConfigElement.header
 
-    let result = []
+    const response = await callAPIService(url, headers)
 
-    await axios.get(url,  {headers})
-        .then(response => {
-            result = response.data
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    return result;
+    return response.data
 }
 
 module.exports = {

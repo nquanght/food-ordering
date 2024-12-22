@@ -19,7 +19,7 @@ module.exports = {
             key: 'navigation.pick',
             lang: {
                 en: 'Pick',
-                vi: 'Chọn món'
+                vi: 'Chọn quán'
             }
         },
         {

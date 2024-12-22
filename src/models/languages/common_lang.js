@@ -57,5 +57,12 @@ module.exports = {
                 vi: 'Chủ nhật'
             }
         },
+        {
+            key: 'scroll_to_top',
+            lang: {
+                en: 'Scroll to top',
+                vi: 'Lên đầu trang'
+            }
+        },
     ]
 }
