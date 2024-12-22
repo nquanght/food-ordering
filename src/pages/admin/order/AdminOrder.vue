@@ -78,6 +78,9 @@ const searchMerchant = (value) => {
           listMerchant.value = response.data.data
           loading.value = false
         })
+        .catch(error => {
+          loading.value = false
+        })
     }, debounceTime);
   } else {
     listMerchant.value = []

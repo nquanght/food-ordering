@@ -46,7 +46,7 @@ export const useLanguageStore = defineStore('language', {
                         }
                     })
                     .catch((err) => {
-                        console.warn(err)
+                        console.error(err.message)
                     })
             } else {
                 languageListStorage = JSON.parse(languageListStorage)
