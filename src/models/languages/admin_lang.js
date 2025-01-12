@@ -58,11 +58,18 @@ module.exports = {
             }
         },
         {
-            key: 'navigation.delivery_app_management',
+            key: 'navigation.service_management',
             lang: {
-                en: 'Delivery App',
-                vi: 'Ứng dụng đặt món'
+                en: 'Service Ordering',
+                vi: 'Dịch vụ đặt món'
             }
-        }
+        },
+        {
+            key: 'merchant.typing',
+            lang: {
+                en: 'Search merchant...',
+                vi: 'Tìm quán ăn...'
+            }
+        },
     ]
 }

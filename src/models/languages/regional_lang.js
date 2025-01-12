@@ -12,7 +12,7 @@ module.exports = {
             key: 'en',
             lang: {
                 en: 'English',
-                vi: 'Tiếng anh'
+                vi: 'Tiếng Anh'
             }
         }
     ]

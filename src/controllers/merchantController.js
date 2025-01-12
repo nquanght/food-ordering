@@ -5,7 +5,7 @@ const merchantService = require("../services/merchantService");
 
 const getMerchantDetail = async (req, res) => {
     // let requestId = req.query.request_id
-    let requestId = 11385
+    let requestId = 86733
 
     let dataMerchant = await merchantRepository.getMerchantDetailById(requestId)
 

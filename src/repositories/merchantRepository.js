@@ -12,7 +12,7 @@ const getMerchantByKeySearch = async (keySearch) => {
 
     const merchantConfigElement = merchantConfig[merchant]
 
-    // Search merchant
+    /* Search merchant */
     const url = merchantConfigElement.origin + "/delivery/search_global"
     const headers = merchantConfigElement.header
     const payload = {
@@ -27,14 +27,14 @@ const getMerchantByKeySearch = async (keySearch) => {
 
     const response = await callAPIService(url, headers, 'post', payload)
 
-    // Find restaurants by key search
+    /* Find restaurants by key search */
     let data = response.data.reply.search_result || null
 
     if (data) {
         restaurantIds = getRestaurantIds(payload.foody_services, data)
     }
     
-    // Get info dish by restaurant id
+    /* Get info dish by restaurant id */
     if (restaurantIds && restaurantIds.length > 0) {
         let dataInfo = await getInfoDish(restaurantIds)
         let listMerchant = dataInfo.reply.delivery_infos
@@ -50,7 +50,7 @@ const getInfoDish = async (restaurantId) => {
     const merchantConfigElement = merchantConfig[merchant]
     const headers = merchantConfigElement.header
 
-    // Get result by result response
+    /* Get result by result response */
     const urlMerchantInfo = merchantConfigElement.origin + "/delivery/get_infos"
 
     let payloadMerchantInfo = {

@@ -64,5 +64,12 @@ module.exports = {
                 vi: 'Lên đầu trang'
             }
         },
+        {
+            key: 'select_prompt',
+            lang: {
+                en: 'Select...',
+                vi: 'Chọn'
+            }
+        }
     ]
 }
