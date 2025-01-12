@@ -4,6 +4,8 @@ import {i18n} from "@/plugins/vue-i18n.js";
 import {urlAPIs} from "@/utils/constants.js"
 import { isEmpty } from 'lodash';
 
+const keyNameStorage = 'language_system'
+
 export const useLanguageStore = defineStore('language', {
     state: () => ({
         languages: [
@@ -18,18 +20,18 @@ export const useLanguageStore = defineStore('language', {
             if (this.currentLanguage !== language) {
                 this.currentLanguage = language
                 i18n.global.locale.value = language
-                localStorage.setItem('language_system', language)
+                localStorage.setItem(keyNameStorage, language)
             }
         },
         async fetchTranslations() {
             const axios = useAxios()
 
-            // Get/Set default language system
+            /* Get/Set default language system */
             i18n.global.locale.value = this.getCurrentLanguage
 
             let languageListStorage = localStorage.getItem('languages')
             
-            // Fetch new data language system if not already loaded
+            /* Fetch new data language system if not already loaded */
             if (isEmpty(languageListStorage)) {
                 const {urlGetLanguages} = urlAPIs
 
@@ -64,13 +66,13 @@ export const useLanguageStore = defineStore('language', {
         },
         getCurrentLanguage (state) {
             let currentLanguage = ''
-            let languageSystemStorage = localStorage.getItem('language_system')
+            let languageSystemStorage = localStorage.getItem(keyNameStorage)
 
             if (languageSystemStorage != null) {
                 currentLanguage = languageSystemStorage
             } else {
                 currentLanguage = 'vi'
-                localStorage.setItem('language_system', currentLanguage)
+                localStorage.setItem(keyNameStorage, currentLanguage)
             }
             state.currentLanguage = currentLanguage
 

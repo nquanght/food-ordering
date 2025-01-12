@@ -39,10 +39,10 @@ const adminRoutes = [
                 meta: {title: 'admin.navigation.setting_2'}
             },
             {
-                path: 'delivery-app-management',
-                name: 'AdminDeliveryAppManagement',
-                component: () => import('../pages/admin/management/AdminDeliveryAppManagement.vue'),
-                meta: {title: 'admin.navigation.delivery_app_management'}
+                path: 'service-management',
+                name: 'AdminServiceManagement',
+                component: () => import('../pages/admin/management/AdminServiceManagement.vue'),
+                meta: {title: 'admin.navigation.service_management'}
             },
             {
                 path: 'user-management',

@@ -49,9 +49,9 @@ const adminMenu = [
         icon: 'fa-solid fa-list-check',
         group: [
             {
-                url: 'delivery-app-management',
-                name: 'admin.navigation.delivery_app_management',
-                code: 'delivery_app_management'
+                url: 'service-management',
+                name: 'admin.navigation.service_management',
+                code: 'service_management'
             },
             {
                 url: 'user-management',

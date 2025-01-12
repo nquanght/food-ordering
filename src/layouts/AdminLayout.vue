@@ -7,14 +7,16 @@
           <admin-navigation/>
 
           <div class="content-wrapper">
-            <admin-bread-crumb class="p-3"/>
-            <router-view v-slot="{ Component, route }">
-              <div :id="getElementIdFromPageName(route.name)" class="p-3 main-content">
-                <keep-alive :include="route.meta.keepAlive ? route.name : noneKeepAliveComponent">
-                  <component :is="Component" />
-                </keep-alive>
-              </div>
-            </router-view>
+            <div class="main-content shadow">
+              <admin-bread-crumb class="p-3"/>
+              <router-view v-slot="{ Component, route }">
+                <div :id="getElementIdFromPageName(route.name)" class="p-3 content-page">
+                  <keep-alive :include="route.meta.keepAlive ? route.name : noneKeepAliveComponent">
+                    <component :is="Component" />
+                  </keep-alive>
+                </div>
+              </router-view>
+            </div>
           </div>
           
           <admin-footer/>
@@ -105,15 +107,20 @@ const getElementIdFromPageName = (pageName) => {
   }
 
   #btnScrollToTopAdmin.visible {
-    opacity: 0.7;
+    opacity: 0.8;
     visibility: visible;
   }
 }
 
 .content-wrapper {
-  background: #f5f7fb;
-
+  background-color: #f5f7fb;
+  padding: 1rem 1.2rem;
   .main-content {
+    background-color: white;
+    border-radius: 0.5rem;
+  }
+
+  .content-page {
     min-height: 100vh;
   }
 }

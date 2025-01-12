@@ -8,9 +8,9 @@ const urlAPIs = {
     urlGetCategories: 'get-categories',
     urlGetFoods: 'get-foods',
     urlGetMerchantDetail: 'get-merchant-detail',
-    urlGetDeliveryApp: 'get-delivery-apps',
+    urlGetServices: 'get-services',
 
-    searchMerchant: 'search_merchant'
+    searchMerchant: 'search-merchant'
 }
 
 const eventName = {
@@ -19,10 +19,13 @@ const eventName = {
     handleCollapseSideBar: 'handleCollapseSideBar'
 }
 
+const acceptServiceType = ['internal', 'external']
+
 export {
     urlAPIs,
     domain,
     timeOutRequest,
     noneKeepAliveComponent,
-    eventName
+    eventName,
+    acceptServiceType
 }

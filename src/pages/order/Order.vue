@@ -224,9 +224,9 @@
       </div>
     </div>
 
-    <div class="d-lg-none" style="position: fixed; z-index: 10; bottom: 10px; right: 20px">
+    <!-- <div class="d-lg-none" style="position: fixed; z-index: 10; bottom: 10px; right: 20px">
       <div class="card bg-danger p-5">abcxyz</div>
-    </div>
+    </div> -->
   </div>
 
 </template>
@@ -349,7 +349,7 @@ const fetchData = () => {
   loadingData.value.food = true
   loadingData.value.merchant = true
 
-  axios.get(urlGetMerchantDetail)
+  axios.post(urlGetMerchantDetail)
       .then((res) => {
         dataMerchant.value = res.data.data
         loadingData.value.merchant = false
@@ -359,7 +359,7 @@ const fetchData = () => {
         loadingData.value.merchant = false
       })
 
-  axios.get(urlGetFoods)
+  axios.post(urlGetFoods)
       .then((res) => {
         dataFood.value = res.data.data
         loadingData.value.category = false
@@ -481,7 +481,7 @@ const getOpeningTimeMerchant = (dataWeekTime) => {
 <style lang="scss" scoped>
 .card-cover {
   border: none;
-  box-shadow: 0 1px 6px #dcdcdc;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, .2);
 }
 
 .food-price {

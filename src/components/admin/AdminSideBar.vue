@@ -172,7 +172,7 @@ watch(currentRoute, (newVal) => {
 
 <style lang="scss" scoped>
 #admin-sidebar {
-  width: 200px;
+  width: 240px;
   transition: width .1s ease;
   padding-right: unset;
 
@@ -232,7 +232,7 @@ watch(currentRoute, (newVal) => {
   }
 }
 
-// For tablet resolution
+/* For tablet resolution */
  #admin-sidebar.sidebar-toggled {
   width: 70px;
   .logo-area {

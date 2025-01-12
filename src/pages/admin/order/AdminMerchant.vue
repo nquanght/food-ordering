@@ -1,5 +1,7 @@
 <template>
-  <div class="mb-3">Merchant Page</div>
+  <div class="mb-3">
+    quán ăn
+  </div>
 </template>
 
 <script>

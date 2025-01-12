@@ -1,4 +1,4 @@
-#default-layout {
+.vue-modal {
   @mixin text-ellipsis-($lines) {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -17,10 +17,6 @@
   .break-line-dashed {
     border-width: 1px;
     border-style: dashed;
-  }
-  
-  .text-gray {
-    color: gray;
   }
   
   .btn-general {
@@ -62,34 +58,22 @@
     
   }
   
+  .bg-admin {
+    background-color: cadetblue !important;
+  }
+  
   .text-admin {
     color: cadetblue !important;
   }
   
-  .search-box {
-    input.text-box {
-      height: 2rem;
-      padding: 0px 0.7rem;
-      border: 1.1px solid #909090;
+  input.search_box {
+    height: 2rem;
+    padding: 0px 0.7rem;
+  
+    &:focus {
+      border: 1px solid var(--text-admin);
       border-radius: 3px;
-      font-size: 1rem;
-    
-      &:focus {
-        border: 1.2px solid var(--text-admin);
-        border-radius: 3px;
-        outline: none;
-      }
+      outline: none;
     }
-  }
-
-  .overlay-disable-item {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.2);
-    z-index: 1;
-    border-radius: 5px;
   }
 }

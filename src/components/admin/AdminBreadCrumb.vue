@@ -5,7 +5,7 @@
             :key="idx"
         >
             <router-link v-if="data.url !== ''" :to="data.url" class="nav-link">
-                <span v-if="breadcrumbs.length != 1" class="px-2 fs-6">/</span>
+                <span v-if="breadcrumbs.length != 1" class="px-2 fs-6">»</span>
                 <span class="fw-bold fs-6">{{ t(data.name) }}</span>
             </router-link>
             <a v-else class="nav-link text-secondary fw-bold fs-6 user-select-none">{{ t(data.name) }}</a>
@@ -29,7 +29,7 @@ const breadcrumbs = computed(() => {
     let routeMapPath = []
     let currentRoute = route.path.replace(prefixRoute, '')
 
-    // Find route mapping path
+    /* Find route mapping path */
     if (!isEmpty(adminMenu)) {
         for (let index = 0; index < adminMenu.length; index ++) {
             const data = adminMenu[index];
@@ -55,7 +55,7 @@ const breadcrumbs = computed(() => {
         }
     }
 
-    // Build breadcrumb html
+    /* Build breadcrumb html */
     if (!isEmpty(routeMapPath)) {
         result.push({
             name: routeMapPath.name || '',
