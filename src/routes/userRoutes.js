@@ -2,24 +2,27 @@ const express = require('express')
 const router = express.Router()
 
 const languageController = require("../controllers/languageController")
-const categoryController = require("../controllers/categoryController")
 const foodController = require("../controllers/foodController")
 const merchantController = require("../controllers/merchantController")
-const deliveryAppController = require('../controllers/deliveryAppController')
+const serviceController = require('../controllers/serviceController')
+const metaDataController = require('../controllers/metaDataController')
 
-// Language system
+/* Language system */
 router.get('/get-languages', languageController.getLanguagesSystem)
 
-// Foods
-router.get('/get-foods', foodController.getFoods)
+/* Foods */
+router.post('/get-foods', foodController.getFoods)
 
-// Merchant
-router.get('/get-merchant-detail', merchantController.getMerchantDetail)
+/* Merchant */
+router.post('/get-merchant-detail', merchantController.getMerchantDetail)
 
-// Delivery App
-router.get('/get-delivery-apps', deliveryAppController.getDeliveryApps)
+/* Service */
+router.get('/get-services', serviceController.getServices)
 
-// Search merchant
-router.post('/search_merchant', merchantController.searchMerchantByKeySearch)
+/* Search merchant */
+router.post('/search-merchant', merchantController.searchMerchantByKeySearch)
+
+/* Meta Data */
+router.post('/get-meta-data', metaDataController.getMetaData)
 
 module.exports = router

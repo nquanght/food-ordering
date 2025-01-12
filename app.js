@@ -1,4 +1,7 @@
-// apply global variables
+/* Define strict mode */
+'use strict';
+
+/* Apply global variables */
 require('./src/constants')
 const env = process.env.NODE_ENV || 'development'
 const dotenv = require('dotenv');
@@ -13,16 +16,16 @@ const app = express()
 
 const port = process.env.DEV_PORT
 
-// enable cors - accept all origins
+/** Enable cors - accept all origins */
 app.use(cors())
 
-// support parsing of application/json type post data
+/* Support parsing of application/json type post data */ 
 app.use(bodyParser.json());
 
-// support parsing of application/x-www-form-urlencoded post data
+/* Support parsing of application/x-www-form-urlencoded post data */
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// define routes
+/* Define routes */
 app.use('/api', userRoutes)
 
 app.listen(port, () => {
