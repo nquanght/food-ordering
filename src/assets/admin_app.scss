@@ -1,0 +1,155 @@
+#admin-layout {
+  @mixin text-ellipsis-($lines) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: $lines;
+  }
+  
+  @for $i from 1 through 10 {
+    .text-ellipsis-#{$i} {
+      @include text-ellipsis-($i);
+    }
+  }
+
+  .box-shadow-card {
+    box-shadow: 1px 1px 3px #adadad;
+
+    &:hover {
+      box-shadow: 1px 1px 8px #adadad;
+    }
+  }
+  
+  .break-line-dashed {
+    border-width: 1px;
+    border-style: dashed;
+  }
+  
+  .btn-general {
+    border: none;
+    box-shadow: 0px 1px 3px rgba(0,0,0,.5);
+    border-radius: 5px;
+    background-color: white;
+    color: black;
+    padding: 5px 10px;
+    transition: background-color 300ms ease-out 10ms, color 200ms ease-out 10ms;
+  
+    &:hover {
+      background-color: #7b7b7b;
+      color: white;
+      animation: ease;
+    }
+  }
+  
+  .placeholder {
+    background-color: rgba(0, 0, 0, .25) !important;
+    overflow: hidden;
+    mask-image: radial-gradient(#fff,#000);
+    border-radius: .25rem;
+  }
+  
+  .img-hover-zoom {
+    overflow: hidden;
+  }
+  
+  .img-hover-zoom img {
+    transition: transform .8s ease;
+  }
+  
+  .img-hover-zoom:hover {
+    border-radius: inherit;
+    img {
+      transform: scale(1.3);
+    }
+    
+  }
+  
+  .bg-admin {
+    background-color: var(--text-admin) !important;
+  }
+  
+  .text-admin {
+    color: var(--text-admin) !important;
+  }
+  
+  .search-box {
+    position: relative;
+
+    input {
+      &::placeholder {
+        color: rgba(173, 173, 173, .7);
+      }
+
+      &.text-box {
+        height: 2rem;
+        padding: 0px 0.7rem;
+        border: 1.1px solid #909090;
+        border-radius: 3px;
+        font-size: 1rem;
+      
+        &:focus {
+          border: 1.2px solid var(--text-admin);
+          border-radius: 3px;
+          outline: none;
+        }
+      }
+      
+      &.text-box-search {
+        height: 2.5rem;
+        padding: 0 1rem 0 2rem;
+        // border: 1px solid rgba(173, 173, 173, .6);
+        border: 0;
+        border-radius: 3px;
+        font-size: 1rem;
+        background: url('/icons/magnifying-glass-solid.svg') no-repeat left;
+        background-size: 12px;
+        background-position-x: 7px;
+        box-shadow: 1px 1px 3px #adadad;
+      
+        &:focus {
+          // border-color: var(--text-admin);
+          box-shadow: 1px 1px 3px var(--text-admin);
+          border-radius: 3px;
+          outline: none;
+        }
+      }
+    }
+  }
+
+  .overlay-disable-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 5px;
+  }
+
+  ul.nav-tabs {
+    margin-bottom: 1rem;
+    border-bottom: 1px solid var(--text-admin);
+
+    button.nav-link {
+      color: white;
+      background-color: rgba($color: cadetblue, $alpha: .7);
+      border: 0;
+
+      &.active {
+        color: white;
+        background-color: var(--text-admin);
+      }
+
+      &.disabled {
+        background-color: rgba(100, 100, 100, 0.7)
+      }
+    }
+
+    li.nav-item:not(:last-child) {
+      padding-right: 2px;
+    }
+  }
+}

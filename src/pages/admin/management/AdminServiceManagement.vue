@@ -1,16 +1,17 @@
 <template>
-  <div class="admin-delivery-app-management">
+  <div class="admin-service-management">
     <div class="row align-items-center mx-0">
       <div
         class="col-6 col-sm-4 col-md-3 p-2"
         v-for="(data, idx) in dataFetch" :key="idx"
       >
-        <div class="card border-0 shadow-sm">
+        <div class="card border-0 box-shadow-card">
+          <div v-if="data.status == 0" class="overlay-disable-item"></div>
           <div class="img-hover-zoom">
             <img
               :src="data.logo"
-              :alt="`delivery-app-img-${data.name}`"
-              class="rounded-top delivery-app-img"
+              :alt="`service-img-${data.name}`"
+              class="rounded-top service-img"
               loading="lazy"
             >
           </div>
@@ -21,7 +22,7 @@
       </div>
       <div class="col-6 col-sm-4 col-md-3 d-flex justify-content-center align-items-center card-item">
         <div class="d-flex justify-content-center align-items-center">
-          <button type="button" class="btn btn-circle" @click="addNewDeliveryApp">
+          <button type="button" class="btn btn-circle" @click="addNewService">
             <font-awesome-icon icon="fa-solid fa-plus" size="xl"/>
           </button>
         </div>
@@ -31,46 +32,33 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref, computed} from "vue";
-import useAxios from "@/composables/useAxios.js";
-import {urlAPIs} from "@/utils/constants.js"
+import {onMounted, ref} from "vue";
+import {useServiceStore} from '@/stores/services.js'
 
-const {urlGetDeliveryApp} = urlAPIs
-const axios = useAxios()
 const dataFetch = ref([])
+const serviceStore = useServiceStore()
 
 onMounted(() => {
   fetchData()
 })
 
 const fetchData = () => {
-  // loadingData.value.category = true
-  // loadingData.value.food = true
-  axios.get(urlGetDeliveryApp)
-      .then((res) => {
-        dataFetch.value = res.data.data
-        // loadingData.value.category = false
-        // loadingData.value.food = false
-      })
-      .catch((err) => {
-        console.log(err.message)
-        // loadingData.value.category = false
-        // loadingData.value.food = false
-      })
+  let data = serviceStore.getServices
+  dataFetch.value = data
 }
 
-const addNewDeliveryApp = () => {
+const addNewService = () => {
   alert('Hey !!!!')
 }
 
 </script>
   
 <style lang="scss" scoped>
-.admin-delivery-app-management {
+.admin-service-management {
   .card-item {
     height: 182px;
   }
-  .delivery-app-img {
+  .service-img {
     width: 100%;
     height: 150px;
     object-fit: cover;

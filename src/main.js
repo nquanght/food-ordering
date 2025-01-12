@@ -1,5 +1,4 @@
 import './assets/main.css'
-import './assets/app.scss'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
@@ -7,11 +6,11 @@ import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 import {loadPlugins} from "./plugins";
+import initStore from '@/stores/init'
 
 import "@popperjs/core/dist/esm/popper.js"
 import "bootstrap/dist/css/bootstrap.min.css"
 import "bootstrap"
-import {useLanguageStore} from "@/stores/language.js";
 
 const app = createApp(App)
 
@@ -23,12 +22,7 @@ app.use(router)
 /* Load all plugins */
 loadPlugins(app)
 
-/* Fetch translations system */
-const fetchLanguageSystem = async () => {
-    const languageStore = useLanguageStore()
-    await languageStore.fetchTranslations()
-}
-
-fetchLanguageSystem()
+/* Init store */
+initStore()
 
 app.mount('#app')

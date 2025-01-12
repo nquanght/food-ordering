@@ -1,94 +1,65 @@
 <template>
   <div class="admin-order">
-    <div class="input-group mb-3">
-      <span class="input-group-text" id="inputGroup-sizing-default">Tìm quán</span>
-      <input
-        type="text" class="form-control"
-        v-model="valueFindMerchant"
-        @change="searchMerchant(valueFindMerchant)"
-      >
-    </div>
-
-    <div v-if="loading" class="spinner-border text-primary" role="status">
-      <span class="visually-hidden">Loading...</span>
-    </div>
-    <div v-else-if="listMerchant.length == 0">
-      <span class="fw-bold text-success">Không có kết quả</span>
-    </div>
-    <div v-else class="row align-items-center mx-0">
-      <div
-        class="col-6 col-sm-4 col-md-3 col-xxl-2 p-2"
-        v-for="(data, idx) in listMerchant" :key="idx"
-      >
-        <div class="card border-0 shadow-sm">
-          <div v-if="!data.is_open" class="overlay-disable-item"/>
-          <div v-if="!data.is_open" class="out-of-stock">
-            <span class="text">{{ t('merchant.status.closed') }}</span>
-          </div>
-          <div class="img-hover-zoom">
-            <img
-              :src="data.image"
-              :alt="`merchant-img-${data.name}`"
-              class="rounded-top merchant-img"
-              loading="lazy"
-            >
-          </div>
-          <div class="p-3 title-card">
-            <p class="text-ellipsis-2 fw-bold merchant-name">{{ data.name }}</p>
-            <p class="text-ellipsis-1">{{ data.address }}</p>
-          </div>
-        </div>
-      </div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li v-for="(service, idx) in services" :key="idx" class="nav-item" role="presentation">
+        <button
+          v-if="service.status === 1"
+          :id="`${service.code}--tab`"
+          :aria-controls="`${service.code}`"
+          :data-bs-target="`#${service.code}`"
+          class="nav-link"
+          :class="{active: service.code === currentTab.serviceCode}"
+          type="button"
+          role="tab"
+          data-bs-toggle="tab"
+          aria-selected="true"
+          @click="changeTab(service)"
+        >{{ service.name }}</button>
+        <button
+          v-else
+          :id="`${service.code}--tab`"
+          :class="'nav-link disabled'"
+        >{{ service.name }}</button>
+      </li>
+    </ul>
+    
+    <!-- Tabs content -->
+    <div class="tab-content">
+      <keep-alive>
+        <component :is="componentService" :data="currentTab" />
+      </keep-alive>
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref} from 'vue'
-import { urlAPIs } from '@/utils/constants';
-import useAxios from "@/composables/useAxios.js";
-import { useI18n } from '@/composables/useI18n';
-const axios = useAxios()
-const {t} = useI18n()
+import { ref, computed, shallowRef } from 'vue'
+import { useServiceStore } from '@/stores/services'
+import listServiceDefault from './services/define'
+const serviceStore = useServiceStore()
 
-const valueFindMerchant = ref('')
-const listMerchant = ref([])
-const loading = ref(false)
-const timeOutSession = ref('')
+const serviceInit = 'shopee_food'
+const serviceType = 'external'
 
-const searchMerchant = (value) => {
-  if (timeOutSession) {
-    clearTimeout(timeOutSession)
-  }
+const currentTab = shallowRef({
+  serviceCode: serviceInit,
+  serviceId: serviceStore.getServiceById(serviceInit),
+  component: listServiceDefault[serviceInit]
+})
 
-  let debounceTime = 100
-  let url = urlAPIs.searchMerchant
+const services = ref(serviceStore.getServiceByType(serviceType))
+const componentService = computed(() => currentTab.value.component)
 
-  value.trim()
-
-  if (value !== '') {
-    let payload = {
-      key_word: value.trim()
-    }
-
-    loading.value = true
-    timeOutSession.value = setTimeout(() => {
-      axios.post(url, payload, {})
-        .then(response => {
-          listMerchant.value = response.data.data
-          loading.value = false
-        })
-        .catch(error => {
-          loading.value = false
-        })
-    }, debounceTime);
-  } else {
-    listMerchant.value = []
+const changeTab = (service) => {
+  currentTab.value = {
+    serviceCode: service.code,
+    serviceId: service.id,
+    component: listServiceDefault[service.code]
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .admin-order {
   .card-item {
     height: 182px;
@@ -150,6 +121,14 @@ const searchMerchant = (value) => {
           1px -1px 0px white,
           -1px 1px 0px white,
           1px 1px 0px white;
+    }
+  }
+
+  .search-merchant {
+    .search-box {
+      input.text-box-search {
+        width: 25%;
+      }
     }
   }
 }
