@@ -1,6 +1,6 @@
 const {responseSuccess} = require("../helpers/response");
 
-const languageService = require('../services/languageService')
+const languageService = require('../services/LanguageService')
 
 const getLanguagesSystem = (req, res) => {
     /* Add try catch here => throw exception when fail to load language files */

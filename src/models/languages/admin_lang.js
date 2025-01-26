@@ -71,5 +71,19 @@ module.exports = {
                 vi: 'Tìm quán ăn...'
             }
         },
+        {
+            key: 'form.button_view_menu',
+            lang: {
+                en: 'View menu',
+                vi: 'Xem thực đơn'
+            }
+        },
+        {
+            key: 'form.button_select_merchant',
+            lang: {
+                en: 'Pick merchant !',
+                vi: 'Chọn quán !'
+            }
+        },
     ]
 }

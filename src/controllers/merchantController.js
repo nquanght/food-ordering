@@ -1,22 +1,26 @@
 const {responseSuccess} = require("../helpers/response");
-
-const merchantRepository = require("../repositories/merchantRepository");
-const merchantService = require("../services/merchantService");
+const makeBusiness = require('../businesses/init')
 
 const getMerchantDetail = async (req, res) => {
-    // let requestId = req.query.request_id
-    let requestId = 86733
+    let dataForm = req.body
 
-    let dataMerchant = await merchantRepository.getMerchantDetailById(requestId)
+    let serviceCode = dataForm.service_code
+    let merchantId = dataForm.id
 
-    let result = merchantService.repairDataMerchantDetail(dataMerchant)
+    let serviceBusiness = makeBusiness(serviceCode)
+    let result = await serviceBusiness.getMerchantDetailById(merchantId)
 
     return responseSuccess(res, result)
 }
 
 const searchMerchantByKeySearch = async (req, res) => {
-    const keySearch = req.body.key_word
-    let result = await merchantRepository.getMerchantByKeySearch(keySearch)
+    let dataForm = req.body
+
+    let serviceCode = dataForm.service_code
+    let keySearch = dataForm.key_word
+
+    let serviceBusiness = makeBusiness(serviceCode)
+    let result = await serviceBusiness.searchMerchant(keySearch)
     
     return responseSuccess(res, result)
 }

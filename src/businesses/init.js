@@ -1,6 +1,6 @@
-const shopeeFoodBusiness = require('./services/shopeeFoodBusiness')
-const grabFoodBusiness = require('./services/grabFoodBusiness')
-const beFoodBusiness = require('./services/beFoodBusiness')
+const shopeeFoodBusiness = require('./services/ShopeeFoodBusiness')
+const grabFoodBusiness = require('./services/GrabFoodBusiness')
+const beFoodBusiness = require('./services/BeFoodBusiness')
 
 module.exports = (serviceCode) => {
     let service = null

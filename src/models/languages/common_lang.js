@@ -70,6 +70,13 @@ module.exports = {
                 en: 'Select...',
                 vi: 'Chọn'
             }
+        },
+        {
+            key: 'updating_data',
+            lang: {
+                en: 'Data is updating...',
+                vi: 'Dữ liệu đang được cập nhật'
+            }
         }
     ]
 }

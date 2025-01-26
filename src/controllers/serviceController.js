@@ -1,5 +1,5 @@
 const {responseSuccess} = require("../helpers/response");
-const serviceRepository = require("../repositories/serviceRepository")
+const serviceRepository = require("../repositories/ServiceRepository")
 
 const getServices = async (req, res) => {
     let result = await serviceRepository.getServices()
