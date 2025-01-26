@@ -12,7 +12,13 @@ const responseSuccess = (res, data = [], statusCode = 200, errors = [], message 
     res.status(statusCode).json(response)
 }
 
+const responseCreated = (res, data = [], statusCode = 201, errors = [], message = 'Created successfully') => {
+    let response = makeResponse(data, statusCode, message, errors)
+    res.status(statusCode).json(response)
+}
+
 
 module.exports = {
-    responseSuccess
+    responseSuccess,
+    responseCreated
 }

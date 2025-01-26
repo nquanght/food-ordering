@@ -56,6 +56,27 @@ module.exports = {
                 en: 'Map',
                 vi: 'Bản đồ'
             }
+        },
+        {
+            key: 'information.menu',
+            lang: {
+                en: 'Menu information',
+                vi: 'Thực đơn quán'
+            }
+        },
+        {
+            key: 'information.website',
+            lang: {
+                en: 'Website',
+                vi: 'Website'
+            }
+        },
+        {
+            key: 'information.close_temporarily',
+            lang: {
+                en: 'Close',
+                vi: 'Nghỉ'
+            }
         }
     ]
 }

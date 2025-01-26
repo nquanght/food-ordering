@@ -4,10 +4,10 @@
   "main": "app.js",
   "scripts": {
     "start": "nodemon app.js",
-    "migrate:make": "knex migrate:make $npm_config_migration_name --migrations-directory=./src/migrations",
+    "migrate:make": "knex migrate:make %npm_config_migration_name% --migrations-directory=./src/migrations",
     "migrate:rollback": "knex migrate:rollback --knexfile ./src/config/database.js --env development",
     "migrate": "knex migrate:latest --knexfile ./src/config/database.js --env development",
-    "seed:make": "knex seed:make $npm_config_seeder_name --knexfile ./src/config/database.js",
+    "seed:make": "knex seed:make %npm_config_seeder_name% --knexfile ./src/config/database.js",
     "seed:run": "knex seed:run --knexfile ./src/config/database.js"
   },
   "author": "wank-it",

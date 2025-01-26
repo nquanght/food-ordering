@@ -2,16 +2,12 @@
  * @param { import("knex").Knex } knex
  * @returns { Promise<void> }
  */
-const tableName = 'service'
+const tableName = 'daily_service_selection'
 
 exports.up = (knex) => {
     return knex.schema.createTable(tableName, (table) => {
         table.increments('id').primary()
-        table.string('name').notNullable()
-        table.string('code').notNullable()
-        table.enu('type', ['external', 'internal']).notNullable()
-        table.integer('status').unsigned().notNullable().defaultTo(1)
-        table.text('logo').nullable()
+        table.date('date').notNullable()
         table.integer('created_user_id').unsigned().notNullable().defaultTo(0)
         table.integer('updated_user_id').unsigned().notNullable().defaultTo(0)
         table.timestamps(true, true)
