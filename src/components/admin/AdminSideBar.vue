@@ -138,7 +138,7 @@ const changeTitle = (routeMatched) => {
 }
 
 onMounted(() => {
-  emitter.$on('handleCollapseSideBar', () => {
+  emitter.$on(eventName.handleCollapseSideBar, () => {
     let widthScreen = window.innerWidth
     let adminSidebar = document.getElementById('admin-sidebar')
     isSideBarToggled.value = !isSideBarToggled.value

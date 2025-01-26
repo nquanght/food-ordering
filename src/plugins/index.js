@@ -2,11 +2,13 @@ import popper from './popper.js'
 import fontawesome from './font-awesome.js'
 import emitter from "@/plugins/emitter.js"
 import {i18n, useI18n} from "@/plugins/vue-i18n.js";
+import vue3Toastify from './vue3-toastify.js';
 
 const listPlugins = [
     popper,
     fontawesome,
-    i18n
+    i18n,
+    vue3Toastify
 ]
 
 function loadPlugins (app) {

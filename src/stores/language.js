@@ -6,7 +6,7 @@ import { isEmpty } from 'lodash';
 
 const keyNameStorage = 'language_system'
 
-export const useLanguageStore = defineStore('language', {
+export const useLanguageStore = defineStore(keyNameStorage, {
     state: () => ({
         languages: [
             'vi',

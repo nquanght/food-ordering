@@ -8,7 +8,7 @@
       <language-switch/>
       <a href="#" class="text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
         <img
-          src="https://avatars.githubusercontent.com/u/65084795?v=4"
+          src="https://scontent.fsgn2-7.fna.fbcdn.net/v/t39.30808-6/466412594_4016538048579481_2672226694027848289_n.jpg?_nc_cat=108&ccb=1-7&_nc_sid=833d8c&_nc_eui2=AeGA7TJ49U2fKH9LSfE7me5P2LkYkn836T3YuRiSfzfpPWWbnS9xV8lzLyxgPd8yhYV5zKwu0LgBWuAdpdjPo9L1&_nc_ohc=H-xpKD16gkIQ7kNvgHBPNJr&_nc_oc=Adg5t-bgBllaOQQHLFZskJmkISoAu2HXvs_FqIU43piQbn63-VcLRg-8OxNMHiRw69U&_nc_zt=23&_nc_ht=scontent.fsgn2-7.fna&_nc_gid=Ac2oy2893vdpRHjy643Nl0F&oh=00_AYCKaY2TX1Vk5nBom1xADhpEp4IxRZ9E44HdlgjOhgva_g&oe=67928017"
           alt="hugenerd"
           class="rounded-circle"
           width="25"

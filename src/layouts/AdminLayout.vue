@@ -1,9 +1,9 @@
 <template>
   <div id="admin-layout" class="container-fluid">
-    <div class="row">
+    <div class="d-flex">
         <admin-sidebar/>
 
-        <div class="col p-0">
+        <div class="col">
           <admin-navigation/>
 
           <div class="content-wrapper">
@@ -88,6 +88,7 @@ const getElementIdFromPageName = (pageName) => {
 <style lang="scss" scoped>
 #admin-layout {
   padding-left: unset;
+  padding-right: unset;
 
   #btnScrollToTopAdmin {
     opacity: 0;
