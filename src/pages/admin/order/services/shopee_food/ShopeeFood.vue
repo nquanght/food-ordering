@@ -6,8 +6,6 @@
             </div>
         </div>
 
-        <search-select :options="options" :multiple="true" />
-
         <div v-if="loading" class="row align-items-center remove-space">
             <div v-for="(n, i) in numberItemLoading" :key="i"
                 class="col-6 col-sm-4 col-md-3 col-xxl-2 p-2 placeholder-glow">
@@ -19,7 +17,11 @@
         </div>
         <div v-else class="row align-items-center remove-space">
             <div class="col-6 col-sm-4 col-md-3 col-xxl-2 p-2" v-for="(data, idx) in listMerchant" :key="idx">
-                <div class="card border-0 box-shadow-card">
+                <div
+                  class="card border-0 box-shadow-card"
+                  :class="{'cursor-pointer': data.is_open}"
+                  @click="openFormMerchant(data)"
+                >
                     <div v-if="!data.is_open" class="overlay-disable-item" />
                     <div v-if="!data.is_open" class="out-of-stock">
                         <span class="text">{{ t('merchant.status.closed') }}</span>
@@ -39,31 +41,26 @@
 </template>
 
 <script setup>
-import { ref, defineProps } from 'vue'
+import { ref } from 'vue'
 import { urlAPIs } from '@/utils/constants';
 import useAxios from "@/composables/useAxios.js";
 import { useI18n } from '@/composables/useI18n';
-import SearchSelect from '@/components/common/SearchSelect.vue'
+import { useModal } from "@/composables/useModal.js";
+import MerchantInformation from '@/components/admin/MerchantInformation.vue';
 
+const {showModal} = useModal()
 const axios = useAxios()
 const {t} = useI18n()
 const props = defineProps({
   data: Object
 })
- 
 
-const options = ref(
-  [
-    {id: 1, label: 'số 1'}, {id: 2, label: 'số 2'},
-    {id: 3, label: 'số 3', children: [
-      {id: 4, label: 'số 4'}
-    ]}
-  ])
 const valueFindMerchant = ref('')
 const listMerchant = ref([])
 const loading = ref(false)
 const timeOutSession = ref('')
 const numberItemLoading = ref(30)
+const serviceCode = props.data.service_code
 
 const searchMerchant = async (value) => {
   if (timeOutSession) {
@@ -77,12 +74,13 @@ const searchMerchant = async (value) => {
 
   if (value !== '') {
     let payload = {
-      key_word: value.trim()
+      key_word: value.trim(),
+      service_code: serviceCode
     }
 
     loading.value = true
     timeOutSession.value = setTimeout(() => {
-      axios.post(url, payload, {})
+      axios.post(url, payload)
         .then(response => {
           listMerchant.value = response.data.data
           loading.value = false
@@ -93,6 +91,19 @@ const searchMerchant = async (value) => {
     }, debounceTime);
   } else {
     listMerchant.value = []
+  }
+}
+
+const openFormMerchant = (dataMerchant) => {
+  if (dataMerchant.is_open) {
+    let params = {
+      id: dataMerchant.id,
+      service_code: serviceCode
+    }
+
+    setTimeout(() => {
+      showModal(MerchantInformation, params)
+    }, 100)
   }
 }
 </script>

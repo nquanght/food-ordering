@@ -5,7 +5,7 @@ import { isEmpty } from 'lodash';
 
 const keyNameStorage = 'services'
 
-export const useServiceStore = defineStore('services', {
+export const useServiceStore = defineStore(keyNameStorage, {
     state: () => ({
         services: []
     }),
@@ -36,7 +36,7 @@ export const useServiceStore = defineStore('services', {
                 }
             }
         },
-        getServiceById (serviceCode) {
+        getServiceByCode (serviceCode) {
             let foundItem = this.services.findIndex(item => item.code == serviceCode)
 
             if (foundItem != -1) {

@@ -3,25 +3,35 @@
     <div class="vue-modal-panel" :style="{maxWidth: adjustWidth}">
       <div class="header-modal align-modal-default">
         <span class="fw-bold fs-4">{{ pageTitle }}</span>
-        <button type="button" class="btn-close" aria-label="Close" @click="close"></button>
+        <div class="btn-close-form cursor-pointer" @click="close">
+          <font-awesome-icon icon="fa-solid fa-circle-xmark" size="xl" />
+        </div>
       </div>
 
       <div class="content-modal align-modal-content">
-        <slot name="content"/>
+        <div
+          v-if="loadingForm"
+          class="placeholder-glow w-100 h-100 loading-skeleton-wrapper wrapper-horizontal mb-4"
+        >
+          <div
+            v-for="(number, idx) in maxColumnLoading"
+            :key="idx"
+            :class="`placeholder d-block mt-2 col-${getRandomFlexColumn()}`"/>
+        </div>
+        <slot v-else name="content"/>
       </div>
 
-      <div class="footer-modal align-modal-default">
+      <div v-if="!loadingForm" class="footer-modal align-modal-default">
         <div v-if="!hideListButton" class="list-button-form">
-          <div>
-            <button
-              v-if="!hideButtonClose"
-              type="button"
-              class="btn-general"
-              @click="close"
-            >
-              <span>{{ t('button.close') }}</span>
-            </button>
-          </div>
+          <slot name="button-form"/>
+          <button
+            v-if="!hideButtonClose"
+            type="button"
+            class="btn-general"
+            @click="close"
+          >
+            <span>{{ t('button.close') }}</span>
+          </button>
         </div>
       </div>
     </div>
@@ -29,9 +39,9 @@
 </template>
 
 <script setup>
-import {useEmitter} from "@/composables/useEmitter.js";
-import {computed, ref, onMounted, onUnmounted} from 'vue'
-import {useI18n} from "@/composables/useI18n.js";
+import { useEmitter } from "@/composables/useEmitter.js";
+import { computed, ref, onMounted, onUnmounted } from 'vue'
+import { useI18n } from "@/composables/useI18n.js";
 import { eventName } from "@/utils/constants";
 
 const {t} = useI18n()
@@ -52,6 +62,14 @@ const props = defineProps({
   hideButtonClose: {
     type: Boolean,
     default: false
+  },
+  loadingForm: {
+    type: Boolean,
+    default: false
+  },
+  maxColumnLoading: {
+    type: Number,
+    default: 6
   }
 })
 
@@ -62,21 +80,43 @@ const close = () => {
 }
 
 const screenWidth = ref(window.innerWidth)
+
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
 }
 
+const closeFormByKeyEsc = (event) => {
+  if (event.isTrusted && event.key == 'Escape') {
+    close()
+  } 
+}
+
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
+  // window.addEventListener('keydown', (event) => closeFormByKeyEsc(event))
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
+  // window.removeEventListener('keydown', (event) => closeFormByKeyEsc(event))
 })
 
 const adjustWidth = computed(() => {
   return screenWidth.value < 576 ? '90%' : (screenWidth.value < 768 ? '80%' : props.width)
 })
+
+const getRandomFlexColumn = (maxCols) => {
+  if (!maxCols) {
+    maxCols = 12
+  }
+
+  let randomNumber = Math.floor(Math.random() * 10) + 1
+
+  if (randomNumber > maxCols) {
+    randomNumber = maxCols
+  }
+  return randomNumber
+}
 
 </script>
 
@@ -87,7 +127,7 @@ const adjustWidth = computed(() => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .2);
+  background-color: rgba(0, 0, 0, .4);
   overflow-x: hidden;
   overflow-y: auto;
   align-content: center;
@@ -109,16 +149,6 @@ const adjustWidth = computed(() => {
   &::-webkit-scrollbar {
     display: none;
   }
-}
-
-.btn-close {
-  --bs-btn-close-focus-shadow: none;
-  font-size: 10px;
-  padding: 5px;
-  border: 1px solid rgba(0, 0, 0, .1);
-  border-radius: 20px;
-  background-color: rgba(0, 0, 0, .1);
-  color: gray;
 }
 
 .header-modal {
@@ -149,11 +179,18 @@ const adjustWidth = computed(() => {
 }
 
 .align-modal-default {
-  padding: .7rem 1rem;
+  padding: 1rem 1rem;
 }
 
 .align-modal-content {
   padding: 0 1.5rem;
 }
 
+.btn-close-form {
+  transition: transform 150ms ease-out;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+}
 </style>

@@ -56,25 +56,15 @@
 
 <script setup>
 import Modal from "@/components/common/Modal.vue";
-// import CommentMerchant from "@/pages/order/components/CommentMerchant.vue";
-import {useModal} from "@/composables/useModal.js";
 import {useI18n} from "@/composables/useI18n.js";
 import { ref, computed } from "vue";
 import moment from "moment";
 
 const props = defineProps(['params'])
-
-const {showModal} = useModal()
 const {t} = useI18n()
 
 const dataMerchant = ref(props.params)
 const weekDay = ref(['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']) 
-
-// const openFormRateMerchant = () => {
-//   setTimeout(() => {
-//     showModal(CommentMerchant, 'params')
-//   }, 100)
-// }
 
 const getDataStarRating = (ratePoints) => {  
   let rateStaring = []
@@ -83,7 +73,6 @@ const getDataStarRating = (ratePoints) => {
   let fullStar = 'fa-solid fa-star'
   let halfStar = 'fa-solid fa-star-half-stroke'
   let emptyStar = 'fa-regular fa-star'
-
 
   let integerPart = Math.floor(ratePoints);
   let isPositive = Number.isInteger(ratePoints);
@@ -130,10 +119,10 @@ const getClassOpeningTime = (dayOfWeek) => {
   
   if (getCurrentDay(dayOfWeek)) {
     if (merchantIsOpening) {
-      return {color: dataMerchant.value.operating.color, fontWeight: 600}
+      return {color: dataMerchant.value.operating.color, fontWeight: 700}
     }
 
-    return {color: 'rgb(151, 151, 151)', fontWeight: 600}
+    return {color: 'rgb(151, 151, 151)', fontWeight: 700}
   }
 
   return ''

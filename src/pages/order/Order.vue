@@ -63,7 +63,7 @@
               v-if="loadingData.category"
               class="placeholder-glow d-flex w-100 h-100 loading-skeleton-wrapper wrapper-horizontal"
             >
-              <div 
+              <div
                 v-for="(number, idx) in 8"
                 :key="idx"
                 :class="`spacing-element placeholder col-${getRandomFlexColumn(3)}`"
@@ -93,14 +93,13 @@
             <div
               v-for="(number, idx) in 5"
               :key="idx"
-              :class="`placeholder col-${getRandomFlexColumn(9)}`"
-            ></div>
+              :class="`placeholder col-${getRandomFlexColumn(9)}`"/>
           </div>
           <div v-else-if="dataFood && dataFood.length > 0" v-for="(category, catIdx) in dataFood" :key="catIdx" class="mb-5" :id="`category-${catIdx}`">
             <h4 class="fw-bold mb-3">{{ category.category_name }}</h4>
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
               <div v-if="category.foods.length === 0">
-                <span>Dữ liệu đang cập nhật...</span>
+                <span>{{ t('common.updating_data') }}</span>
               </div>
               <div class="col" v-else v-for="(food, foodIdx) in category.foods" :key="foodIdx">
                 <div class="card h-100">
@@ -223,10 +222,6 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="d-lg-none" style="position: fixed; z-index: 10; bottom: 10px; right: 20px">
-      <div class="card bg-danger p-5">abcxyz</div>
-    </div> -->
   </div>
 
 </template>
@@ -275,15 +270,13 @@ const addScrollingEvents = () => {
 }
 
 const removeScrollingEvents = () => {
-  window.removeEventListener('scroll', () => {
-    eventActiveMenuWhenScroll()
-  })
+  window.removeEventListener('scroll', () => eventActiveMenuWhenScroll())
 }
 
 const eventActiveMenuWhenScroll = () => {
   let positionDetect = 0
   let heightMenu = 0
-  let windowPageY = window.pageYOffset
+  let windowPageY = window.scrollY
 
   dataFood.value.forEach((item, idx) => {
     let topElementCategory = document.getElementById(`category-${idx}`)
@@ -614,6 +607,7 @@ const getOpeningTimeMerchant = (dataWeekTime) => {
   height: 100%;
   background-color: rgba(0, 0, 0, 0.2);
   z-index: 1;
+  border-radius: 5px;
 }
 
 .out-of-stock {

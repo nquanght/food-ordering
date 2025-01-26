@@ -8,7 +8,7 @@
           :aria-controls="`${service.code}`"
           :data-bs-target="`#${service.code}`"
           class="nav-link"
-          :class="{active: service.code === currentTab.serviceCode}"
+          :class="{active: service.code === currentTab.service_code}"
           type="button"
           role="tab"
           data-bs-toggle="tab"
@@ -42,8 +42,8 @@ const serviceInit = 'shopee_food'
 const serviceType = 'external'
 
 const currentTab = shallowRef({
-  serviceCode: serviceInit,
-  serviceId: serviceStore.getServiceById(serviceInit),
+  service_code: serviceInit,
+  service_id: serviceStore.getServiceByCode(serviceInit),
   component: listServiceDefault[serviceInit]
 })
 
@@ -52,8 +52,8 @@ const componentService = computed(() => currentTab.value.component)
 
 const changeTab = (service) => {
   currentTab.value = {
-    serviceCode: service.code,
-    serviceId: service.id,
+    service_code: service.code,
+    service_id: service.id,
     component: listServiceDefault[service.code]
   }
 }

@@ -1,10 +1,10 @@
 <template>
 <div class="search-select-wrapper">
     <tree-select
-        v-model="value"
-        :multiple="multiple"
-        :options="options"
-        :placeholder="placeholder"
+      v-model="value"
+      :multiple="multiple"
+      :options="options"
+      :placeholder="placeholder"
     />
 </div>
 </template>

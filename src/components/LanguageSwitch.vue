@@ -30,10 +30,10 @@
 </template>
 
 <script setup>
-import {useLanguageStore} from "@/stores/language.js"
-import {computed} from "vue";
-import {useI18n} from "@/composables/useI18n.js";
-import {useEmitter} from "@/composables/useEmitter.js";
+import { useLanguageStore } from "@/stores/language.js"
+import { computed } from "vue";
+import { useI18n } from "@/composables/useI18n.js";
+import { useEmitter } from "@/composables/useEmitter.js";
 import { eventName } from "@/utils/constants";
 
 const emitter = useEmitter()

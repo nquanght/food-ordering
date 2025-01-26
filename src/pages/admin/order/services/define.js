@@ -1,11 +1,9 @@
-import BeFood from "./BeFood.vue";
-import GrabFood from "./GrabFood.vue";
-import ShopeeFood from "./ShopeeFood.vue";
-import Shop from "./Shop.vue";
+import BeFood from "./be_food/BeFood.vue";
+import GrabFood from "./grab_food/GrabFood.vue";
+import ShopeeFood from "./shopee_food/ShopeeFood.vue";
 
 export default {
     shopee_food: ShopeeFood,
     grab_food: GrabFood,
-    be_food: BeFood,
-    shop: Shop
+    be_food: BeFood
 }
