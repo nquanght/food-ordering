@@ -1,12 +1,14 @@
-const model = require('../models/ServiceModel')
+const ServiceModel = require('../models/ServiceModel')
+const model = new ServiceModel()
 
 const getServices = async () => {
-    return await model.whereNull('deleted_at')
+    return await model.getAll()
 }
 
 const getServiceByCode = async (serviceCode) => {
-    return await model.whereNull('deleted_at')
-                    .where('code', serviceCode)
+    return await model.getFirstByCondition({
+        code: serviceCode
+    })
 }
 
 module.exports = {

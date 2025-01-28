@@ -1,3 +1,9 @@
-const db = require('./BaseModel')
+const BaseModel = require('./BaseModel')
+const tableName = 'service'
+class ServiceModel extends BaseModel {
+    constructor() {
+        super(tableName)
+    }
+}
 
-module.exports = db('service')
+module.exports = ServiceModel

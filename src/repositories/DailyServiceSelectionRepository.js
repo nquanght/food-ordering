@@ -1,20 +1,20 @@
 const moment = require('moment')
-const { isEmpty } = require('lodash')
-const model = require('../models/DailyServiceSelectionModel')
-const dailyServiceSelectionDetailRepository = require('../repositories/DailyServiceSelectionDetailRepository')
+const DailyServiceSelectionModel = require('../models/DailyServiceSelectionModel')
+const DailyServiceSelectionDetailModel = require('../models/DailyServiceSelectionDetailModel')
+
+const model = new DailyServiceSelectionModel()
+const modelDetail = new DailyServiceSelectionDetailModel()
 
 const insertDataMerchant = async (serviceId, requestId) => {
     let result = []
     let currentDate = moment().format('YYYY-MM-DD')
 
-    let query = await model.where('date', currentDate).whereNull('deleted_at')
-
-    if (isEmpty(query)) {
-        let dataToday = await model.insert({
-            date: currentDate
-        })
-
-        let id = dataToday[0]
+    let data = await model.getFirstByCondition({
+        date: currentDate
+    })
+    
+    if (data) {
+        let id = data.id
 
         let dataInsertDetail = {
             daily_service_selection_id: id,
@@ -22,19 +22,21 @@ const insertDataMerchant = async (serviceId, requestId) => {
             request_id: requestId
         }
 
-        result = await dailyServiceSelectionDetailRepository.insertDataDetail(dataInsertDetail)
+        result = modelDetail.create(dataInsertDetail)
     } else {
-        let id = query[0].id
+        model.create({
+            date: currentDate
+        }).then(([insertedId]) => {
+            let dataNewInsertDetail = {
+                daily_service_selection_id: insertedId,
+                service_id: serviceId,
+                request_id: requestId
+            }
 
-        let dataInsertDetail = {
-            daily_service_selection_id: id,
-            service_id: serviceId,
-            request_id: requestId
-        }
-
-        result = await dailyServiceSelectionDetailRepository.insertDataDetail(dataInsertDetail)
+            result = modelDetail.create(dataNewInsertDetail)
+        })
     }
-
+    
     return result
 }
 

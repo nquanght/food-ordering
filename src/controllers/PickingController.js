@@ -13,8 +13,10 @@ const pickingMerchantToday = async (req, res) => {
     let service = await serviceRepository.getServiceByCode(serviceCode)
     
     if (service) {
-        let serviceId = service[0].id
-        result = await dailyServiceSelectionRepository.insertDataMerchant(serviceId, merchantId)
+        let serviceId = service.id
+        result = await dailyServiceSelectionRepository.insertDataMerchant(serviceId, merchantId)   
+    } else {
+        throw new Error('Cannot identify service !')
     }
 
     return responseCreated(res, result)
