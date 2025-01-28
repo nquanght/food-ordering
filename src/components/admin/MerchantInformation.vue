@@ -10,7 +10,7 @@
             icon="fa-solid fa-circle" size="sm" class="pe-2" width="8" height="8"
             :style="{color: merchantIsOpening ? dataMerchant.operating.color : 'rgb(151, 151, 151)'}"
           />
-          <div style="color: #329900; font-size: .9rem;" class="fw-bold lh-1">{{ t(`merchant.status.${merchantIsOpening ? 'open' : 'closed'}`) }}</div>
+          <div :style="{color: merchantIsOpening ? dataMerchant.operating.color : 'rgb(151, 151, 151)', fontSize: '.9rem'}" class="fw-bold lh-1">{{ t(`merchant.status.${merchantIsOpening ? 'open' : 'closed'}`) }}</div>
         </div>
 
         <div class="fs-5 fw-bold">{{ dataMerchant.merchant_name }}</div>
@@ -69,7 +69,9 @@
       <template #button-form>
         <button
           type="button"
-          class="btn-form bg-admin"
+          class="btn-form"
+          :class="merchantIsOpening ? 'bg-admin' : 'bg-secondary'"
+          :disabled="!merchantIsOpening"
           @click="pickMerchant"
         >
             <span>{{ t('admin.form.button_select_merchant') }}</span>
@@ -121,8 +123,7 @@ const merchantIsOpening = computed(() => dataMerchant.value.operating.is_open)
 
 const getClassOpeningTime = computed(() => {
   if (merchantIsOpening.value) {
-    // return {color: dataMerchant.value.operating.color, fontWeight: 700}
-    return {color: 'black'}
+    return {color: dataMerchant.value.operating.color, fontWeight: 700}
   }
   return {color: 'rgb(151, 151, 151)', fontWeight: 700}
 })
