@@ -23,7 +23,7 @@ export default function useAxios() {
             return response 
         },
         (error) => {
-            console.log('Error API', error.response);
+            console.log('Error response', error.response);
             return error.response
         }
     )
@@ -47,14 +47,14 @@ const i18n = (key) => {
     const messages = {
         en: { 
             notification: {
-                success: 'Success',
-                error: 'An error occurred'
+                success: 'Success !',
+                error: 'An error occurred !'
             },
         },
         vi:{
             notification: {
-                success: 'Thành công',
-                error: 'Đã xảy ra lỗi'
+                success: 'Thành công !',
+                error: 'Đã xảy ra lỗi !'
             },
         },
       };

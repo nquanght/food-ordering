@@ -25,21 +25,38 @@
     
     <!-- Tabs content -->
     <div class="tab-content">
-      <keep-alive>
-        <component :is="componentService" :data="currentTab" />
-      </keep-alive>
+      <!-- <keep-alive> -->
+        <component
+          :is="componentService"
+          :data="currentTab"
+        />
+      <!-- </keep-alive> -->
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, shallowRef } from 'vue'
+import { ref, computed, shallowRef, onMounted, onUnmounted } from 'vue'
 import { useServiceStore } from '@/stores/services'
+import { useMerchantSelectedStore } from '@/stores/merchant-selected-today'
+import { useEmitter } from "@/composables/useEmitter.js"
+import { eventName } from '@/utils/constants'
 import listServiceDefault from './services/define'
+
+const emitter = useEmitter()
 const serviceStore = useServiceStore()
+const merchantSelectedStore = useMerchantSelectedStore()
 
 const serviceInit = 'shopee_food'
 const serviceType = 'external'
+
+onMounted(() => {
+  emitter.$on(eventName.fetchDataSelectedMerchant, () => merchantSelectedStore.fetchData())
+})
+
+onUnmounted(() => {
+  emitter.$off(eventName.fetchDataSelectedMerchant)
+})
 
 const currentTab = shallowRef({
   service_code: serviceInit,

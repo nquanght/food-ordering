@@ -16,7 +16,7 @@ export const useServiceStore = defineStore(keyNameStorage, {
             let serviceStorage = localStorage.getItem(keyNameStorage)
             
             /* Fetch new data services */
-            if (isEmpty(serviceStorage)) {
+            // if (isEmpty(serviceStorage)) {
                 const {urlGetServices} = urlAPIs
 
                 await axios.get(urlGetServices)
@@ -29,12 +29,12 @@ export const useServiceStore = defineStore(keyNameStorage, {
                     .catch((err) => {
                         console.error(err.message)
                     })
-            } else {
-                serviceStorage = JSON.parse(serviceStorage)
-                if (serviceStorage && serviceStorage.length > 0) {
-                    this.services = serviceStorage
-                }
-            }
+            // } else {
+            //     serviceStorage = JSON.parse(serviceStorage)
+            //     if (serviceStorage && serviceStorage.length > 0) {
+            //         this.services = serviceStorage
+            //     }
+            // }
         },
         getServiceByCode (serviceCode) {
             let foundItem = this.services.findIndex(item => item.code == serviceCode)

@@ -32,7 +32,7 @@ export const useLanguageStore = defineStore(keyNameStorage, {
             let languageListStorage = localStorage.getItem('languages')
             
             /* Fetch new data language system if not already loaded */
-            if (isEmpty(languageListStorage)) {
+            // if (isEmpty(languageListStorage)) {
                 const {urlGetLanguages} = urlAPIs
 
                 await axios.get(urlGetLanguages)
@@ -50,14 +50,14 @@ export const useLanguageStore = defineStore(keyNameStorage, {
                     .catch((err) => {
                         console.error(err.message)
                     })
-            } else {
-                languageListStorage = JSON.parse(languageListStorage)
-                if (Object.keys(languageListStorage).length > 0) {
-                    Object.keys(languageListStorage).forEach((lang) => {
-                        i18n.global.setLocaleMessage(lang, languageListStorage[lang])
-                    })
-                }
-            }
+            // } else {
+            //     languageListStorage = JSON.parse(languageListStorage)
+            //     if (Object.keys(languageListStorage).length > 0) {
+            //         Object.keys(languageListStorage).forEach((lang) => {
+            //             i18n.global.setLocaleMessage(lang, languageListStorage[lang])
+            //         })
+            //     }
+            // }
         }
     },
     getters: {

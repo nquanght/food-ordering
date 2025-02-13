@@ -172,7 +172,7 @@ watch(currentRoute, (newVal) => {
 
 <style lang="scss" scoped>
 #admin-sidebar {
-  width: 240px;
+  width: 200px;
   transition: width .1s ease;
   padding-right: unset;
 

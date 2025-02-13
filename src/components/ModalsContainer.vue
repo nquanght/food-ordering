@@ -3,8 +3,8 @@
       <TransitionGroup name="list" tag="div">
         <component
           :is="modal.component"
-          v-for="(modal, idx) in listModal"
-          :key="idx"
+          v-for="(modal) in listModal"
+          :key="modal.modal_id"
           :params="modal.params || {}"
         />
       </TransitionGroup>
@@ -12,9 +12,9 @@
 </template>
 
 <script setup>
-import {computed, onMounted} from 'vue'
-import {useModalStore} from "@/stores/modal.js";
-import {useEmitter} from "@/composables/useEmitter.js";
+import { computed, onMounted } from 'vue'
+import { useModalStore } from "@/stores/modal.js";
+import { useEmitter } from "@/composables/useEmitter.js";
 import { eventName } from '@/utils/constants';
 
 const modalStore = useModalStore()
