@@ -34,6 +34,7 @@ if (!global.LANGUAGE_PATH) {
 
 global.ACTIVE_STATUS = 1
 global.INACTIVE_STATUS = 0
+
 global.statusCode = {
     success: 200,
     created: 201,

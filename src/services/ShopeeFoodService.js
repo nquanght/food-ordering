@@ -109,7 +109,7 @@ const repairDataSearchingMerchant = (listData) => {
     listData.forEach(item => {
         let imageUrl = item.photos[item.photos.length - 1].value
         result.push({
-            id: item.delivery_id,
+            merchant_id: item.delivery_id,
             name: item.name,
             address: item.address,
             is_open: item.is_open,
@@ -156,9 +156,106 @@ const repairDataFood = (listData) => {
     return result
 }
 
+const repairMetaData = (listMetaData) => {
+    let result = {
+        cities: [],
+        category_services: []
+    }
+
+    if (isEmpty(listMetaData)) {
+        return result
+    }
+
+    let masterData = listMetaData['reply']['country']
+
+    let cities = masterData && masterData['cities'] ? masterData['cities'] : []
+
+    let services = masterData && masterData['now_services'] ? masterData['now_services'] : []
+
+    result['cities'] = repairMetaDataCities(cities)
+    result['category_services'] = repairMetaDataCategoryServices(services)
+
+    return result
+}
+
+const repairMetaDataCities = (cities) => {
+    let result = []
+
+    if (isEmpty(cities)) {
+        return result
+    }
+
+    cities.forEach(data => {
+        let cityData = {
+            city_id: data.id,
+            city_name: data.name,
+            city_code: data.url_rewrite_name,
+            longitude: data.longitude,
+            latitude: data.latitude,
+            districts: []
+        }
+
+        if (!isEmpty(data.districts)) {
+            data.districts.forEach(district => {
+                cityData.districts.push({
+                    district_id: district.district_id,
+                    district_name: district.name,
+                    district_code: district.url_rewrite_name,
+                    longitude: district.longitude,
+                    latitude: district.latitude,
+                    city_id: data.id,
+                    sort: district.sort
+                })
+            });
+
+            cityData.districts.sort((a, b) => a.sort - b.sort)
+        }
+
+        result.push(cityData)
+    })
+
+    return result
+}
+
+const repairMetaDataCategoryServices = (services) => {
+    let result = []
+
+    if (isEmpty(services)) {
+        return result
+    }
+
+    services.forEach(service => {
+        let serviceData = {
+            service_id: service.id,
+            service_name: service.name,
+            service_code: service.code,
+            unselected_icon_url: service.unselected_icon_url,
+            selected_icon_url: service.selected_icon_url,
+            categories: []
+        }
+
+        if (!isEmpty(service.categories)) {
+            service.categories.forEach(category => {
+                serviceData.categories.push({
+                    category_id: category.id,
+                    category_code: category.code,
+                    category_name: category.name,
+                    unselected_icon_url: category.tab_icon[1],
+                    selected_icon_url: category.icon[1],
+                })
+            });
+        }
+
+        result.push(serviceData)
+    })
+
+    return result
+}
+
 module.exports = {
     repairDataMerchantDetail,
     repairDataSearchingMerchant,
-    repairDataFood
+    repairDataFood,
+    repairMetaData
 }
 

@@ -1,5 +1,5 @@
 const getMetaData = () => {
-    return {}
+    return []
 }
 
 module.exports = {

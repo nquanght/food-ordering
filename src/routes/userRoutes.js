@@ -17,6 +17,7 @@ router.post('/get-merchant-food', foodController.getFoodByMerchant)
 
 /* Merchant */
 router.post('/get-merchant-detail', merchantController.getMerchantDetail)
+router.post('/get-list-merchant-detail', merchantController.getListMerchantDetail)
 
 /* Service */
 router.get('/get-services', serviceController.getServices)
@@ -29,5 +30,7 @@ router.post('/get-meta-data', metaDataController.getMetaData)
 
 /* Picking */
 router.post('/pick-merchant', pickingController.pickingMerchantToday)
+router.post('/unpick-merchant', pickingController.unpickMerchantToday)
+router.get('/get-selected-merchant-today/:date', pickingController.getSelectedMerchantToday)
 
 module.exports = router

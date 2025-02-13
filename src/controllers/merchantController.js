@@ -5,10 +5,22 @@ const getMerchantDetail = async (req, res) => {
     let dataForm = req.body
 
     let serviceCode = dataForm.service_code
-    let merchantId = dataForm.id
+    let merchantId = dataForm.merchant_id
 
     let serviceBusiness = makeBusiness(serviceCode)
     let result = await serviceBusiness.getMerchantDetailById(merchantId)
+
+    return responseSuccess(res, result)
+}
+
+const getListMerchantDetail = async (req, res) => {
+    let dataForm = req.body
+
+    let serviceCode = dataForm.service_code
+    let dataMerchantSelected = dataForm.data_merchant_selected
+
+    let serviceBusiness = makeBusiness(serviceCode)
+    let result = await serviceBusiness.getListMerchantDetailById(dataMerchantSelected)
 
     return responseSuccess(res, result)
 }
@@ -17,15 +29,15 @@ const searchMerchantByKeySearch = async (req, res) => {
     let dataForm = req.body
 
     let serviceCode = dataForm.service_code
-    let keySearch = dataForm.key_word
 
     let serviceBusiness = makeBusiness(serviceCode)
-    let result = await serviceBusiness.searchMerchant(keySearch)
+    let result = await serviceBusiness.searchMerchant(dataForm)
     
     return responseSuccess(res, result)
 }
 
 module.exports = {
     searchMerchantByKeySearch,
-    getMerchantDetail
+    getMerchantDetail,
+    getListMerchantDetail
 }

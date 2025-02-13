@@ -1,9 +1,12 @@
+const { isArray } = require('lodash')
+
 /* REPOSITORY */
 const shopeeFoodRepository = require('../../repositories/services/ShopeeFoodRepository')
 const shopeeFoodService = require('../../services/ShopeeFoodService')
 
 const getMetaData = async () => {
-    return await shopeeFoodRepository.getMetaData()
+    let metaData = await shopeeFoodRepository.getMetaData()
+    return shopeeFoodService.repairMetaData(metaData)
 }
 
 const getMerchantDetailById = async (merchantId) => {
@@ -11,8 +14,31 @@ const getMerchantDetailById = async (merchantId) => {
     return shopeeFoodService.repairDataMerchantDetail(dataMerchant)
 }
 
-const searchMerchant = async (keySearch) => {
-    let resultMerchantSearching = await shopeeFoodRepository.getMerchantByKeySearch(keySearch)
+const getListMerchantDetailById = async (dataMerchantSelected) => {
+    let result = []
+
+    if (!isArray(dataMerchantSelected) || dataMerchantSelected.length === 0) {
+        return result;
+    }
+
+    const promises = dataMerchantSelected.map(async (data) => {
+        let requestId = data.request_id || 0
+        let detailId = data.detail_id || 0
+
+        let dataMerchant = await shopeeFoodRepository.getMerchantDetailById(requestId)
+        let result = shopeeFoodService.repairDataMerchantDetail(dataMerchant)
+        
+        result.detail_id = detailId
+
+        return result
+    });
+
+    return Promise.all(promises);
+}
+
+const searchMerchant = async (dataForm) => { 
+    let resultMerchantSearching = await shopeeFoodRepository.getMerchantByKeySearch(dataForm)
+
     return shopeeFoodService.repairDataSearchingMerchant(resultMerchantSearching)
 }
 
@@ -24,6 +50,7 @@ const getFoodByMerchantId = async (merchantId) => {
 module.exports = {
     getMetaData,
     getMerchantDetailById,
+    getListMerchantDetailById,
     searchMerchant,
     getFoodByMerchantId
 }

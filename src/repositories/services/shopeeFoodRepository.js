@@ -24,26 +24,38 @@ const getMerchantDetailById = async (merchantId) => {
     }
 }
 
-const getMerchantByKeySearch = async (keySearch) => {
+const getMerchantByKeySearch = async (dataForm) => {
     let result = []
     let restaurantIds = []
 
     /* Search merchant */
     const url = origin + "/delivery/search_global"
-    const payload = {
+
+    let payload = {
         category_group: 1,
-        city_id: 217, // HCM city id
         delivery_only: true,
-        keyword: keySearch,
         full_restaurant_ids: true,
-        foody_services: [1],
-        sort_type: 8
+        sort_type: 8,
+        keyword: dataForm['key_word'],
+        foody_services: [dataForm['service_ids']],
+        city_id: dataForm['city_ids'],
+        district_ids: dataForm['district_ids'],
+        combine_categories: []
+    }
+
+    if (dataForm.hasOwnProperty('category_ids') && !isEmpty(dataForm['category_ids'])) {
+        dataForm['category_ids'].forEach(item => {
+            payload.combine_categories.push({
+                code: 1,
+                id: item
+            })
+        })
     }
 
     const response = await callAPIService(url, headers, 'post', payload)
-
+ 
     /* Find restaurants by key search */
-    let data = response.data.reply.search_result || null
+    let data = response.data && response.data.reply && response.data.reply.search_result ? response.data.reply.search_result : null
 
     if (data) {
         restaurantIds = getRestaurantIds(payload.foody_services, data)
