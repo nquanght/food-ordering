@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const moment = require('moment')
 
 const env = process.env.NODE_ENV || 'development'
 dotenv.config({ path: `../../.env.${env}`})
@@ -13,6 +14,16 @@ module.exports = {
             user: process.env.DB_USER,
             password: process.env.DB_PASSWORD,
             database: process.env.DB_DATABASE,
+            typeCast: function (field, next) {
+                switch (field.type) {
+                    case 'DATE':
+                        return moment(field.string()).format('YYYY-MM-DD')
+                    case 'TIMESTAMP':
+                        return moment(field.string()).format('YYYY-MM-DD HH:mm:ss')
+                    default:
+                        return next()
+                }
+            }
         },
         migrations: {
             tableName: 'migrations',

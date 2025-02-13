@@ -7,4 +7,4 @@ class DailyServiceSelectionDetailModel extends BaseModel {
     }
 }
 
-module.exports = DailyServiceSelectionDetailModel
+module.exports = new DailyServiceSelectionDetailModel()

@@ -3,7 +3,7 @@ const databaseConfig = require('../config/database')
 const environment = process.env.NODE_ENV || "development";
 
 /* Custom function query builder */
-knex.QueryBuilder.extend('softDelete', () => {
+knex.QueryBuilder.extend('softDelete', function () {
     let timeNow = new Date().toISOString().slice(0, 19).replace('T', ' ')
     return this.update({ deleted_at: timeNow });
 });
@@ -26,19 +26,19 @@ class BaseModel {
     }
 
     async getAll() {
-        return this.getDB().select('*')
+        return this.getDB().select('*').whereNull('deleted_at')
     }
 
     async getById(id) {
-        return this.getDB().where('id', id).first()
+        return this.getDB().where('id', id).whereNull('deleted_at').first()
     }
 
     async getByCondition(condition) {
-        return this.getDB().where(condition)
+        return this.getDB().where(condition).whereNull('deleted_at')
     }
 
     async getFirstByCondition(condition) {
-        return this.getDB().where(condition).first()
+        return this.getDB().where(condition).whereNull('deleted_at').first()
     }
 
     async create(data) {
@@ -50,6 +50,10 @@ class BaseModel {
     }
 
     async delete(id) {
+        return this.getDB().where('id', id).del()
+    }
+
+    async softDelete(id) {
         return this.getDB().where('id', id).softDelete()
     }
 }

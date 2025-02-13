@@ -23,6 +23,13 @@ module.exports = {
             }
         },
         {
+            key: 'information.selected_merchant',
+            lang: {
+                en: 'Merchant picked today',
+                vi: 'Quán đã chọn hôm nay'
+            }
+        },
+        {
             key: 'information.address',
             lang: {
                 en: 'Address',
@@ -77,6 +84,20 @@ module.exports = {
                 en: 'Close',
                 vi: 'Nghỉ'
             }
-        }
+        },
+        {
+            key: 'ribbon.label_picked',
+            lang: {
+                en: 'Picked',
+                vi: 'Đã chọn'
+            }
+        },
+        {
+            key: 'label_merchant_closed',
+            lang: {
+                en: 'Merchant closed',
+                vi: 'Quán đã đóng cửa'
+            }
+        },
     ]
 }

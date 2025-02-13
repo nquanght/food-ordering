@@ -68,7 +68,14 @@ module.exports = {
             key: 'select_prompt',
             lang: {
                 en: 'Select...',
-                vi: 'Chọn'
+                vi: 'Chọn...'
+            }
+        },
+        {
+            key: 'selected_text',
+            lang: {
+                en: 'selected',
+                vi: 'đã chọn'
             }
         },
         {
@@ -77,6 +84,34 @@ module.exports = {
                 en: 'Data is updating...',
                 vi: 'Dữ liệu đang được cập nhật'
             }
-        }
+        },
+        {
+            key: 'no_result_text',
+            lang: {
+                en: 'No result',
+                vi: 'Không có kết quả'
+            }
+        },
+        {
+            key: 'select_district',
+            lang: {
+                en: 'Select districts...',
+                vi: 'Chọn quận...'
+            }
+        },
+        {
+            key: 'select_service',
+            lang: {
+                en: 'Select services...',
+                vi: 'Chọn dịch vụ...'
+            }
+        },
+        {
+            key: 'search',
+            lang: {
+                en: 'Search',
+                vi: 'Tìm kiếm'
+            }
+        },
     ]
 }

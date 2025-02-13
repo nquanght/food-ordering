@@ -6,4 +6,4 @@ class ServiceModel extends BaseModel {
     }
 }
 
-module.exports = ServiceModel
+module.exports = new ServiceModel()

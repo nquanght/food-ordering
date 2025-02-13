@@ -1,17 +1,21 @@
 const ServiceModel = require('../models/ServiceModel')
-const model = new ServiceModel()
 
 const getServices = async () => {
-    return await model.getAll()
+    return await ServiceModel.getAll()
 }
 
 const getServiceByCode = async (serviceCode) => {
-    return await model.getFirstByCondition({
+    return await ServiceModel.getFirstByCondition({
         code: serviceCode
     })
 }
 
+const getServiceByCondition = async (condition) => {
+    return await ServiceModel.getByCondition(condition)
+}
+
 module.exports = {
     getServices,
-    getServiceByCode
+    getServiceByCode,
+    getServiceByCondition
 }
