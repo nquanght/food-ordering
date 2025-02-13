@@ -16,12 +16,13 @@ export const useMetaDataStore = defineStore(keyNameStorage, {
             let metaDataStorage = localStorage.getItem(keyNameStorage)
             
             /* Fetch new meta data */
-            if (isEmpty(metaDataStorage)) {
+            // if (isEmpty(metaDataStorage)) {
                 const {urlGetMetaData} = urlAPIs
 
                 await axios.post(urlGetMetaData)
                     .then(res => {
                         if (res.data && res.data.data) {
+                            
                             this.metaData = res.data.data || []
                             localStorage.setItem(keyNameStorage, JSON.stringify(res.data.data))
                         }
@@ -29,15 +30,15 @@ export const useMetaDataStore = defineStore(keyNameStorage, {
                     .catch((err) => {
                         console.error(err.message)
                     })
-            } else {
-                metaDataStorage = JSON.parse(metaDataStorage)
-                if (!isEmpty(metaDataStorage)) {
-                    this.metaData = metaDataStorage
-                }
-            }
+            // } else {
+            //     metaDataStorage = JSON.parse(metaDataStorage)
+            //     if (!isEmpty(metaDataStorage)) {
+            //         this.metaData = metaDataStorage
+            //     }
+            // }
         },
         getMetaDataByCode (serviceCode) {
-            let metaData = null
+            let metaData = []
 
             if (this.metaData && this.metaData[serviceCode]) {
                 metaData = this.metaData[serviceCode]

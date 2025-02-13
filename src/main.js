@@ -23,6 +23,6 @@ app.use(router)
 loadPlugins(app)
 
 /* Init store */
-initStore()
+await initStore()
 
 app.mount('#app')

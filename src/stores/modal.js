@@ -9,7 +9,7 @@ export const useModalStore = defineStore('modal', {
         addModal (modal, params) {
             if (modal) {
                 let modalName = modal.__name
-                
+                let modalId = Math.random()
                 let countModals = this.modals.length
                 let component = markRaw(modal)
                 let isHighestModal = false
@@ -25,6 +25,7 @@ export const useModalStore = defineStore('modal', {
                 }
 
                 this.modals.push({
+                    modal_id: modalId,
                     modal_name: modalName,
                     component: component,
                     is_highest_modal: isHighestModal,

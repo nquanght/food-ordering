@@ -1,7 +1,7 @@
 import { toast } from "vue3-toastify";
 
 export function useNotify() {
-    const notify = (message = 'Nothing', options = {}) => {
+    const notify = (message = '', options = {}) => {
         let getOptions = getOptionsToast(options)
         toast(message, getOptions)
     }

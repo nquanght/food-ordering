@@ -24,7 +24,7 @@
         <div class="fs-6 rate-merchant d-flex align-items-center">
           <span class="fw-bold pe-2">{{ t('merchant.information.rate') }}:</span>
           <div>
-            <span class="pe-2" style="font-size: 13px;">{{ dataMerchant.rating.avg }}</span>
+            <span class="pe-2">{{ dataMerchant.rating.avg }}</span>
             <span v-for="(icon, idx) in getDataStarRating(dataMerchant.rating.avg)" :key="idx">
               <font-awesome-icon :icon="icon" color="orange" size="1x"/>
             </span>
@@ -68,13 +68,23 @@
       </template>
       <template #button-form>
         <button
+          v-if="!isMerchantSelected"
           type="button"
           class="btn-form"
           :class="merchantIsOpening ? 'bg-admin' : 'bg-secondary'"
           :disabled="!merchantIsOpening"
+          :title="!merchantIsOpening ? t('merchant.label_merchant_closed') : ''"
           @click="pickMerchant"
         >
-            <span>{{ t('admin.form.button_select_merchant') }}</span>
+            <span>{{ t('button.form.button_pick_merchant') }}</span>
+        </button>
+        <button
+          v-else
+          type="button"
+          class="btn-form bg-danger"
+          @click="unpickMerchant"
+        >
+            <span>{{ t('button.form.button_unpick_merchant') }}</span>
         </button>
         <button
           type="button"
@@ -82,41 +92,43 @@
           :style="{color: serviceColor.text, backgroundColor: serviceColor.bg}"
           @click="viewMenu"
         >
-            <span>{{ t('admin.form.button_view_menu') }}</span>
+            <span>{{ t('button.form.button_view_menu') }}</span>
         </button>
       </template>
     </Modal>
 </template>
   
 <script setup>
-import Modal from "@/components/common/Modal.vue";
 import {useI18n} from "@/composables/useI18n.js";
-import { ref, computed, onBeforeMount } from "vue";
+import { ref, computed, onBeforeMount, onUnmounted } from "vue";
 import { urlAPIs, colors, eventName } from "@/utils/constants";
-const { urlGetMerchantDetail, urlPickMerchant } = urlAPIs
-import useAxios from "@/composables/useAxios.js";
+const { urlGetMerchantDetail, urlPickMerchant, urlUnpickMerchant } = urlAPIs
 import {useModal} from "@/composables/useModal.js";
-import MenuMerchant from "./MenuMerchant.vue";
 import { useEmitter } from "@/composables/useEmitter.js";
+import { isEmpty } from "lodash";
+import useAxios from "@/composables/useAxios.js";
+import MenuMerchant from "./MenuMerchant.vue";
+import Modal from "@/components/common/Modal.vue";
 
-const emitter = useEmitter()
 const {showModal} = useModal()
-const axios = useAxios()
-
-const props = defineProps(['params'])
 const {t} = useI18n()
+const emitter = useEmitter()
+const axios = useAxios()
+const props = defineProps(['params'])
 
 const defineWeekDay = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 const currentDate = new Date().getDay() == 0 ? 7 : new Date().getDay()
 
 const dataMerchant = ref({})
 const loadingForm = ref(false)
-const merchantId = props.params.id
+const merchantId = props.params.merchant_id
 const serviceCode = props.params.service_code
+const isMerchantSelected = props.params.is_merchant_selected
+const detailId = props.params.detail_id
 const serviceColor = colors.service[serviceCode]
 
-onBeforeMount(() => {
-    loadData()
+onBeforeMount(async () => {
+    await loadMerchantDetail()
 })
 
 const merchantIsOpening = computed(() => dataMerchant.value.operating.is_open)
@@ -147,12 +159,12 @@ const getOpeningTimeMerchant = computed(() => {
   return result
 })
 
-const loadData = async () => {
+const loadMerchantDetail = async () => {
   loadingForm.value = true
 
   let payload = {
-      id: merchantId,
-      service_code: serviceCode
+    merchant_id: merchantId,
+    service_code: serviceCode
   }
 
   if (merchantId) {
@@ -184,13 +196,43 @@ const viewMenu = async () => {
 const pickMerchant = async () => {
   if (merchantId) {
     let payload = {
-      id: merchantId,
+      merchant_id: merchantId,
       service_code: serviceCode
     }
     
     await axios.post(urlPickMerchant, payload)
       .then((res) => {
-        emitter.$emit(eventName.close)
+        let listDataSelected = getDataMerchantSelected(res.data.data)
+
+        emitter.$emit(eventName.fetchDataSelectedMerchant)
+        emitter.$emit(eventName.reloadDataSelectedMerchant, listDataSelected)
+        
+        setTimeout(() => {
+          emitter.$emit(eventName.close)
+        }, 200);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+  }
+}
+
+const unpickMerchant = async () => {
+  if (merchantId) {
+    let payload = {
+      detail_id: detailId,
+    }
+    
+    await axios.post(urlUnpickMerchant, payload)
+      .then((res) => {
+        let listDataSelected = getDataMerchantSelected(res.data.data)
+
+        emitter.$emit(eventName.fetchDataSelectedMerchant)
+        emitter.$emit(eventName.reloadDataSelectedMerchant, listDataSelected)
+
+        setTimeout(() => {
+          emitter.$emit(eventName.close)
+        }, 200);
       })
       .catch((err) => {
         console.log(err.message);
@@ -219,7 +261,6 @@ const getDataStarRating = (ratePoints) => {
         rateStaring.push(emptyStar)
       }
     }
-
   }
 
   return rateStaring
@@ -244,20 +285,27 @@ const getBadgeByService = (serviceCode, url) => {
     `
 }
 
+const getDataMerchantSelected = (data) => {
+  let result = []
+  
+  if (!isEmpty(data)) {
+    data.forEach((item) => {
+      result.push({
+        detail_id: item.id,
+        request_id: item.request_id,
+      })
+    })
+  }
+
+  return result
+}
+
 const capitalize = (string) => {
   return string.charAt(0).toUpperCase() + string.slice(1)
 }
   
 </script>
 <style scoped lang="scss">
-  .rate-merchant {
-    >div {
-      >span {
-        font-size: 1.1rem;
-      }
-    }
-  }
-
   a.url-merchant {
     color: black;
 

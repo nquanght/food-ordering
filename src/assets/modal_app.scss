@@ -69,8 +69,6 @@ body:has(.vue-modal) {
     }
   }
   
-  
-  
   .placeholder {
     background-color: rgba(0, 0, 0, .25) !important;
     overflow: hidden;
@@ -111,5 +109,10 @@ body:has(.vue-modal) {
       border-radius: 3px;
       outline: none;
     }
+  }
+
+  .cursor-disable {
+    pointer-events: none;
+    opacity: 0.4;
   }
 }

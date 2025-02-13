@@ -32,7 +32,7 @@
                 <div
                   v-for="(food, idxFood) in category.foods"
                   :key="idxFood"
-                  class="col-6 col-md-4 mb-3"
+                  class="col-12 col-md-4 mb-3"
                 >
                   <div class="card h-100">
                     <div class="img-hover-zoom">
@@ -40,7 +40,6 @@
                         :src="food.thumbnail_url"
                         :alt="food.food_name"
                         class="card-img-top"
-                        loading="lazy"
                       >
                     </div>
                     <div class="card-body d-flex flex-column justify-content-between">
@@ -91,7 +90,7 @@ const serviceCode = props.params.service_code
 const serviceColor = colors.service[serviceCode]
 const isOpening = props.params.is_opening
 
-onBeforeMount(() => {
+onBeforeMount( () => {
     loadData()
 })
 
@@ -148,7 +147,7 @@ const eventActiveMenuWhenScroll = (event) => {
       }
 
       if (heightSideBar) {
-        topElementCategory += heightSideBar - 50
+        topElementCategory += heightSideBar - 100
       }
 
       if (topElementCategory - heightSideBar < windowPageY) {

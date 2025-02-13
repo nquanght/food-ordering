@@ -69,6 +69,12 @@
   .bg-admin {
     background-color: var(--text-admin) !important;
   }
+
+  .bg-remove-focus {
+    outline: none;
+    box-shadow: none;
+    border: 0
+  }
   
   .text-admin {
     color: var(--text-admin) !important;
@@ -110,7 +116,7 @@
       
         &:focus {
           // border-color: var(--text-admin);
-          box-shadow: 1px 1px 3px var(--text-admin);
+          // box-shadow: 1px 1px 3px var(--text-admin);
           border-radius: 3px;
           outline: none;
         }
