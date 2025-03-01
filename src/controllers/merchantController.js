@@ -36,8 +36,21 @@ const searchMerchantByKeySearch = async (req, res) => {
     return responseSuccess(res, result)
 }
 
+const getMerchantBranches = async (req, res) => {
+    let dataForm = req.body
+    
+    let serviceCode = dataForm.service_code
+    let brandId = dataForm.brand_id
+
+    let serviceBusiness = makeBusiness(serviceCode)
+    let result = await serviceBusiness.getMerchantBranches(brandId)
+
+    return responseSuccess(res, result)
+}
+
 module.exports = {
     searchMerchantByKeySearch,
     getMerchantDetail,
-    getListMerchantDetail
+    getListMerchantDetail,
+    getMerchantBranches
 }

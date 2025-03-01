@@ -29,5 +29,5 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api', userRoutes)
 
 app.listen(port, () => {
-    console.log(`Connect server successfully`)
+    console.log(`Connect server successfully at port: ${port}`)
 })
