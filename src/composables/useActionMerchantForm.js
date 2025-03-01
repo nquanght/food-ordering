@@ -1,9 +1,11 @@
 import { isEmpty } from 'lodash'
 import { useMerchantSelectedStore } from '@/stores/merchant-selected-today'
-import {useModal} from "@/composables/useModal.js";
+import { useModal } from "@/composables/useModal.js";
+import { useSettingStore } from "@/stores/setting";
 import MerchantInformation from '@/components/form/MerchantInformation.vue'
 
-const {showModal} = useModal()
+const { showModal } = useModal()
+const settingStore = useSettingStore()
 const merchantSelectedStore = useMerchantSelectedStore()
 
 export default function useActionMerchantForm() {
@@ -50,9 +52,17 @@ export default function useActionMerchantForm() {
         return !isEmpty(listMerchantSelected) ? listMerchantSelected.total_picked : 0
     }
 
+    const checkReachedLimitSelectMerchant = (serviceCode) => {
+        let limitSelectMerchant = settingStore.getLimitSelectMerchant
+        let totalMerchantSelected = getTotalMerchantSelected(serviceCode)
+
+        return totalMerchantSelected >= limitSelectMerchant
+    }
+
     return {
         openFormMerchantDetail,
         findMerchantSelectedById,
-        getTotalMerchantSelected
+        getTotalMerchantSelected,
+        checkReachedLimitSelectMerchant
     }
 }

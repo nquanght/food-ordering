@@ -12,7 +12,7 @@ export function useEmitter() {
         emitter.on(key, callback)
     }
 
-    function $off (key, callback) {
+    function $off (key, callback = null) {
         emitter.off(key, callback)
     }
 

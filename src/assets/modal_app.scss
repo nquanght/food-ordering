@@ -4,6 +4,8 @@ body:has(.vue-modal) {
 }
 
 .vue-modal {
+  line-height: normal;
+
   @mixin text-ellipsis-($lines) {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -89,7 +91,6 @@ body:has(.vue-modal) {
     img {
       transform: scale(1.3);
     }
-    
   }
   
   .bg-admin {

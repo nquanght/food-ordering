@@ -28,6 +28,10 @@ onMounted(() => {
   emitter.$on(eventName.close, () => {
     modalStore.closeModal()
   })
+
+  emitter.$on(eventName.closeAll, () => {
+    modalStore.closeAllModal()
+  })
 })
 
 </script>

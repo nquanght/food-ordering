@@ -3,7 +3,7 @@
     <tree-select
       :disabled="disabled"
       :key="idTarget"
-      v-model="value"
+      v-model="modelValue"
       :multiple="multiple"
       :options="options"
       :placeholder="placeholder ? placeholder : t('common.select_prompt')"
@@ -17,11 +17,9 @@
 </template>
 
 <script setup>
-import TreeSelect from '@cholakovdev/vue3-treeselect'
-import '@cholakovdev/vue3-treeselect/dist/vue3-treeselect.css'
 import { useI18n } from '@/composables/useI18n';
 
-const value = defineModel('value')
+const modelValue = defineModel()
 const {t} = useI18n()
 
 defineProps({
@@ -67,10 +65,8 @@ defineProps({
     outline: none;
   }
 
-  .vue-treeselect--disabled .vue-treeselect__control {
-    .vue-treeselect__single-value {
-      line-height: inherit;
-    }
+  .vue-treeselect--disabled .vue-treeselect__single-value {
+    position: absolute;
   }
 
   .vue-treeselect__control {
@@ -98,12 +94,39 @@ defineProps({
     
   }
 
-  .vue-treeselect__menu {
-    border: 0;
-    border-bottom-left-radius: 3px;
-    border-bottom-right-radius: 3px;
-    // border-radius: 3px 30px 30px 3px;
-    box-shadow: 1px 1px 3px #adadad;
+  .vue-treeselect__menu-container {
+    .vue-treeselect__menu {
+      border: 0;
+      border-bottom-left-radius: 3px;
+      border-bottom-right-radius: 3px;
+      // border-radius: 3px 30px 30px 3px;
+      box-shadow: 1px 1px 3px #adadad;
+    }
   }
+
+  .vue-treeselect--single .vue-treeselect__option--selected {
+    background: var(--text-admin);
+    color: white;
+  }
+
+  .vue-treeselect__checkbox--checked {
+    border-color: var(--text-admin);
+    background: var(--text-admin);
+
+    &:hover {
+      border-color: var(--text-admin);
+      background: var(--text-admin);
+    }
+  }
+
+  .vue-treeselect__checkbox--checked, .vue-treeselect__label-container:hover .vue-treeselect__checkbox--checked {
+    border-color: var(--text-admin);
+    background: var(--text-admin);
+  }
+
+  .vue-treeselect__label-container:hover .vue-treeselect__checkbox--unchecked {
+    border-color: var(--text-admin);
+  }
+  
 }
 </style>

@@ -70,11 +70,11 @@
 </template>
   
 <script setup>
-import Modal from "@/components/common/Modal.vue";
 import {useI18n} from "@/composables/useI18n.js";
 import { ref, onBeforeMount } from "vue";
 import { urlAPIs, colors } from "@/utils/constants";
 const { urlGetMerchantFood } = urlAPIs
+import Modal from "@/components/common/Modal.vue";
 import useAxios from "@/composables/useAxios.js";
 const axios = useAxios()
 

@@ -41,7 +41,7 @@ import { useServiceStore } from '@/stores/services'
 import { useMerchantSelectedStore } from '@/stores/merchant-selected-today'
 import { useEmitter } from "@/composables/useEmitter.js"
 import { eventName } from '@/utils/constants'
-import listServiceDefault from './services/define'
+import listServiceTab from './services/define'
 
 const emitter = useEmitter()
 const serviceStore = useServiceStore()
@@ -61,7 +61,7 @@ onUnmounted(() => {
 const currentTab = shallowRef({
   service_code: serviceInit,
   service_id: serviceStore.getServiceByCode(serviceInit),
-  component: listServiceDefault[serviceInit]
+  component: listServiceTab[serviceInit]
 })
 
 const services = ref(serviceStore.getServiceByType(serviceType))
@@ -71,7 +71,7 @@ const changeTab = (service) => {
   currentTab.value = {
     service_code: service.code,
     service_id: service.id,
-    component: listServiceDefault[service.code]
+    component: listServiceTab[service.code]
   }
 }
 </script>
@@ -107,7 +107,7 @@ const changeTab = (service) => {
     height: 95px;
 
     .merchant-name {
-      height: 40px;
+      height: 38px;
     }
   }
 

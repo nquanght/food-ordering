@@ -5,8 +5,23 @@
     :loading-form="loadingForm"
   >
     <template #content>
-      <div class="mb-3" v-html="getBadgeByService()" />
-      <div v-for="(data, idx) in listMerchantSelected" :key="data.detail_id + idx + Math.random()" class="card mb-4">
+      <div class="mb-3 d-flex justify-content-between align-content-center">
+        <div v-html="getBadgeByService()" />
+        <!-- <div>
+          <button type="button" class="btn-delete bg-danger">
+            <font-awesome-icon icon="fa-solid fa-trash-can" />
+          </button>
+        </div> -->
+      </div>
+
+      <div
+        v-for="(data, idx) in listMerchantSelected" :key="data.detail_id + idx + Math.random()" 
+        class="card mb-4"
+      >
+        <span
+          :style="{backgroundColor: data.operating.is_open ? data.operating.color : 'rgb(151, 151, 151)'}"
+          class="ribbon-card position-absolute translate-middle badge">{{ data.operating.is_open ? t('merchant.status.open') : t('merchant.status.closed') }}<span class="visually-hidden">unread messages</span>
+        </span>
         <div class="row g-0">
           <div class="col-md-5 img-hover-zoom">
             <img :src="data.image" class="img-fluid h-100 object-fit-cover" :alt="data.merchant_name">
@@ -69,6 +84,10 @@ onMounted(async () => {
       fetchDataDetailSelectedMerchant(true, listSelected)
     }
   })
+})
+
+onUnmounted(() => {
+  emitter.$off(eventName.reloadDataSelectedMerchant)
 })
 
 const fetchDataDetailSelectedMerchant = async (enableLoading = false, listSelected = []) => {
@@ -161,9 +180,16 @@ const capitalize = (string) => {
 </script>
 
 <style scoped lang="scss">
+  span.ribbon-card {
+    left: 92%;
+    top: 4px;
+    border-radius: 0px 0px 5px 5px;
+    z-index: 1;
+    background-color: rgba(4, 180, 64);
+  }
   .card {
     border: none;
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, .2);
   }
 
   .category-menu, .main-menu {
@@ -206,6 +232,22 @@ const capitalize = (string) => {
 
   .main-menu {
     overflow-x: hidden;
+  }
+
+  .btn-delete {
+    border: none;
+    box-shadow: 0px 1px 3px rgba(0,0,0,.5);
+    border-radius: 5px;
+    background-color: rgba(95, 158, 160, 0.8);
+    color: white;
+    padding: 4px 8px;
+    transition: background-color 300ms ease-out 10ms, color 200ms ease-out 10ms;
+  
+    &:hover {
+      background-color: var(--text-admin);
+      color: white;
+      animation: ease;
+    }
   }
   
 </style>

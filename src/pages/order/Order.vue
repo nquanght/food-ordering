@@ -266,11 +266,11 @@ onUnmounted(() => {
 })
 
 const addScrollingEvents = () => {
-  window.addEventListener('scroll', () => eventActiveMenuWhenScroll())
+  window.addEventListener('scroll', eventActiveMenuWhenScroll)
 }
 
 const removeScrollingEvents = () => {
-  window.removeEventListener('scroll', () => eventActiveMenuWhenScroll())
+  window.removeEventListener('scroll', eventActiveMenuWhenScroll)
 }
 
 const eventActiveMenuWhenScroll = () => {

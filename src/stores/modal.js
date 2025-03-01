@@ -39,6 +39,9 @@ export const useModalStore = defineStore('modal', {
                 this.resetStatusModalAfterClose()
             }
         },
+        closeAllModal () {
+            this.modals = []
+        },
         resetStatusModalBeforeCreate () {
             if (this.modals && this.modals.length > 0) {
                 this.modals.forEach((modal) => {
