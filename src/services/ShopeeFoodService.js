@@ -23,12 +23,15 @@ const repairDataMerchantDetail = (data) => {
 
     let nextAvailableTime = data.delivery && !isMerchantOpening ? moment(data.delivery.operating.next_available_time, 'YYYY-MM-DD HH:mm:ss').format('DD-MM-YYYY HH:mm') : ''
 
+    let categories = data.categories
+
     return {
         merchant_id: data.id,
         merchant_name: data.name,
         image: imageUrl,
         address: data.address,
         url: data.url,
+        categories: categories,
         operating: {
             is_open: isMerchantOpening,
             color: colorOperating,
@@ -252,10 +255,35 @@ const repairMetaDataCategoryServices = (services) => {
     return result
 }
 
+const repairDataMerchantBranches = (dataBranch) => {
+    let result = {
+        brand_name: '',
+        total_reviews: 0,
+        total_branches: 0,
+        image: '',
+        has_branch: false,
+        branches_id: []
+    }
+
+    if (isEmpty(dataBranch)) {
+        return result
+    }
+
+    result.brand_name = dataBranch.brand_name
+    result.total_reviews = dataBranch.total_reviews
+    result.total_branches = dataBranch.total_restaurants
+    result.image = !isEmpty(dataBranch.photos) ? dataBranch.photos[0].value : []
+    result.has_branch = true
+    result.branches_id = dataBranch.deliveries.map(item => item.delivery_id)
+
+    return result
+}
+
 module.exports = {
     repairDataMerchantDetail,
     repairDataSearchingMerchant,
     repairDataFood,
-    repairMetaData
+    repairMetaData,
+    repairDataMerchantBranches
 }
 

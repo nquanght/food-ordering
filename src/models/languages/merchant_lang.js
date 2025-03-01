@@ -86,6 +86,13 @@ module.exports = {
             }
         },
         {
+            key: 'information.view_branches',
+            lang: {
+                en: 'Merchant Branches',
+                vi: 'Chi nhánh quán'
+            }
+        },
+        {
             key: 'ribbon.label_picked',
             lang: {
                 en: 'Picked',
@@ -97,6 +104,34 @@ module.exports = {
             lang: {
                 en: 'Merchant closed',
                 vi: 'Quán đã đóng cửa'
+            }
+        },
+        {
+            key: 'label_reached_limit_select_merchant',
+            lang: {
+                en: 'Limit of selected merchants has been reached',
+                vi: 'Đã đến giới hạn số lượng quán được chọn'
+            }
+        },
+        {
+            key: 'view_branches',
+            lang: {
+                en: 'View merchant branches',
+                vi: 'Xem các chi nhánh'
+            }
+        },
+        {
+            key: 'this_brand_having',
+            lang: {
+                en: 'This merchant currently has',
+                vi: 'Thương hiệu này đang có'
+            }
+        },
+        {
+            key: 'branch',
+            lang: {
+                en: 'branches',
+                vi: 'chi nhánh'
             }
         },
     ]

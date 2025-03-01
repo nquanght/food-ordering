@@ -44,6 +44,13 @@ module.exports = {
             }
         },
         {
+            key: 'navigation.setting_system',
+            lang: {
+                en: 'Setting system',
+                vi: 'Cài đặt hệ thống'
+            }
+        },
+        {
             key: 'navigation.setting_2',
             lang: {
                 en: 'Setting 2',

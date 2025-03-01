@@ -4,8 +4,8 @@ module.exports = {
         {
             key: 'empty_data',
             lang: {
-                en: 'Empty data.',
-                vi: 'Chưa có dữ liệu.'
+                en: 'No matching results found.',
+                vi: 'Không tìm thấy kết quả phù hợp.'
             }
         },
         {

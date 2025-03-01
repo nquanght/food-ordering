@@ -7,6 +7,7 @@ const merchantController = require("../controllers/MerchantController")
 const serviceController = require('../controllers/ServiceController')
 const metaDataController = require('../controllers/MetaDataController')
 const pickingController = require('../controllers/PickingController')
+const settingController = require('../controllers/SettingController')
 
 /* Language system */
 router.get('/get-languages', languageController.getLanguagesSystem)
@@ -18,6 +19,7 @@ router.post('/get-merchant-food', foodController.getFoodByMerchant)
 /* Merchant */
 router.post('/get-merchant-detail', merchantController.getMerchantDetail)
 router.post('/get-list-merchant-detail', merchantController.getListMerchantDetail)
+router.post('/get-merchant-branches', merchantController.getMerchantBranches)
 
 /* Service */
 router.get('/get-services', serviceController.getServices)
@@ -32,5 +34,8 @@ router.post('/get-meta-data', metaDataController.getMetaData)
 router.post('/pick-merchant', pickingController.pickingMerchantToday)
 router.post('/unpick-merchant', pickingController.unpickMerchantToday)
 router.get('/get-selected-merchant-today/:date', pickingController.getSelectedMerchantToday)
+
+/* Setting */
+router.get('/get-setting', settingController.getAllSettingSystem)
 
 module.exports = router

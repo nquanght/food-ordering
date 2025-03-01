@@ -47,10 +47,40 @@ const getFoodByMerchantId = async (merchantId) => {
     return shopeeFoodService.repairDataFood(resultFood)
 }
 
+const getMerchantBranches = async (brandId) => {
+    let result = []
+
+    let branches = await shopeeFoodRepository.getBranchesByBrandId(brandId)
+    
+    let branchesRepair = shopeeFoodService.repairDataMerchantBranches(branches)
+
+    branchesRepair.branches_data = []
+
+    if (!branchesRepair.has_branch) {
+        result = branchesRepair
+
+    } else {
+        const response = await Promise.all(
+            branchesRepair.branches_id.map(async (branchId) => {
+                let dataMerchant = await shopeeFoodRepository.getMerchantDetailById(branchId)
+                let dataRepair = shopeeFoodService.repairDataMerchantDetail(dataMerchant)
+
+                return dataRepair
+            })
+        )
+        branchesRepair.branches_data = response
+        
+        result = branchesRepair
+    }
+
+    return result
+}
+
 module.exports = {
     getMetaData,
     getMerchantDetailById,
     getListMerchantDetailById,
     searchMerchant,
-    getFoodByMerchantId
+    getFoodByMerchantId,
+    getMerchantBranches
 }

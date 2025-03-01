@@ -107,9 +107,18 @@ const getFoodByMerchantId = async (merchantId) => {
     return response.data
 }
 
+const getBranchesByBrandId = async (brandId) => {
+    const url = origin + `/delivery/get_ids_of_brand?brand_id=${brandId}`
+
+    const branches = await callAPIService(url, headers)
+
+    return branches.data && branches.data.reply ? branches.data.reply : []
+}
+
 module.exports = {
     getMetaData,
     getMerchantDetailById,
     getMerchantByKeySearch,
-    getFoodByMerchantId
+    getFoodByMerchantId,
+    getBranchesByBrandId
 }
