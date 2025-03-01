@@ -10,7 +10,6 @@
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
   },
   "dependencies": {
-    "@cholakovdev/vue3-treeselect": "^0.2.0",
     "@fortawesome/fontawesome-svg-core": "^6.5.2",
     "@fortawesome/free-brands-svg-icons": "^6.5.2",
     "@fortawesome/free-regular-svg-icons": "^6.5.2",
@@ -29,7 +28,9 @@
     "vue-i18n": "^9.13.1",
     "vue-router": "^4.3.0",
     "vue3-popper": "^1.5.0",
-    "vue3-toastify": "^0.2.8"
+    "vue3-toastify": "^0.2.8",
+    "vue3-treeselect": "^0.1.10",
+    "wank-vue3-treeselect": "git+https://github.com/nquanght/wank-vue3-treeselect.git"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^5.0.4",

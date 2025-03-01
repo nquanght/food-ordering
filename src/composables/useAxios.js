@@ -59,7 +59,6 @@ const i18n = (key) => {
         },
       };
     
-
     let instance = createI18n({
         locale: languageSystem,
         fallbackLocale: 'en',
@@ -69,6 +68,6 @@ const i18n = (key) => {
     return instance.global.t(key)
 }
 
-const methodsAcceptShowNotify = ['post', 'put']
+const methodsAcceptShowNotify = ['post', 'put', 'delete']
 
 

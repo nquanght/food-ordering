@@ -15,12 +15,15 @@ const urlAPIs = {
     searchMerchant: 'search-merchant',
     urlPickMerchant: 'pick-merchant',
     urlUnpickMerchant: 'unpick-merchant',
-    urlGetSelectedMerchantToday: 'get-selected-merchant-today/:date'
+    urlGetSelectedMerchantToday: 'get-selected-merchant-today/:date',
+    urlGetAllSettingSystem: 'get-setting',
+    urlGetMerchantBranches: 'get-merchant-branches'
 }
 
 const eventName = {
     changeTitle: 'changeTitle',
     close: 'close',
+    closeAll: 'closeAll',
     handleCollapseSideBar: 'handleCollapseSideBar',
     showNotify: 'showToastNotify',
     fetchDataSelectedMerchant: 'fetchDataSelectedMerchant',

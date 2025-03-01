@@ -5,9 +5,10 @@
               <input
                 :disabled="disableSearchArea"
                 :placeholder="t('admin.merchant.typing')"
-                class="text-box-search me-3 col-6 col-sm-3 mb-2"
+                class="text-box-search with-icon-search me-3 col-6 col-sm-3 mb-2"
                 type="text"
                 v-model="valueFindMerchant"
+                @keydown.enter="searchMerchant"
               >
               <search-select
                 :id-target="idTargetCities"
@@ -16,7 +17,7 @@
                 :searchable="false"
                 :options="optionCities"
                 class="me-3 col-4 col-sm-2 mb-2"
-                v-model:value="valueCities"
+                v-model="valueCities"
               />
               <search-select
                 :id-target="idTargetDistricts"
@@ -27,7 +28,7 @@
                 :limit="0"
                 :searchable="false"
                 class="me-3 col-5 col-sm-2 mb-2"
-                v-model:value="valueDistricts"
+                v-model="valueDistricts"
               />
               <search-select
                 :id-target="idTargetServices"
@@ -36,7 +37,7 @@
                 :clearable="false"
                 :searchable="false"
                 class="me-3 col-4 col-sm-2 mb-2"
-                v-model:value="valueServices"
+                v-model="valueServices"
               />
               <search-select
                 :id-target="idTargetCategories"
@@ -47,7 +48,7 @@
                 :limit="0"
                 :searchable="false"
                 class="col-5 col-sm-2 mb-2"
-                v-model:value="valueCategories"
+                v-model="valueCategories"
               />
             </div>
             <div class="d-flex align-items-start justify-content-end quantity-selection text-end" style="width: 20%;">
@@ -83,7 +84,7 @@
             </div>
         </div>
         <div v-else-if="listMerchant.length == 0" class="text-center py-2" style="background-color: #efefef; border-radius: 3px">
-            <span class="fw-bold" style="color: #8c8c8c;">{{ t('common.empty_data') }}</span>
+            <span style="color: #8c8c8c;">{{ t('common.empty_data') }}</span>
         </div>
         <div v-else class="row align-items-center remove-space">
             <div class="col-6 col-sm-4 col-md-3 col-xxl-2 p-2" v-for="(data, idx) in listMerchant" :key="idx">
@@ -126,7 +127,7 @@ import SearchSelect from '@/components/common/SearchSelect.vue';
 
 const {showModal} = useModal()
 const {t} = useI18n()
-const { openFormMerchantDetail, getTotalMerchantSelected, findMerchantSelectedById } = useActionMerchantForm()
+const { openFormMerchantDetail, getTotalMerchantSelected, findMerchantSelectedById, checkReachedLimitSelectMerchant } = useActionMerchantForm()
 const metaDataStore = useMetaDataStore()
 const axios = useAxios()
 
@@ -140,12 +141,6 @@ const loading = ref(false)
 const timeOutSession = ref('')
 const numberItemLoading = ref(30)
 
-const dataOptions = ref({
-  cities: [],
-  districts: [],
-  services: [],
-  categories: []
-})
 const optionCities = ref([])
 const optionDistricts = ref([])
 const optionServices = ref([])
@@ -186,6 +181,10 @@ watch(valueServices, (newVal) => {
 
   /** Reset component tree select after change service */
   idTargetCategories.value = Math.random()
+})
+
+const isReachedLimitSelectMerchant = computed(() => {
+  return checkReachedLimitSelectMerchant(serviceCode)
 })
 
 const searchMerchant = async () => {
@@ -309,7 +308,7 @@ const fillOptionsDataCategoryServices = (serviceId) => {
   }
 
   span.ribbon-card {
-    left: 83%;
+    left: 88%;
     top: 4px;
     border-radius: 0px 0px 5px 5px;
     z-index: 1;

@@ -8,7 +8,7 @@
         </div>
       </div>
 
-      <div class="content-modal align-modal-content">
+      <div class="content-modal align-modal-content" :id="randomKeyModal">
         <div
           v-if="loadingForm"
           class="placeholder-glow w-100 h-100 loading-skeleton-wrapper wrapper-horizontal mb-4"
@@ -80,25 +80,18 @@ const close = () => {
 }
 
 const screenWidth = ref(window.innerWidth)
+const randomKeyModal = ref(`modal-${(Math.random() + 1).toString(36).substring(2)}`)
 
 const updateScreenWidth = () => {
   screenWidth.value = window.innerWidth
 }
 
-const closeFormByKeyEsc = (event) => {
-  if (event.isTrusted && event.key == 'Escape') {
-    close()
-  } 
-}
-
 onMounted(() => {
   window.addEventListener('resize', updateScreenWidth)
-  // window.addEventListener('keydown', (event) => closeFormByKeyEsc(event))
 })
 
 onUnmounted(() => {
   window.removeEventListener('resize', updateScreenWidth)
-  // window.removeEventListener('keydown', (event) => closeFormByKeyEsc(event))
 })
 
 const adjustWidth = computed(() => {
@@ -127,7 +120,7 @@ const getRandomFlexColumn = (maxCols) => {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, .4);
+  background-color: rgba(0, 0, 0, .3);
   overflow-x: hidden;
   overflow-y: auto;
   align-content: center;
@@ -141,7 +134,7 @@ const getRandomFlexColumn = (maxCols) => {
   background-color: white;
   margin: 2rem auto;
   z-index: 2;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, .3);
+  box-shadow: 0 2px 20px rgba(0, 0, 0, .3);
   border-radius: .4rem;
   overflow-y: auto;
 

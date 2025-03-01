@@ -13,7 +13,17 @@
           <div :style="{color: merchantIsOpening ? dataMerchant.operating.color : 'rgb(151, 151, 151)', fontSize: '.9rem'}" class="fw-bold lh-1">{{ t(`merchant.status.${merchantIsOpening ? 'open' : 'closed'}`) }}</div>
         </div>
 
-        <div class="fs-5 fw-bold">{{ dataMerchant.merchant_name }}</div>
+        <div class="text-secondary mt-3 text-uppercase" style="font-size: .85rem;">{{ getCategoryName(dataMerchant.categories) }}</div>
+        
+        <div class="fs-4 fw-bold">{{ dataMerchant.merchant_name }}</div>
+
+        <div class="mt-1" v-if="dataMerchant.brand_id != 0">
+          <span
+            class="text-primary cursor-pointer"
+            style="font-size: .9rem;"
+            @click="openFormViewBranches(dataMerchant.brand_id)"
+          >{{ t('merchant.view_branches') }}</span>
+        </div>
 
         <hr class="break-line-dashed text-gray"/>
   
@@ -71,12 +81,15 @@
           v-if="!isMerchantSelected"
           type="button"
           class="btn-form"
-          :class="merchantIsOpening ? 'bg-admin' : 'bg-secondary'"
-          :disabled="!merchantIsOpening"
-          :title="!merchantIsOpening ? t('merchant.label_merchant_closed') : ''"
+          :class="merchantIsOpening && !disableButtonPick ? 'bg-admin' : 'bg-secondary'"
+          :disabled="!merchantIsOpening || disableButtonPick"
+          :title="!merchantIsOpening ? t('merchant.label_merchant_closed') : (disableButtonPick ? t('merchant.label_reached_limit_select_merchant') : '')"
           @click="pickMerchant"
         >
-            <span>{{ t('button.form.button_pick_merchant') }}</span>
+            <div>
+              <font-awesome-icon class="me-2" icon="fa-solid fa-check" />
+              <span>{{ t('button.form.button_pick_merchant') }}</span>
+            </div>
         </button>
         <button
           v-else
@@ -84,7 +97,10 @@
           class="btn-form bg-danger"
           @click="unpickMerchant"
         >
+          <div>
+            <font-awesome-icon class="me-2" icon="fa-solid fa-xmark" />
             <span>{{ t('button.form.button_unpick_merchant') }}</span>
+          </div>
         </button>
         <button
           type="button"
@@ -92,7 +108,10 @@
           :style="{color: serviceColor.text, backgroundColor: serviceColor.bg}"
           @click="viewMenu"
         >
+          <div>
+            <font-awesome-icon class="me-2" icon="fa-solid fa-clipboard-list" />
             <span>{{ t('button.form.button_view_menu') }}</span>
+          </div>
         </button>
       </template>
     </Modal>
@@ -105,13 +124,16 @@ import { urlAPIs, colors, eventName } from "@/utils/constants";
 const { urlGetMerchantDetail, urlPickMerchant, urlUnpickMerchant } = urlAPIs
 import {useModal} from "@/composables/useModal.js";
 import { useEmitter } from "@/composables/useEmitter.js";
-import { isEmpty } from "lodash";
+import { isEmpty, isString, isArray } from "lodash";
+import useActionMerchantForm from "@/composables/useActionMerchantForm";
 import useAxios from "@/composables/useAxios.js";
 import MenuMerchant from "./MenuMerchant.vue";
 import Modal from "@/components/common/Modal.vue";
+import MerchantBranches from "./MerchantBranches.vue";
 
 const {showModal} = useModal()
 const {t} = useI18n()
+const { checkReachedLimitSelectMerchant } = useActionMerchantForm()
 const emitter = useEmitter()
 const axios = useAxios()
 const props = defineProps(['params'])
@@ -132,6 +154,16 @@ onBeforeMount(async () => {
 })
 
 const merchantIsOpening = computed(() => dataMerchant.value.operating.is_open)
+
+const disableButtonPick = computed(() => {
+  let isLimitReached = checkReachedLimitSelectMerchant(serviceCode)
+  
+  if (!merchantIsOpening.value || isMerchantSelected || isLimitReached) {
+    return true
+  }
+
+  return false
+})
 
 const getClassOpeningTime = computed(() => {
   if (merchantIsOpening.value) {
@@ -194,6 +226,10 @@ const viewMenu = async () => {
 }
 
 const pickMerchant = async () => {
+  if (!merchantIsOpening.value || disableButtonPick.value) {
+    return
+  }
+
   if (merchantId) {
     let payload = {
       merchant_id: merchantId,
@@ -298,6 +334,37 @@ const getDataMerchantSelected = (data) => {
   }
 
   return result
+}
+
+const getCategoryName = (data) => {
+  let result = ''
+
+  if (!isEmpty(data)) {
+    if (isString(data)) {
+      result = data
+    } else if (isArray(data) && data.length > 0) {
+      result = data.join(' - ')
+    }
+  }
+
+  return result
+}
+
+const openFormViewBranches = (brandId) => {
+  if (brandId == 0) {
+    return
+  }
+
+  let params = {
+    service_code: serviceCode,
+    brand_id: brandId
+  }
+
+  emitter.$emit(eventName.closeAll)
+
+  setTimeout(() => {
+    showModal(MerchantBranches, params)
+  }, 100)
 }
 
 const capitalize = (string) => {

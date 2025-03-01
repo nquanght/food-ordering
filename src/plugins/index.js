@@ -1,8 +1,11 @@
 import popper from './popper.js'
 import fontawesome from './font-awesome.js'
 import emitter from "@/plugins/emitter.js"
-import {i18n, useI18n} from "@/plugins/vue-i18n.js";
+import { i18n, useI18n } from "@/plugins/vue-i18n.js";
 import vue3Toastify from './vue3-toastify.js';
+import { Transition, TransitionGroup } from 'vue';
+import TreeSelect from 'wank-vue3-treeselect'
+import 'wank-vue3-treeselect/dist/vue3-treeselect.css'
 
 const listPlugins = [
     popper,
@@ -24,6 +27,10 @@ function loadPlugins (app) {
         const { t } = useI18n();
         return t(args);
     };
+
+    app.component("Transition", Transition);
+    app.component("TransitionGroup", TransitionGroup);
+    app.component("TreeSelect", TreeSelect);
 }
 
 export {loadPlugins}

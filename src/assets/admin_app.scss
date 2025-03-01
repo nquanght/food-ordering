@@ -89,14 +89,16 @@
       }
 
       &.text-box {
-        height: 2rem;
-        padding: 0px 0.7rem;
-        border: 1.1px solid #909090;
+        height: 2.5rem;
+        padding: 0 1rem 0 1rem;
+        border: 0;
         border-radius: 3px;
         font-size: 1rem;
+        background-size: 12px;
+        background-position-x: 7px;
+        box-shadow: 1px 1px 3px #adadad;
       
         &:focus {
-          border: 1.2px solid var(--text-admin);
           border-radius: 3px;
           outline: none;
         }
@@ -105,7 +107,6 @@
       &.text-box-search {
         height: 2.5rem;
         padding: 0 1rem 0 2rem;
-        // border: 1px solid rgba(173, 173, 173, .6);
         border: 0;
         border-radius: 3px;
         font-size: 1rem;
@@ -115,8 +116,6 @@
         box-shadow: 1px 1px 3px #adadad;
       
         &:focus {
-          // border-color: var(--text-admin);
-          // box-shadow: 1px 1px 3px var(--text-admin);
           border-radius: 3px;
           outline: none;
         }
@@ -157,6 +156,28 @@
     li.nav-item:not(:last-child) {
       padding-right: 2px;
     }
+  }
+
+  #btnScrollToTopAdmin {
+    opacity: 0;
+    visibility: hidden;
+    width: 50px;
+    height: 50px;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 10;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 25px;
+    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
+  }
+
+  #btnScrollToTopAdmin.visible {
+    opacity: 0.9;
+    visibility: visible;
   }
 }
 

@@ -24,7 +24,7 @@
     </div>
 
     <div class="d-flex align-items-center justify-content-center" @click="handleScrollToTop()" id="btnScrollToTopAdmin" :title="t('common.scroll_to_top')">
-      <font-awesome-icon icon="fa-solid fa-circle-up" class="text-admin" size="3x" />
+      <font-awesome-icon icon="fa-solid fa-circle-up" class="text-admin bg-white rounded-circle" size="3x" />
     </div>
   </div>
 </template>
@@ -49,16 +49,13 @@ onMounted(() => {
 onUnmounted(() => {
   removeScrollingEvents()
 })
+
 const addScrollingEvents = () => {
-  window.onscroll = () => {
-    eventScrollToTop()
-  }
+  window.addEventListener('scroll', eventScrollToTop)
 }
 
 const removeScrollingEvents = () => {
-  window.removeEventListener('scroll', () => {
-    eventScrollToTop()
-  })
+  window.removeEventListener('scroll', eventScrollToTop)
 }
 const eventScrollToTop = () => {
   let mybutton = document.getElementById("btnScrollToTopAdmin");
@@ -89,28 +86,6 @@ const getElementIdFromPageName = (pageName) => {
 #admin-layout {
   padding-left: unset;
   padding-right: unset;
-
-  #btnScrollToTopAdmin {
-    opacity: 0;
-    visibility: hidden;
-    width: 50px;
-    height: 50px;
-    position: fixed;
-    bottom: 20px;
-    right: 30px;
-    z-index: 10;
-    border: none;
-    outline: none;
-    color: white;
-    cursor: pointer;
-    border-radius: 25px;
-    transition: opacity 0.5s ease-in-out, visibility 0.5s ease-in-out;
-  }
-
-  #btnScrollToTopAdmin.visible {
-    opacity: 0.8;
-    visibility: visible;
-  }
 }
 
 .content-wrapper {

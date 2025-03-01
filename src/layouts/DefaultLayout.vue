@@ -32,15 +32,11 @@ onUnmounted(() => {
   removeScrollingEvents()
 })
 const addScrollingEvents = () => {
-  window.onscroll = () => {
-    eventScrollToTop()
-  }
+  window.addEventListener('scroll', eventScrollToTop)
 }
 
 const removeScrollingEvents = () => {
-  window.removeEventListener('scroll', () => {
-    eventScrollToTop()
-  })
+  window.removeEventListener('scroll', eventScrollToTop)
 }
 const eventScrollToTop = () => {
   let mybutton = document.getElementById("btnScrollToTop");

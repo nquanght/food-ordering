@@ -66,7 +66,7 @@ const adminMenu = [
         group: [
             {
                 url: 'setting',
-                name: 'admin.navigation.setting',
+                name: 'admin.navigation.setting_system',
                 code: 'admin_setting'
             },
             {
