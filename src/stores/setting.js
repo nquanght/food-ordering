@@ -1,7 +1,8 @@
 import { defineStore } from 'pinia'
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import useAxios from "@/composables/useAxios.js";
-import { urlAPIs } from "@/utils/constants.js"
 
+const convertUrl = useConvertUrl()
 const keyNameStorage = 'setting'
 
 export const useSettingStore = defineStore(keyNameStorage, {
@@ -11,9 +12,10 @@ export const useSettingStore = defineStore(keyNameStorage, {
     actions: {
         async fetchData() {
             const axios = useAxios()
-            const { urlGetAllSettingSystem } = urlAPIs
 
-            await axios.get(urlGetAllSettingSystem)
+            let url = convertUrl.getUrlApi('system', 'urlGetAllSettingSystem')
+
+            await axios.get(url)
                 .then(res => {
                     if (res.data && res.data.data) {
                         

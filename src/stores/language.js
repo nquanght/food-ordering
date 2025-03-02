@@ -1,9 +1,9 @@
 import {defineStore} from 'pinia'
 import useAxios from "@/composables/useAxios.js";
 import {i18n} from "@/plugins/vue-i18n.js";
-import {urlAPIs} from "@/utils/constants.js"
-import { isEmpty } from 'lodash';
+import { useConvertUrl } from '@/composables/common/useConvertUrl';
 
+const convertUrl = useConvertUrl()
 const keyNameStorage = 'language_system'
 
 export const useLanguageStore = defineStore(keyNameStorage, {
@@ -33,9 +33,10 @@ export const useLanguageStore = defineStore(keyNameStorage, {
             
             /* Fetch new data language system if not already loaded */
             // if (isEmpty(languageListStorage)) {
-                const {urlGetLanguages} = urlAPIs
 
-                await axios.get(urlGetLanguages)
+                let url = convertUrl.getUrlApi('system', 'urlGetLanguages')
+
+                await axios.get(url)
                     .then(res => {
                         if (res.data && res.data.data) {
                             if (Object.keys(res.data.data).length > 0) {

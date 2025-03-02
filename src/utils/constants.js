@@ -3,23 +3,6 @@ const timeOutRequest = import.meta.env.VITE_TIME_OUT_REQUEST
 
 const noneKeepAliveComponent = 'none'
 
-const urlAPIs = {
-    urlGetLanguages: 'get-languages',
-    urlGetCategories: 'get-categories',
-    urlGetFoods: 'get-foods',
-    urlGetMerchantDetail: 'get-merchant-detail',
-    urlGetListMerchantDetail: 'get-list-merchant-detail',
-    urlGetServices: 'get-services',
-    urlGetMetaData: 'get-meta-data',
-    urlGetMerchantFood: 'get-merchant-food',
-    searchMerchant: 'search-merchant',
-    urlPickMerchant: 'pick-merchant',
-    urlUnpickMerchant: 'unpick-merchant',
-    urlGetSelectedMerchantToday: 'get-selected-merchant-today/:date',
-    urlGetAllSettingSystem: 'get-setting',
-    urlGetMerchantBranches: 'get-merchant-branches'
-}
-
 const eventName = {
     changeTitle: 'changeTitle',
     close: 'close',
@@ -56,7 +39,6 @@ const statusCode = {
 }
 
 export {
-    urlAPIs,
     domain,
     timeOutRequest,
     noneKeepAliveComponent,

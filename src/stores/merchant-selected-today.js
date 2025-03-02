@@ -1,12 +1,10 @@
 import { defineStore } from 'pinia'
-import { urlAPIs } from "@/utils/constants.js"
-import { useConvertString } from "@/composables/common/useConvertString";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import useAxios from "@/composables/useAxios.js";
 import moment from 'moment'
 import { isEmpty } from 'lodash'
 
-const convertString = useConvertString()
-const { urlGetSelectedMerchantToday } = urlAPIs
+const convertUrl = useConvertUrl()
 const currentDate = moment().format('YYYY-MM-DD')
 const keyNameStorage = 'merchant-selected-today'
 
@@ -19,7 +17,8 @@ export const useMerchantSelectedStore = defineStore(keyNameStorage, {
         async fetchData() {
             const axios = useAxios()
 
-            let urlSelectedMerchant = convertString.handleParamsUrl(urlGetSelectedMerchantToday, ':date', currentDate)
+            let url = convertUrl.getUrlApi('picking', 'urlGetSelectedMerchantToday')
+            let urlSelectedMerchant = convertUrl.handleParamsUrl(url, ':date', currentDate)
 
             if (urlSelectedMerchant) {
                 await axios.get(urlSelectedMerchant)

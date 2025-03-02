@@ -1,8 +1,9 @@
 import { defineStore } from 'pinia'
+import { acceptServiceType } from "@/utils/constants.js"
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import useAxios from "@/composables/useAxios.js";
-import { urlAPIs, acceptServiceType } from "@/utils/constants.js"
-import { isEmpty } from 'lodash';
 
+const convertUrl = useConvertUrl()
 const keyNameStorage = 'services'
 
 export const useServiceStore = defineStore(keyNameStorage, {
@@ -17,9 +18,9 @@ export const useServiceStore = defineStore(keyNameStorage, {
             
             /* Fetch new data services */
             // if (isEmpty(serviceStorage)) {
-                const {urlGetServices} = urlAPIs
+                let url = convertUrl.getUrlApi('system', 'urlGetServices')
 
-                await axios.get(urlGetServices)
+                await axios.get(url)
                     .then(res => {
                         if (res.data && res.data.data) {
                             this.services = res.data.data || []

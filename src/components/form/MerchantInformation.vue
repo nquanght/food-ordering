@@ -120,8 +120,8 @@
 <script setup>
 import {useI18n} from "@/composables/useI18n.js";
 import { ref, computed, onBeforeMount, onUnmounted } from "vue";
-import { urlAPIs, colors, eventName } from "@/utils/constants";
-const { urlGetMerchantDetail, urlPickMerchant, urlUnpickMerchant } = urlAPIs
+import { colors, eventName } from "@/utils/constants";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import {useModal} from "@/composables/useModal.js";
 import { useEmitter } from "@/composables/useEmitter.js";
 import { isEmpty, isString, isArray } from "lodash";
@@ -136,6 +136,7 @@ const {t} = useI18n()
 const { checkReachedLimitSelectMerchant } = useActionMerchantForm()
 const emitter = useEmitter()
 const axios = useAxios()
+const convertUrl = useConvertUrl()
 const props = defineProps(['params'])
 
 const defineWeekDay = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -200,7 +201,8 @@ const loadMerchantDetail = async () => {
   }
 
   if (merchantId) {
-    await axios.post(urlGetMerchantDetail, payload)
+    let url = convertUrl.getUrlApi('merchant', 'urlGetMerchantDetail')
+    await axios.post(url, payload)
     .then((res) => {
         dataMerchant.value = res.data.data
         loadingForm.value = false
@@ -236,7 +238,8 @@ const pickMerchant = async () => {
       service_code: serviceCode
     }
     
-    await axios.post(urlPickMerchant, payload)
+    let url = convertUrl.getUrlApi('picking', 'urlPickMerchant')
+    await axios.post(url, payload)
       .then((res) => {
         let listDataSelected = getDataMerchantSelected(res.data.data)
 
@@ -258,8 +261,9 @@ const unpickMerchant = async () => {
     let payload = {
       detail_id: detailId,
     }
-    
-    await axios.post(urlUnpickMerchant, payload)
+    let url = convertUrl.getUrlApi('picking', 'urlUnpickMerchant')
+
+    await axios.post(url, payload)
       .then((res) => {
         let listDataSelected = getDataMerchantSelected(res.data.data)
 

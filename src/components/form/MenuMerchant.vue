@@ -68,18 +68,19 @@
       </template>
     </Modal>
 </template>
-  
+
 <script setup>
-import {useI18n} from "@/composables/useI18n.js";
+import { useI18n } from "@/composables/useI18n.js";
 import { ref, onBeforeMount } from "vue";
-import { urlAPIs, colors } from "@/utils/constants";
-const { urlGetMerchantFood } = urlAPIs
+import { colors } from "@/utils/constants";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import Modal from "@/components/common/Modal.vue";
 import useAxios from "@/composables/useAxios.js";
 const axios = useAxios()
 
 const props = defineProps(['params'])
 const {t} = useI18n()
+const convertUrl = useConvertUrl()
 const loadingForm = ref(false)
 const dataMenu = ref([])
 const foodView = ref(null)
@@ -103,7 +104,8 @@ const loadData = async () => {
   }
 
   if (merchantId) {
-    await axios.post(urlGetMerchantFood, payload)
+    let url = convertUrl.getUrlApi('food', 'urlGetMerchantFood')
+    await axios.post(url, payload)
     .then((res) => {
         dataMenu.value = res.data.data
         loadingForm.value = false

@@ -230,17 +230,17 @@
 import {onMounted, onUnmounted, ref, computed} from "vue";
 import {useModal} from "@/composables/useModal.js";
 import {useI18n} from "@/composables/useI18n.js";
+import { useDateTime } from "@/composables/common/useDateTime";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import Info from "@/pages/order/components/OpeningTimeMerchant.vue";
 import useAxios from "@/composables/useAxios.js";
-import {urlAPIs} from "@/utils/constants.js"
-import { useDateTime } from "@/composables/common/useDateTime";
 import moment from "moment";
 
 const {showModal} = useModal()
 const {t} = useI18n()
+const convertUrl = useConvertUrl()
 const axios = useAxios()
 const dateTimeCommon = useDateTime()
-const {urlGetFoods, urlGetMerchantDetail} = urlAPIs
 
 const scrollMenu = ref(null)
 const activeMenu = ref(null)
@@ -342,7 +342,8 @@ const fetchData = () => {
   loadingData.value.food = true
   loadingData.value.merchant = true
 
-  axios.post(urlGetMerchantDetail)
+  let urlMerchantDetail = convertUrl.getUrlApi('merchant', 'urlGetMerchantDetail')
+  axios.post(urlMerchantDetail)
       .then((res) => {
         dataMerchant.value = res.data.data
         loadingData.value.merchant = false
@@ -352,7 +353,8 @@ const fetchData = () => {
         loadingData.value.merchant = false
       })
 
-  axios.post(urlGetFoods)
+  let urlFood = convertUrl.getUrlApi('food', 'urlGetFoods')
+  axios.post(urlFood)
       .then((res) => {
         dataFood.value = res.data.data
         loadingData.value.category = false

@@ -28,3 +28,6 @@ const settingScreen = {
     }
 }
 </script>
+
+<style scoped lang="scss">
+</style>

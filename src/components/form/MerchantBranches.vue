@@ -54,7 +54,7 @@
 <script setup>
 import {useI18n} from "@/composables/useI18n.js";
 import { ref, onBeforeMount } from "vue";
-import { urlAPIs } from "@/utils/constants";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import { isEmpty } from "lodash";
 import useAxios from "@/composables/useAxios.js";
 import useActionMerchantForm from '@/composables/useActionMerchantForm';
@@ -63,7 +63,7 @@ import Modal from "@/components/common/Modal.vue";
 const { openFormMerchantDetail, findMerchantSelectedById } = useActionMerchantForm()
 
 const axios = useAxios()
-const {urlGetMerchantBranches} = urlAPIs
+const convertUrl = useConvertUrl()
 
 const props = defineProps(['params'])
 const {t} = useI18n()
@@ -86,7 +86,9 @@ const loadData = async () => {
       service_code: serviceCode
   }
 
-  await axios.post(urlGetMerchantBranches, payload)
+  let url = convertUrl.getUrlApi('merchant', 'urlGetMerchantBranches')
+
+  await axios.post(url, payload)
     .then((res) => {
         dataBranches.value = res.data.data
         loadingForm.value = false

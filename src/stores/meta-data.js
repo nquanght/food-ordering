@@ -1,8 +1,8 @@
 import { defineStore } from 'pinia'
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import useAxios from "@/composables/useAxios.js";
-import { urlAPIs } from "@/utils/constants.js"
-import { isEmpty } from 'lodash';
 
+const convertUrl = useConvertUrl()
 const keyNameStorage = 'meta-data'
 
 export const useMetaDataStore = defineStore(keyNameStorage, {
@@ -17,9 +17,9 @@ export const useMetaDataStore = defineStore(keyNameStorage, {
             
             /* Fetch new meta data */
             // if (isEmpty(metaDataStorage)) {
-                const {urlGetMetaData} = urlAPIs
+                let url = convertUrl.getUrlApi('system', 'urlGetMetaData')
 
-                await axios.post(urlGetMetaData)
+                await axios.post(url)
                     .then(res => {
                         if (res.data && res.data.data) {
                             

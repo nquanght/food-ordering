@@ -50,7 +50,8 @@
   
 <script setup>
 import { ref, onMounted, onUnmounted } from "vue";
-import { urlAPIs, eventName } from "@/utils/constants";
+import { eventName } from "@/utils/constants";
+import { useConvertUrl } from "@/composables/common/useConvertUrl";
 import { useI18n } from "@/composables/useI18n.js";
 import { colors } from "@/utils/constants";
 import { useEmitter } from "@/composables/useEmitter.js";
@@ -60,11 +61,11 @@ import useActionMerchantForm from "@/composables/useActionMerchantForm";
 import useAxios from "@/composables/useAxios.js";
 import Modal from "@/components/common/Modal.vue";
 
-const { urlUnpickMerchant, urlGetListMerchantDetail } = urlAPIs
 const { t } = useI18n()
 const { openFormMerchantDetail } = useActionMerchantForm()
 const merchantSelectedStore = useMerchantSelectedStore()
 const axios = useAxios()
+const convertUrl = useConvertUrl()
 const emitter = useEmitter()
 const props = defineProps(['params'])
 
@@ -119,7 +120,9 @@ const fetchDataDetailSelectedMerchant = async (enableLoading = false, listSelect
     data_merchant_selected: dataMerchantSelected
   }
 
-  await axios.post(urlGetListMerchantDetail, payload)
+  let url = convertUrl.getUrlApi('merchant', 'urlGetListMerchantDetail')
+
+  await axios.post(url, payload)
     .then((response) => {
       listMerchantSelected.value = response.data.data
 
@@ -139,8 +142,10 @@ const unpickMerchant = async (detailId) => {
   let payload = {
     detail_id: detailId,
   }
-    
-  await axios.post(urlUnpickMerchant, payload)
+  
+  let url = convertUrl.getUrlApi('picking', 'urlUnpickMerchant')
+
+  await axios.post(url, payload)
     .then(async (res) => {
       await merchantSelectedStore.fetchData()
       await fetchDataDetailSelectedMerchant()

@@ -115,7 +115,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { urlAPIs } from '@/utils/constants';
+import { useConvertUrl } from '@/composables/common/useConvertUrl';
 import { useI18n } from '@/composables/useI18n';
 import { useModal } from "@/composables/useModal.js";
 import { isEmpty } from 'lodash';
@@ -130,6 +130,7 @@ const {t} = useI18n()
 const { openFormMerchantDetail, getTotalMerchantSelected, findMerchantSelectedById, checkReachedLimitSelectMerchant } = useActionMerchantForm()
 const metaDataStore = useMetaDataStore()
 const axios = useAxios()
+const convertUrl = useConvertUrl()
 
 const props = defineProps({
   data: Object
@@ -194,7 +195,7 @@ const searchMerchant = async () => {
   }
 
   let debounceTime = 200
-  let url = urlAPIs.searchMerchant
+  let url = convertUrl.getUrlApi('merchant', 'searchMerchant')
 
   value = value.trim()
 
