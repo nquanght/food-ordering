@@ -11,7 +11,7 @@ const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
 
-const userRoutes = require('./src/routes/userRoutes.js')
+const routes = require('./src/routes/index.js')
 const app = express()
 
 const port = process.env.DEV_PORT
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /* Define routes */
-app.use('/api', userRoutes)
+app.use('/api/v1', routes)
 
 app.listen(port, () => {
     console.log(`Connect server successfully at port: ${port}`)
